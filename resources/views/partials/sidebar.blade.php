@@ -3,9 +3,13 @@
         <div class="sidebar-header position-relative">
             <div class="d-flex justify-content-between align-items-center">
                 <div class="logo">
-                    <a href="#">Deswija</a>
+                    <a class="d-flex align-items-end gap-3" href="#">
+                        <img class="w-25 h-25 mb-2" src="{{ asset('/assets/static/images/logo/logo.png') }}"
+                            alt="">
+                        <h5>Desa Wisata <br> Jimbaran</h5>
+                    </a>
                 </div>
-                <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
+                {{-- <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                     <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" aria-hidden="true"
                         role="img" class="iconify iconify--system-uicons" width="20" height="20"
                         preserveAspectRatio="xMidYMid meet" viewBox="0 0 21 21">
@@ -36,7 +40,7 @@
                 </div>
                 <div class="sidebar-toggler  x">
                     <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
-                </div>
+                </div> --}}
             </div>
         </div>
         <div class="sidebar-menu">

@@ -5,39 +5,52 @@
     <link rel="stylesheet"
         href="{{ asset('') }}assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/toastify-js/src/toastify.css">
+    <link rel="stylesheet" href="{{ asset('') }}assets/extensions/quill/quill.snow.css">
+    <link rel="stylesheet" href="{{ asset('') }}assets/extensions/quill/quill.bubble.css">
 @endsection
 @section('content')
-    <form action="" method="">
-        <div class="card">
-            <div class="card-body">
-                @csrf
-                <div class="row">
-                    <div class="col-12 col-lg-6">
-                        <div class="form-group">
-                            <label for="judul">Judul</label>
-                            <input type="text" class="form-control" id="judul" placeholder="" name="judul">
+    <form action="{{ route('store_berita') }}" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-9 col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @csrf
+                        <div class="row">
+                            <div class="col-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="judul">Judul</label>
+                                    <input type="text" class="form-control" id="judul" placeholder="" name="judul">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="deskripsi" class="form-label">Deskripsi</label>
+                                    <input type="hidden" name="deskripsi">
+                                    <div id="editor" style="min-height: 200px"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-6">
-                        <div class="form-group">
-                            <label for="judul">Judul</label>
-                            <input type="text" class="form-control" id="judul" placeholder="" name="judul">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="deskripsi" class="form-label">Deskripsi</label>
-                            <textarea class="form-control" id="deskripsi" rows="3"></textarea>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-grup">
+                            <label for="deskripsi" class="form-label">Gambar</label>
+                            <input type="file" class="image-preview-filepond" name="gambar">
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <div class="form-grup">
-                    <label for="deskripsi" class="form-label">Gambar</label>
-                    <input type="file" class="image-preview-filepond">
+            <div class="col-lg-3 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Unggah berita</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary">Unggah</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -64,4 +77,14 @@
     <script src="{{ asset('') }}assets/extensions/filepond/filepond.js"></script>
     <script src="{{ asset('') }}assets/extensions/toastify-js/src/toastify.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/filepond.js"></script>
+    <script src="{{ asset('') }}assets/extensions/quill/quill.min.js"></script>
+    <script src="{{ asset('') }}assets/static/js/pages/quill.js"></script>
+    <script>
+        var quill = new Quill('#editor', {
+            theme: 'snow'
+        });
+        quill.on('text-change', function(delta, oldDelta, source) {
+            document.querySelector("input[name='deskripsi']").value = quill.root.innerHTML;
+        });
+    </script>
 @endsection

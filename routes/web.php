@@ -23,4 +23,5 @@ Route::get('/dashboard', function () {
 Route::prefix('berita')->group(function () {
     Route::get('/', [BeritaController::class, 'index'])->name('berita');
     Route::get('/create', [BeritaController::class, 'create'])->name('create_berita');
+    Route::post('/store', [BeritaController::class, 'store'])->name('store_berita');
 });

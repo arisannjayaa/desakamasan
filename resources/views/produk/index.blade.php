@@ -1,10 +1,10 @@
 @extends('layouts.panel')
-@section('title', 'Berita')
+@section('title', 'Produk')
 @section('content')
     <div class="card">
         <div class="card-header">
             <h5 class="card-title">
-                Tabel Berita
+                Tabel Produk
             </h5>
         </div>
         <div class="card-body">
