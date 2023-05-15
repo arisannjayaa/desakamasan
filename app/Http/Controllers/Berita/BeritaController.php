@@ -15,7 +15,7 @@ class BeritaController extends Controller
         $data = [
             'menu' => 'Berita',
             'links' => [
-                'url' => route('create_berita'),
+                'url' => route('berita.create'),
                 'button' => 'Buat',
                 'class' => 'btn-primary'
             ]
@@ -31,7 +31,7 @@ class BeritaController extends Controller
         $data = [
             'menu' => 'Berita Baru',
             'links' => [
-                'url' => route('berita'),
+                'url' => route('berita.index'),
                 'button' => 'Batal',
                 'class' => 'btn-danger'
             ]

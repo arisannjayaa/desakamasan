@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Berita\BeritaController;
+use App\Http\Controllers\Profil\ProfilController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +21,6 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('layouts.admin');
 });
-Route::prefix('berita')->group(function () {
-    Route::get('/', [BeritaController::class, 'index'])->name('berita');
-    Route::get('/create', [BeritaController::class, 'create'])->name('create_berita');
-    Route::post('/store', [BeritaController::class, 'store'])->name('store_berita');
-});
+
+Route::resource('berita', BeritaController::class);
+Route::resource('profil', ProfilController::class);

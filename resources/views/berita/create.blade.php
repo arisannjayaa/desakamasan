@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/quill/quill.bubble.css">
 @endsection
 @section('content')
-    <form action="{{ route('store_berita') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('berita.store') }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-9 col-12">
                 <div class="card">
@@ -25,7 +25,7 @@
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="deskripsi" class="form-label">Deskripsi</label>
-                                    <input type="hidden" name="deskripsi">
+                                    <input type="file" name="deskripsi">
                                     <div id="editor" style="min-height: 200px"></div>
                                 </div>
                             </div>

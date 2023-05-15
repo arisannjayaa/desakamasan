@@ -53,7 +53,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item {{ request()->segment(1) == 'berita' ? 'active' : '' }} ">
-                    <a href="index.html" class='sidebar-link'>
+                    <a href="{{ route('berita.index') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Berita</span>
                     </a>
@@ -71,7 +71,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item {{ request()->segment(1) == 'profil' ? 'active' : '' }} ">
-                    <a href="index.html" class='sidebar-link'>
+                    <a href="{{ route('profil.index') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Profil</span>
                     </a>
