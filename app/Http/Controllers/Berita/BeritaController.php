@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Berita;
 
-use App\Http\Controllers\Controller;
+use App\Models\Berita;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class BeritaController extends Controller
 {
@@ -18,7 +19,8 @@ class BeritaController extends Controller
                 'url' => route('berita.create'),
                 'button' => 'Buat',
                 'class' => 'btn-primary'
-            ]
+            ],
+            'berita' => Berita::all()
         ];
         return view('berita.index', $data);
     }
@@ -34,7 +36,7 @@ class BeritaController extends Controller
                 'url' => route('berita.index'),
                 'button' => 'Batal',
                 'class' => 'btn-danger'
-            ]
+            ],
         ];
         return view('berita.create', $data);
     }
@@ -44,7 +46,26 @@ class BeritaController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd($request);
+        $request->validate([
+            'judul' => 'required',
+            'slug' => 'required',
+            'deskripsi' => 'required',
+        ]);
+
+        $fileFoto = $request->file('gambar');
+        $fotoExtension = $fileFoto->extension();
+        $fotoName = date('ymdhis') . "." . $fotoExtension;
+        $fileFoto->move(public_path('upload/berita'), $fotoName);
+
+        $data = [
+            'judul' => $request->input('judul'),
+            'slug' => $request->input('slug'),
+            'deskripsi' => $request->input('deskripsi'),
+            'foto' => url('') . '/' . $fotoName
+        ];
+        Berita::create($data);
+        return redirect()->back()->with('success', 'Berhasil menambahkan data berita');
     }
 
     /**

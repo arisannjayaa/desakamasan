@@ -2,7 +2,6 @@
 @section('title', 'Tambah Berita')
 @section('css')
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
 @endsection
 @section('content')
     <form action="{{ route('berita.store') }}" method="post" enctype="multipart/form-data">
@@ -12,17 +11,42 @@
                     <div class="card-body">
                         @csrf
                         <div class="row">
-                            <div class="col-12 col-lg-12">
+                            <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="judul">Judul</label>
-                                    <input type="text" class="form-control" id="judul" placeholder="" name="judul">
+                                    <input type="text" class="form-control @error('judul') is-invalid  @enderror"
+                                        id="judul" placeholder="" name="judul">
+                                    <div class="invalid-feedback">
+                                        <i class="bx bx-radio-circle"></i>
+                                        @error('judul')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="form-group">
+                                    <label for="judul">Slug</label>
+                                    <input type="text" class="form-control @error('slug') is-invalid  @enderror"
+                                        id="slug" placeholder="" name="slug" readonly>
+                                    <div class="invalid-feedback">
+                                        <i class="bx bx-radio-circle"></i>
+                                        @error('judul')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="deskripsi" class="form-label">Deskripsi</label>
-                                    <input type="hidden" name="deskripsi">
-                                    <div id="editor" style="min-height: 200px"></div>
+                                    <textarea id="editor" name="deskripsi"></textarea>
+                                    <div class="invalid-feedback">
+                                        <i class="bx bx-radio-circle"></i>
+                                        @error('deskripsi')
+                                            {{ $message }}
+                                        @enderror
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -33,6 +57,12 @@
                         <div class="form-grup">
                             <label for="deskripsi" class="form-label">Gambar</label>
                             <input type="file" class="basic-filepond" name="gambar">
+                            <div class="invalid-feedback">
+                                <i class="bx bx-radio-circle"></i>
+                                @error('gambar')
+                                    {{ $message }}
+                                @enderror
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -72,40 +102,16 @@
     </script>
     <script src="{{ asset('') }}assets/extensions/filepond/filepond.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/filepond.js"></script>
-    <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
     <script>
-        var quill = new Quill('#editor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    [{
-                        header: [1, 2, 3, 4, 5, 6, false]
-                    }],
-                    [{
-                        font: []
-                    }],
-                    ["bold", "italic"],
-                    ["link", "blockquote", "code-block", "image"],
-                    [{
-                        list: "ordered"
-                    }, {
-                        list: "bullet"
-                    }],
-                    [{
-                        script: "sub"
-                    }, {
-                        script: "super"
-                    }],
-                    [{
-                        color: []
-                    }, {
-                        background: []
-                    }],
-                ]
-            },
+        ClassicEditor.create(document.querySelector('#editor')).catch(error => {
+            console.error(error);
         });
-        quill.on('text-change', function(delta, oldDelta, source) {
-            document.querySelector("input[name='deskripsi']").value = quill.root.innerHTML;
+        $(document).ready(function() {
+            $('#judul').on('input', function() {
+                var judul = $(this).val().toLowerCase().replace(/\s+/g, '-');
+                $('#slug').val(judul);
+            });
         });
     </script>
 @endsection

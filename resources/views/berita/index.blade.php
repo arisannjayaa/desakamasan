@@ -20,7 +20,32 @@
                         </tr>
                     </thead>
                     <tbody>
-
+                        <tr>
+                            @foreach ($berita as $row)
+                                <td>{{ $loop->iteration }}</td>
+                                <td><img height="50" src="{{ asset('upload/berita/') . '/' . $row->foto }}" alt="">
+                                </td>
+                                <td>{{ $row->judul }}</td>
+                                <td class="text-truncate" style="max-width: 100px;">
+                                    {{ strip_tags($row->deskripsi) }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <button type="button" class="btn btn-sm" data-bs-toggle="dropdown"
+                                            aria-expanded="false"><i class="bi bi-three-dots-vertical"></i>
+                                        </button>
+                                        <ul class="dropdown-menu border border-1">
+                                            <li><span onclick="window.location.href="
+                                                    role="button"class="dropdown-item">Edit</span></li>
+                                            <li><span onclick="window.location.href="
+                                                    role="button"class="dropdown-item">Lihat</span></li>
+                                        </ul>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-danger"
+                                        onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i
+                                            class="bi bi-trash-fill"></i></button>
+                                </td>
+                            @endforeach
+                        </tr>
                     </tbody>
                 </table>
             </div>

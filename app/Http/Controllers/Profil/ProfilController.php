@@ -14,7 +14,7 @@ class ProfilController extends Controller
     public function index()
     {
         $data = [
-            'profils' => Profil::all(),
+            'profil' => Profil::all(),
             'menu' => 'Profil Desa',
             'links' => [
                 'url' => '',
@@ -41,40 +41,8 @@ class ProfilController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
-        $request->validate([
-            'nama' => 'required',
-            'deskripsi' => 'required',
-            'alamat' => 'required',
-            'telepon' => 'required',
-            'foto_profil' => 'required',
-            'gambar' => 'required',
-            'video' => 'required',
-            'longitude' => 'required',
-            'latitude' => 'required',
-        ]);
+        // dd($request);
 
-        $fileFoto = $request->file('foto');
-        $fotoExtension = $fileFoto->extension();
-        $fotoName = date('ymdhis') . "." . $fotoExtension;
-        $fileFoto->move(public_path('upload'), $fotoName);
-
-        $fileVideo = $request->file('video');
-        $videoExtension = $fileVideo->extension();
-        $videoName = date('ymdhis') . "." . $videoExtension;
-        $fileVideo->move(public_path('upload'), $videoName);
-        $data = [
-            'nama' => $request->input('nama'),
-            'deskripsi' => $request->input('deskripsi'),
-            'alamat' => $request->input('alamat'),
-            'telepon' => $request->input('telepon'),
-            'foto' => $fotoName,
-            'video' => $videoName,
-            'longitude' => $request->input('longitude'),
-            'latitude' => $request->input('latitude'),
-        ];
-        Profil::create($data);
-        return redirect()->back();
     }
 
     /**
@@ -98,14 +66,39 @@ class ProfilController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $request->validate([
+            'nama' => 'required',
+            'deskripsi' => 'required',
+            'alamat' => 'required',
+            'telepon' => 'required',
+            'foto_profil' => 'required',
+            'gambar' => 'required',
+            'video' => 'required',
+            'longitude' => 'required',
+            'latitude' => 'required',
+        ]);
+
+        $fileFoto = $request->file('foto');
+        $fotoExtension = $fileFoto->extension();
+        $fotoName = date('ymdhis') . "." . $fotoExtension;
+        $fileFoto->move(public_path('upload'), $fotoName);
+
+        $fileVideo = $request->file('video');
+        $videoExtension = $fileVideo->extension();
+        $videoName = date('ymdhis') . "." . $videoExtension;
+        $fileVideo->move(public_path('upload'), $videoName);
+
+        $profil = Profil::find($request->id);
+        $profil->nama = $request->input('nama');
+        $profil->deskripsi = $request->input('deskripsi');
+        $profil->alamat = $request->input('alamat');
+        $profil->telepon = $request->input('telepon');
+        $profil->foto = $fotoName;
+        $profil->video = $videoName;
+        $profil->longitude = $request->input('longitude');
+        $profil->latitude = $request->input('latitude');
+        $profil->save();
+        return redirect()->back()->with('success', 'Berhasil memperbaharui data');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

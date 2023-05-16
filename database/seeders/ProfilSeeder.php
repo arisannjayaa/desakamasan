@@ -20,7 +20,7 @@ class ProfilSeeder extends Seeder
             'deskripsi' => '<p>Deskripsi desa wisata</p>',
             'alamat' => 'Alamat desa wisata',
             'telepon' => 'Telepon desa wisata',
-            'foto_profil' => public_path('upload/profil/default_profil.svg'),
+            'foto_profil' => 'upload/profil/default_profil.svg',
             'gambar' => 'Foto desa wisata',
             'video' => 'Video desa wisata',
             'longitude' => 'Longitude desa wisata',
