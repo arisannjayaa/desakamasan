@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id('id_berita');
             $table->unsignedBigInteger('id_profil_desa');
             $table->string('judul', 255);
+            $table->string('slug', 255);
             $table->string('foto', 255);
             $table->text('deskripsi');
             $table->timestamps();

@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('produk_wisata', function (Blueprint $table) {
             $table->id('id_produk_wisata');
+            $table->string('nama', 255);
+            $table->string('slug', 255);
             $table->text('deskripsi');
             $table->string('alamat', 60);
             $table->string('foto', 255);

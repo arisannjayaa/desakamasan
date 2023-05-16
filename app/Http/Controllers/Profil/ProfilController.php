@@ -14,13 +14,16 @@ class ProfilController extends Controller
     public function index()
     {
         $data = [
+            'profils' => Profil::all(),
             'menu' => 'Profil Desa',
             'links' => [
                 'url' => '',
                 'button' => 'Lihat Profil',
                 'class' => 'btn-primary'
-            ]
+            ],
         ];
+
+        // dd(Profil::all());
 
         return view('profil.index', $data);
     }
@@ -38,13 +41,14 @@ class ProfilController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
+        dd($request);
         $request->validate([
             'nama' => 'required',
             'deskripsi' => 'required',
             'alamat' => 'required',
             'telepon' => 'required',
-            'foto' => 'required',
+            'foto_profil' => 'required',
+            'gambar' => 'required',
             'video' => 'required',
             'longitude' => 'required',
             'latitude' => 'required',
@@ -52,12 +56,12 @@ class ProfilController extends Controller
 
         $fileFoto = $request->file('foto');
         $fotoExtension = $fileFoto->extension();
-        $fotoName = date('ymdhis') . "," . $fotoExtension;
+        $fotoName = date('ymdhis') . "." . $fotoExtension;
         $fileFoto->move(public_path('upload'), $fotoName);
 
         $fileVideo = $request->file('video');
         $videoExtension = $fileVideo->extension();
-        $videoName = date('ymdhis') . "," . $videoExtension;
+        $videoName = date('ymdhis') . "." . $videoExtension;
         $fileVideo->move(public_path('upload'), $videoName);
         $data = [
             'nama' => $request->input('nama'),
