@@ -62,10 +62,12 @@ class BeritaController extends Controller
             'judul' => $request->input('judul'),
             'slug' => $request->input('slug'),
             'deskripsi' => $request->input('deskripsi'),
-            'foto' => url('') . '/' . $fotoName
+            'foto' => 'upload/berita/' . $fotoName
         ];
+
+        // dd($data);
         Berita::create($data);
-        return redirect()->back()->with('success', 'Berhasil menambahkan data berita');
+        return redirect()->route('berita.index')->with('success', 'Berhasil menambahkan data berita');
     }
 
     /**
@@ -81,7 +83,16 @@ class BeritaController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $data = [
+            'menu' => 'Berita Baru',
+            'links' => [
+                'url' => route('berita.index'),
+                'button' => 'Batal',
+                'class' => 'btn-danger'
+            ],
+            'berita' => Berita::findOrFail($id)
+        ];
+        return view('berita.edit', $data);
     }
 
     /**
@@ -89,7 +100,21 @@ class BeritaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        // dd($request);
+        $fileFoto = $request->file('gambar');
+        $fotoExtension = $fileFoto->extension();
+        $fotoName = date('ymdhis') . "." . $fotoExtension;
+        $fileFoto->move(public_path('upload/berita'), $fotoName);
+
+        $berita = Berita::find($id);
+        // dd($berita);
+        $berita->judul = $request->input('judul');
+        $berita->slug = $request->input('slug');
+        $berita->deskripsi = $request->input('deskripsi');
+        $berita->foto = $fotoName;
+        dd( $berita->foto);
+        $berita->save();
+        return redirect()->back()->with('success', 'Berhasil memperbaharui data');
     }
 
     /**

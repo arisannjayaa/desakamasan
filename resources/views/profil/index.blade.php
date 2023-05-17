@@ -7,8 +7,8 @@
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/toastify-js/src/toastify.css">
 @endsection
 @section('content')
-    @foreach ($profil as $row)
-        <form action="{{ route('profil.store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('profil.store') }}" method="post" enctype="multipart/form-data">
+        @foreach ($profil as $row)
             @csrf
             <input type="hidden" readonly value="{{ $row->id_profil_desa }}" name="id">
             <div class="row">
@@ -94,12 +94,8 @@
                                     <button type="submit" class="btn btn-primary">Simpan perubahan</button>
                                 </div>
                             </div>
-    @endforeach
+        @endforeach
     </form>
-    </div>
-    </div>
-    </div>
-    </div>
 @endsection
 @section('js')
     <script
