@@ -56,7 +56,7 @@
                     <div class="card-body">
                         <div class="form-grup">
                             <label for="deskripsi" class="form-label">Gambar</label>
-                            <input type="file" class="basic-filepond" name="gambar">
+                            <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
                             <div class="invalid-feedback">
                                 <i class="bx bx-radio-circle"></i>
                                 @error('gambar')
@@ -112,6 +112,43 @@
                 var judul = $(this).val().toLowerCase().replace(/\s+/g, '-');
                 $('#slug').val(judul);
             });
+        });
+
+        function deleteImage(namaFile) {
+            $.ajax({
+                url: "{{ route('image.delete') }}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "DELETE",
+                data: {
+                    image: namaFile
+                },
+                success: function(response) {
+                    console.log(response)
+                },
+                error: function(response) {
+                    console.log('error')
+                }
+            });
+        }
+
+        FilePond.create(document.querySelector("#image_upload"), {
+            credits: null,
+            allowImagePreview: false,
+            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+            server: {
+                process: '{{ route('image.upload') }}',
+                revert: (uniqueFileId, load, error) => {
+                    deleteImage(uniqueFileId);
+                    error('Error terjadi saat menghapus file');
+                    load();
+                },
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            },
+            storeAsFile: true,
         });
     </script>
 @endsection

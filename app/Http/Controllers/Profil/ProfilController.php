@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Profil;
 
 use App\Http\Controllers\Controller;
 use App\Models\Profil;
+use App\Models\TemporaryFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class ProfilController extends Controller
 {
@@ -14,13 +16,13 @@ class ProfilController extends Controller
     public function index()
     {
         $data = [
-            'profil' => Profil::all(),
             'menu' => 'Profil Desa',
             'links' => [
                 'url' => '',
                 'button' => 'Lihat Profil',
                 'class' => 'btn-primary'
             ],
+            'profil' => Profil::all()
         ];
 
         // dd(Profil::all());
@@ -72,8 +74,6 @@ class ProfilController extends Controller
             'alamat' => 'required',
             'telepon' => 'required',
             'foto_profil' => 'required',
-            'gambar' => 'required',
-            'video' => 'required',
             'longitude' => 'required',
             'latitude' => 'required',
         ]);

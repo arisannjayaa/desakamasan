@@ -32,7 +32,7 @@
                                         id="slug" placeholder="" name="slug" value="{{ $berita->slug }}" readonly>
                                     <div class="invalid-feedback">
                                         <i class="bx bx-radio-circle"></i>
-                                        @error('judul')
+                                        @error('slug')
                                             {{ $message }}
                                         @enderror
                                     </div>
@@ -42,12 +42,6 @@
                                 <div class="form-group">
                                     <label for="deskripsi" class="form-label">Deskripsi</label>
                                     <textarea id="editor" name="deskripsi">{{ $berita->deskripsi }}</textarea>
-                                    <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('deskripsi')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -57,7 +51,10 @@
                     <div class="card-body">
                         <div class="form-grup">
                             <label for="deskripsi" class="form-label">Gambar</label>
-                            <input type="file" class="basic-filepond" name="gambar">
+                            <img class="img-fluid rounded-3 mb-3 shadow-sm"
+                                src="{{ asset('storage/berita') . '/' . $berita->foto }}" alt="">
+                            <input id="image_upload" type="file" class="imgbb-filepond" name="gambar"
+                                value="{{ $berita->foto }}">
                             <div class="invalid-feedback">
                                 <i class="bx bx-radio-circle"></i>
                                 @error('gambar')
@@ -75,7 +72,7 @@
                     </div>
                     <div class="card-body">
                         <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Unggah</button>
+                            <button type="submit" class="btn btn-primary">Perbaharui</button>
                         </div>
                     </div>
                 </div>
@@ -113,6 +110,43 @@
                 var judul = $(this).val().toLowerCase().replace(/\s+/g, '-');
                 $('#slug').val(judul);
             });
+        });
+
+        function deleteImage(namaFile) {
+            $.ajax({
+                url: "{{ route('image.delete') }}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "DELETE",
+                data: {
+                    image: namaFile
+                },
+                success: function(response) {
+                    console.log(response)
+                },
+                error: function(response) {
+                    console.log('error')
+                }
+            });
+        }
+
+        FilePond.create(document.querySelector("#image_upload"), {
+            credits: null,
+            allowImagePreview: false,
+            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+            server: {
+                process: '{{ route('image.upload') }}',
+                revert: (uniqueFileId, load, error) => {
+                    deleteImage(uniqueFileId);
+                    error('Error terjadi saat menghapus file');
+                    load();
+                },
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            },
+            storeAsFile: true,
         });
     </script>
 @endsection

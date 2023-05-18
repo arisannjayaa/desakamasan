@@ -23,7 +23,7 @@
                         @foreach ($berita as $row)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td><img height="50" src="{{ asset('') . $row->foto }}" alt="">
+                                <td><img height="50" src="{{ asset('/storage/berita') . '/' . $row->foto }}" alt="">
                                 </td>
                                 <td>{{ $row->judul }}</td>
                                 <td class="text-truncate" style="max-width: 100px;">

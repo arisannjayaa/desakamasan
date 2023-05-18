@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Berita;
 use App\Models\Berita;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\TemporaryFile;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class BeritaController extends Controller
 {
@@ -13,6 +17,10 @@ class BeritaController extends Controller
      */
     public function index()
     {
+        if(Session::has('image_folder')) {
+            Session::remove('image_folder');
+            Session::remove('image_filename');
+        }
         $data = [
             'menu' => 'Berita',
             'links' => [
@@ -46,26 +54,31 @@ class BeritaController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
         $request->validate([
             'judul' => 'required',
             'slug' => 'required',
             'deskripsi' => 'required',
         ]);
 
-        $fileFoto = $request->file('gambar');
-        $fotoExtension = $fileFoto->extension();
-        $fotoName = date('ymdhis') . "." . $fotoExtension;
-        $fileFoto->move(public_path('upload/berita'), $fotoName);
-
+        $temporaryFile = new TemporaryFile();
+        // dd($temporary->file);
         $data = [
             'judul' => $request->input('judul'),
             'slug' => $request->input('slug'),
             'deskripsi' => $request->input('deskripsi'),
-            'foto' => 'upload/berita/' . $fotoName
+            'foto' =>  $temporary->file
         ];
 
-        // dd($data);
+        $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
+        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/berita' . '/' . $temporary->file);
+
+        File::delete($path);
+        rmdir(storage_path('app/files/tmp/') . $temporary->folder);
+        $temporary->delete();
+
+        Session::remove('image_folder');
+        Session::remove('image_filename');
+
         Berita::create($data);
         return redirect()->route('berita.index')->with('success', 'Berhasil menambahkan data berita');
     }
@@ -100,21 +113,23 @@ class BeritaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // dd($request);
-        $fileFoto = $request->file('gambar');
-        $fotoExtension = $fileFoto->extension();
-        $fotoName = date('ymdhis') . "." . $fotoExtension;
-        $fileFoto->move(public_path('upload/berita'), $fotoName);
+        $request->validate([
+            'judul' => 'required',
+            'slug' => 'required',
+            'deskripsi' => 'required',
+        ]);
+
+        $temporary = TemporaryFile::getTemporaryFileFolder();
 
         $berita = Berita::find($id);
-        // dd($berita);
+        dd($temporary);
+
         $berita->judul = $request->input('judul');
         $berita->slug = $request->input('slug');
         $berita->deskripsi = $request->input('deskripsi');
-        $berita->foto = $fotoName;
-        dd( $berita->foto);
+        // dd( $berita->foto);
         $berita->save();
-        return redirect()->back()->with('success', 'Berhasil memperbaharui data');
+        return redirect()->route('berita.index')->with('success', 'Berhasil memperbaharui data');
     }
 
     /**

@@ -12,7 +12,7 @@
             @csrf
             <input type="hidden" readonly value="{{ $row->id_profil_desa }}" name="id">
             <div class="row">
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
@@ -54,18 +54,18 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-12 col-lg-6">
                     <div class="card">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-12 col-lg-6">
                                     <div class="form-group">
                                         <label for="longitude">Longitude</label>
                                         <input type="text" class="form-control" id="longitude" placeholder=""
                                             name="longitude" value="{{ $row->longitude }}">
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-12 col-lg-6">
                                     <div class="form-group">
                                         <label for="latitude">Latitude</label>
                                         <input type="text" class="form-control" id="latitude" placeholder=""
@@ -75,13 +75,14 @@
                                 <div class="col-lg-12 col-12">
                                     <div class="form-group">
                                         <label for="video" class="form-label">Gambar</label>
-                                        <input type="file" class="multiple-files-filepond" name="gambar[]" multiple>
+                                        <input id="gambar_upload" type="file" class="imgbb-filepond" name="gambar"
+                                            multiple>
                                     </div>
                                 </div>
                                 <div class="col-lg-12 col-12">
                                     <div class="form-group">
                                         <label for="video" class="form-label">Video</label>
-                                        <input type="file" class="basic-filepond" name="video">
+                                        <input id="video_upload" type="file" class="imgbb-filepond" name="video">
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-12">
@@ -140,6 +141,56 @@
                     reader.readAsDataURL(input.files[0]);
                 }
             });
+        });
+
+        // Filepond: ImgBB with server property
+        FilePond.create(document.querySelector("#video_upload"), {
+            credits: null,
+            allowImagePreview: false,
+            server: {
+                process: '{{ route('video.upload') }}',
+                revert: '{{ route('video.delete') }}',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            },
+            storeAsFile: true,
+        });
+
+        function deleteImage(namaFile) {
+            $.ajax({
+                url: "{{ route('image.delete') }}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "DELETE",
+                data: {
+                    image: namaFile
+                },
+                success: function(response) {
+                    console.log(response)
+                },
+                error: function(response) {
+                    console.log('error')
+                }
+            });
+        }
+        FilePond.create(document.querySelector("#gambar_upload"), {
+            credits: null,
+            allowImagePreview: false,
+            allowMultiple: true,
+            server: {
+                process: '{{ route('image.upload') }}',
+                revert: (uniqueFileId, load, error) => {
+                    deleteImage(uniqueFileId);
+                    error('Error terjadi saat menghapus file');
+                    load();
+                },
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            },
+            storeAsFile: true,
         });
     </script>
 @endsection
