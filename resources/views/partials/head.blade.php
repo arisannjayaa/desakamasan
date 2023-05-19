@@ -17,6 +17,8 @@
     href="{{ asset('') }}assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
 <link rel="stylesheet"
     href="{{ asset('') }}assets/extensions/filepond-plugin-media-preview/filepond-plugin-media-preview.css">
+<link rel="stylesheet"
+    href="{{ asset('') }}assets/extensions/filepond-plugin-file-poster/filepond-plugin-file-poster.min.css">
 <style>
     .ck-editor__editable_inline {
         min-height: 300px;

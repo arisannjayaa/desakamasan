@@ -15,6 +15,13 @@ class BeritaController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $temporaryFile;
+
+    public function __construct()
+    {
+        $this->temporaryFile = new TemporaryFile();
+    }
+
     public function index()
     {
         if(Session::has('image_folder')) {
@@ -61,12 +68,8 @@ class BeritaController extends Controller
         ]);
 
 
-        $data = [
-            'judul' => $request->input('judul'),
-            'slug' => $request->input('slug'),
-            'deskripsi' => $request->input('deskripsi'),
-            'foto' =>  $temporary->file
-        ];
+        $temporary = $this->temporaryFile->getFileFolder();
+        // dd($temporary);
 
         $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
         Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/berita' . '/' . $temporary->file);
@@ -78,7 +81,12 @@ class BeritaController extends Controller
         Session::remove('image_folder');
         Session::remove('image_filename');
 
-        Berita::create($data);
+        Berita::create([
+            'judul' => $request->input('judul'),
+            'slug' => $request->input('slug'),
+            'deskripsi' => $request->input('deskripsi'),
+            'foto' =>  $temporary->file
+        ]);
         return redirect()->route('berita.index')->with('success', 'Berhasil menambahkan data berita');
     }
 
@@ -118,17 +126,35 @@ class BeritaController extends Controller
             'deskripsi' => 'required',
         ]);
 
-        $temporary = TemporaryFile::getTemporaryFileFolder();
-
         $berita = Berita::find($id);
-        dd($temporary);
+        $temporary = $this->temporaryFile->getFileFolder();
+        // dd($temporary->folder);
+        $path = ($temporary->folder == null) ? '' : storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
 
+        if(Session::has('image_folder')) {
+            if(File::exists($path)){
+                Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/berita' . '/' . $temporary->file);
+
+                File::delete($path);
+                rmdir(storage_path('app/files/tmp/') . $temporary->folder);
+                $temporary->delete();
+            }
+            $pathOld = storage_path() . '/app/public/berita/' . $berita->foto;
+                if(File::exists($pathOld)) {
+                    File::delete($pathOld);
+                }
+        }
+
+        // dd($berita->foto);
+        // dd($temporary->file);
+        // dd($request->gambar);
         $berita->judul = $request->input('judul');
         $berita->slug = $request->input('slug');
         $berita->deskripsi = $request->input('deskripsi');
-        // dd( $berita->foto);
+        $berita->foto = ($temporary->file == null) ? $berita->foto : $temporary->file ;
         $berita->save();
         return redirect()->route('berita.index')->with('success', 'Berhasil memperbaharui data');
+
     }
 
     /**
@@ -136,6 +162,12 @@ class BeritaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $berita = Berita::find($id);
+        $pathOld = storage_path() . '/app/public/berita/' . $berita->foto;
+        if(File::exists($pathOld)) {
+            File::delete($pathOld);
+        }
+        $berita->delete();
+        return redirect()->route('berita.index')->with('success', 'Berhasil menghapus data');
     }
 }

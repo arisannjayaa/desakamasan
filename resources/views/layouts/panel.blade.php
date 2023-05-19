@@ -60,6 +60,7 @@
     </script>
     <script src="{{ asset('') }}assets/extensions/filepond-plugin-media-preview/filepond-plugin-media-preview.min.js">
     </script>
+    <script src="{{ asset('') }}assets/extensions/filepond-plugin-file-poster/filepond-plugin-file-poster.js"></script>
     @yield('js')
 </body>
 

@@ -41,9 +41,14 @@
                                                     role="button"class="dropdown-item">Lihat</span></li>
                                         </ul>
                                     </div>
-                                    <button type="button" class="btn btn-sm btn-danger"
-                                        onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i
-                                            class="bi bi-trash-fill"></i></button>
+                                    <form class="d-inline" action="{{ route('berita.destroy', $row->id_berita) }}"
+                                        method="post">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" class="btn btn-sm btn-danger"
+                                            onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i
+                                                class="bi bi-trash-fill"></i></button>
+                                    </form>
                                 </td>
                             </tr>
                         @endforeach

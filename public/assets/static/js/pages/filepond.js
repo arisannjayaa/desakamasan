@@ -6,6 +6,7 @@ FilePond.registerPlugin(
     FilePondPluginImageResize,
     FilePondPluginFileValidateSize,
     FilePondPluginFileValidateType,
+    FilePondPluginFilePoster,
     FilePondPluginMediaPreview
 );
 

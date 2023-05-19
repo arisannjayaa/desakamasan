@@ -157,10 +157,12 @@
                 }
             });
         }
+
         FilePond.create(document.querySelector("#gambar_upload"), {
             credits: null,
             allowImagePreview: true,
             allowMultiple: true,
+            maxFiles: 4,
             acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
             server: {
                 process: '{{ route('image.upload') }}',

@@ -51,8 +51,6 @@
                     <div class="card-body">
                         <div class="form-grup">
                             <label for="deskripsi" class="form-label">Gambar</label>
-                            <img class="img-fluid rounded-3 mb-3 shadow-sm"
-                                src="{{ asset('storage/berita') . '/' . $berita->foto }}" alt="">
                             <input id="image_upload" type="file" class="imgbb-filepond" name="gambar"
                                 value="{{ $berita->foto }}">
                             <div class="invalid-feedback">
@@ -117,6 +115,19 @@
         FilePond.create(document.querySelector("#image_upload"), {
             credits: null,
             allowImagePreview: true,
+            allowFilePoster: true,
+            files: [{
+                // the server file reference
+                source: "{{ asset('storage/berita') . '/' . $berita->foto }}",
+                // set type to local to indicate an already uploaded file
+                options: {
+                    type: 'local',
+                    // pass poster property
+                    metadata: {
+                        poster: "{{ asset('storage/berita') . '/' . $berita->foto }}",
+                    },
+                },
+            }, ],
             acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
             server: {
                 process: '{{ route('image.upload') }}',
@@ -130,6 +141,7 @@
                 }
             },
             storeAsFile: true,
+
         });
     </script>
 @endsection
