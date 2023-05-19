@@ -12,10 +12,12 @@ class TemporaryFile extends Model
     protected $table = 'temporary_file';
     protected $fillable = ['folder', 'file'];
 
-    public function getTemporaryFileFolder()
+    public function getFileFolder()
     {
         $temporaryFile = Session::get('image_filename');
         $temporaryFolder = Session::get('image_folder');
-        return $this->where('folder', $temporaryFolder)->where('file', $temporaryFile)->first();
+        return $this->where('folder', $temporaryFolder)
+        ->where('file', $temporaryFile)
+        ->first();
     }
 }

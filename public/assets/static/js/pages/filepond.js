@@ -5,7 +5,8 @@ FilePond.registerPlugin(
     FilePondPluginImageFilter,
     FilePondPluginImageResize,
     FilePondPluginFileValidateSize,
-    FilePondPluginFileValidateType
+    FilePondPluginFileValidateType,
+    FilePondPluginMediaPreview
 );
 
 // Filepond: Basic

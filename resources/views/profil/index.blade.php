@@ -2,9 +2,6 @@
 @section('title', 'Profil Desa')
 @section('css')
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
-    <link rel="stylesheet"
-        href="{{ asset('') }}assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.css">
-    <link rel="stylesheet" href="{{ asset('') }}assets/extensions/toastify-js/src/toastify.css">
 @endsection
 @section('content')
     <form action="{{ route('profil.store') }}" method="post" enctype="multipart/form-data">
@@ -99,25 +96,7 @@
     </form>
 @endsection
 @section('js')
-    <script
-        src="{{ asset('') }}assets/extensions/filepond-plugin-file-validate-size/filepond-plugin-file-validate-size.min.js">
-    </script>
-    <script
-        src="{{ asset('') }}assets/extensions/filepond-plugin-file-validate-type/filepond-plugin-file-validate-type.min.js">
-    </script>
-    <script src="{{ asset('') }}assets/extensions/filepond-plugin-image-crop/filepond-plugin-image-crop.min.js">
-    </script>
-    <script
-        src="{{ asset('') }}assets/extensions/filepond-plugin-image-exif-orientation/filepond-plugin-image-exif-orientation.min.js">
-    </script>
-    <script src="{{ asset('') }}assets/extensions/filepond-plugin-image-filter/filepond-plugin-image-filter.min.js">
-    </script>
-    <script src="{{ asset('') }}assets/extensions/filepond-plugin-image-preview/filepond-plugin-image-preview.min.js">
-    </script>
-    <script src="{{ asset('') }}assets/extensions/filepond-plugin-image-resize/filepond-plugin-image-resize.min.js">
-    </script>
     <script src="{{ asset('') }}assets/extensions/filepond/filepond.js"></script>
-    <script src="{{ asset('') }}assets/extensions/toastify-js/src/toastify.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/filepond.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
     <script>
@@ -147,6 +126,9 @@
         FilePond.create(document.querySelector("#video_upload"), {
             credits: null,
             allowImagePreview: false,
+            allowVideoPreview: true, // default true
+            allowAudioPreview: true,
+            acceptedFileTypes: ["video/mp4"],
             server: {
                 process: '{{ route('video.upload') }}',
                 revert: '{{ route('video.delete') }}',
@@ -177,8 +159,9 @@
         }
         FilePond.create(document.querySelector("#gambar_upload"), {
             credits: null,
-            allowImagePreview: false,
+            allowImagePreview: true,
             allowMultiple: true,
+            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
             server: {
                 process: '{{ route('image.upload') }}',
                 revert: (uniqueFileId, load, error) => {
