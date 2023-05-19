@@ -60,8 +60,7 @@ class BeritaController extends Controller
             'deskripsi' => 'required',
         ]);
 
-        $temporaryFile = new TemporaryFile();
-        // dd($temporary->file);
+
         $data = [
             'judul' => $request->input('judul'),
             'slug' => $request->input('slug'),
