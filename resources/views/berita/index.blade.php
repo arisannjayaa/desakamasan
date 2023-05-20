@@ -8,53 +8,71 @@
             </h5>
         </div>
         <div class="card-body">
-            <div class="datatable-minimal">
-                <table class="table" id="table2">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Gambar</th>
-                            <th>Judul</th>
-                            <th>Deskripsi</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($berita as $row)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td><img height="50" src="{{ asset('/storage/berita') . '/' . $row->foto }}" alt="">
-                                </td>
-                                <td>{{ $row->judul }}</td>
-                                <td class="text-truncate" style="max-width: 100px;">
-                                    {{ strip_tags($row->deskripsi) }}</td>
-                                <td>
-                                    <div class="btn-group">
-                                        <button type="button" class="btn btn-sm" data-bs-toggle="dropdown"
-                                            aria-expanded="false"><i class="bi bi-three-dots-vertical"></i>
-                                        </button>
-                                        <ul class="dropdown-menu border border-1">
-                                            <li><span
-                                                    onclick="window.location.href='{{ route('berita.edit', $row->id_berita) }}'"
-                                                    role="button"class="dropdown-item">Edit</span></li>
-                                            <li><span onclick="window.location.href="
-                                                    role="button"class="dropdown-item">Lihat</span></li>
-                                        </ul>
-                                    </div>
-                                    <form class="d-inline" action="{{ route('berita.destroy', $row->id_berita) }}"
-                                        method="post">
-                                        @method('DELETE')
-                                        @csrf
-                                        <button type="submit" class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Apakah Anda yakin menghapus data ini?')"><i
-                                                class="bi bi-trash-fill"></i></button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+            <table class="table" id="tables">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Gambar</th>
+                        <th>Judul</th>
+                        <th>Deskripsi</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
     </div>
 @endsection
+@push('js')
+    <script>
+        $(document).ready(function() {
+            $('#tables').DataTable({
+                ordering: true,
+                serverSide: true,
+                processing: true,
+                responsive: true,
+                language: {
+                    "lengthMenu": "_MENU_",
+                    "info": "Menampilkan _START_ dari _END_ dari  _TOTAL_ data",
+                    "search": "Cari:",
+                    infoEmpty: "Menampilkan 0 hingga 0 dari 0 entri",
+                    infoFiltered: "(disaring dari _MAX_ total entri)",
+                    "emptyTable": "Data tidak tersedia",
+                    "zeroRecords": "Tidak ditemukan data yang sesuai",
+                    paginate: {
+                        first: "Awal",
+                        last: "Akhir",
+                        next: "Selanjutnya",
+                        previous: "Sebelumnya"
+                    },
+                },
+                ajax: '{{ route('berita.index') }}',
+                columns: [{
+                        data: 'DT_RowIndex',
+                        name: 'DT_RowIndex',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'foto',
+                        name: 'foto',
+                    },
+                    {
+                        data: 'judul',
+                        name: 'judul',
+                    },
+                    {
+                        data: 'deskripsi',
+                        name: 'deskripsi',
+                    },
+                    {
+                        data: 'opsi',
+                        name: 'opsi',
+                        orderable: false,
+                        searchable: false
+                    },
+                ],
+                columnsDefs: []
+            })
+        })
+    </script>
+@endpush

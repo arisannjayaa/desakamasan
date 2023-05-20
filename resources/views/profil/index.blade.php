@@ -1,8 +1,8 @@
 @extends('layouts.panel')
 @section('title', 'Profil Desa')
-@section('css')
+@push('css')
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
-@endsection
+@endpush
 @section('content')
     <form action="{{ route('profil.store') }}" method="post" enctype="multipart/form-data">
         @foreach ($profil as $row)
@@ -95,13 +95,31 @@
         @endforeach
     </form>
 @endsection
-@section('js')
+@push('js')
     <script src="{{ asset('') }}assets/extensions/filepond/filepond.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/filepond.js"></script>
     <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
     <script>
-        ClassicEditor.create(document.querySelector('#editor')).catch(error => {
-            console.error(error);
+        ClassicEditor.create(document.querySelector('#editor'), {
+            toolbar: {
+                items: [
+                    'heading',
+                    '|',
+                    'bold',
+                    'italic',
+                    'link',
+                    'bulletedList',
+                    'numberedList',
+                    'blockQuote',
+                    'insertTable',
+                    'undo',
+                    'redo'
+                ]
+            },
+        }).then(editor => {
+            // console.log('Editor berhasil dibuat', editor);
+        }).catch(error => {
+            // console.error(error);
         });
     </script>
     <script>
@@ -178,4 +196,4 @@
             storeAsFile: true,
         });
     </script>
-@endsection
+@endpush

@@ -49,6 +49,10 @@ class UploadImageController extends Controller
                     'file' => $db->file
                 ])->delete();
 
+                if(Session::has('image_folder')) {
+                    Session::remove('image_folder');
+                    Session::remove('image_filename');
+                }
                 return 'deleted';
             } else {
                 return 'not found';

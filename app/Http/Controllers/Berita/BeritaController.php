@@ -4,11 +4,12 @@ namespace App\Http\Controllers\Berita;
 
 use App\Models\Berita;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\TemporaryFile;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Yajra\DataTables\Facades\DataTables;
 
 class BeritaController extends Controller
 {
@@ -24,10 +25,47 @@ class BeritaController extends Controller
 
     public function index()
     {
-        if(Session::has('image_folder')) {
-            Session::remove('image_folder');
-            Session::remove('image_filename');
+        (Session::has('image_folder')) ? Session::remove('image_folder') : Session::remove('image_filename');
+
+        if (request()->ajax()) {
+            $berita = Berita::orderBy('created_at', 'desc');
+            return DataTables::of($berita)
+                ->addIndexColumn()
+                ->editColumn('deskripsi', function($row) {
+                    return '<span class="d-block text-truncate" style="max-width: 100px;">'.strip_tags($row->deskripsi).'</span>';
+                })
+                ->editColumn('judul', function($row) {
+                    return '<span class="d-block" style="max-width: 200px;">'.$row->judul.'</span>';
+                })
+                ->editColumn('foto', function($row) {
+                    return '<img height="50" src="' . asset('/storage/berita') . '/' . $row->foto . '" alt="">';
+                })
+                ->addColumn('opsi', function($row) {
+                    return '<div class="btn-group">
+                    <button type="button" class="btn btn-sm" data-bs-toggle="dropdown"
+                        aria-expanded="false"><i class="bi bi-three-dots-vertical"></i>
+                    </button>
+                    <ul class="dropdown-menu border border-1">
+                        <li><span
+                                onclick="window.location.href=\''.route('berita.edit', $row->id_berita) .'\'"
+                                role="button"class="dropdown-item">Edit</span></li>
+                        <li><span onclick="window.location.href="
+                                role="button"class="dropdown-item">Lihat</span></li>
+                    </ul>
+                </div>
+                <form class="d-inline" action="'.route('berita.destroy', $row->id_berita) .'"
+                    method="post">
+                    '.method_field('DELETE').'
+                    '.csrf_field().'
+                    <button type="submit" class="btn btn-sm btn-danger"
+                    onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\')"><i
+                            class="bi bi-trash-fill"></i></button>
+                </form>';
+                    })
+                ->rawColumns(['opsi', 'deskripsi', 'foto', 'judul'])
+                ->toJson();
         }
+
         $data = [
             'menu' => 'Berita',
             'links' => [
@@ -128,7 +166,7 @@ class BeritaController extends Controller
 
         $berita = Berita::find($id);
         $temporary = $this->temporaryFile->getFileFolder();
-        // dd($temporary->folder);
+        // dd($temporary);
         $path = ($temporary->folder == null) ? '' : storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
 
         if(Session::has('image_folder')) {

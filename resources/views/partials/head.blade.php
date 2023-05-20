@@ -9,7 +9,15 @@
     type="image/png">
 <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/app.css">
 {{-- <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/app-dark.css"> --}}
+<style>
+    .ck-editor__editable_inline {
+        min-height: 300px;
+    }
 
+    .dataTables_length {
+        text-align: left;
+    }
+</style>
 {{-- library --}}
 <link rel="stylesheet" href="{{ asset('') }}assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/table-datatable-jquery.css">
@@ -19,9 +27,4 @@
     href="{{ asset('') }}assets/extensions/filepond-plugin-media-preview/filepond-plugin-media-preview.css">
 <link rel="stylesheet"
     href="{{ asset('') }}assets/extensions/filepond-plugin-file-poster/filepond-plugin-file-poster.min.css">
-<style>
-    .ck-editor__editable_inline {
-        min-height: 300px;
-    }
-</style>
-@yield('css')
+@stack('css')

@@ -24,7 +24,10 @@ Route::get('/dashboard', function () {
     return view('layouts.admin');
 });
 
+// berita
 Route::resource('berita', BeritaController::class);
+Route::get('/berita/table',[BeritaController::class, 'table'])->name('berita.table');
+
 Route::resource('profil', ProfilController::class);
 
 // Filepond
