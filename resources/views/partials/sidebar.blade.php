@@ -65,7 +65,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item {{ request()->segment(1) == 'daerah' ? 'active' : '' }} ">
-                    <a href="index.html" class='sidebar-link'>
+                    <a href="{{ route('daerah.index') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Daerah</span>
                     </a>

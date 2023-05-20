@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Berita\BeritaController;
 use App\Http\Controllers\Profil\ProfilController;
+use App\Http\Controllers\Daerah\DaerahController;
 use App\Http\Controllers\Upload\UploadVideoController;
 use App\Http\Controllers\Upload\UploadImageController;
 
@@ -26,9 +27,12 @@ Route::get('/dashboard', function () {
 
 // berita
 Route::resource('berita', BeritaController::class);
-Route::get('/berita/table',[BeritaController::class, 'table'])->name('berita.table');
 
+// Profil
 Route::resource('profil', ProfilController::class);
+
+// Daerah
+Route::resource('daerah', DaerahController::class);
 
 // Filepond
 Route::controller(UploadVideoController::class)->group(function () {
