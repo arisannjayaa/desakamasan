@@ -18,7 +18,7 @@ class DaerahController extends Controller
         (Session::has('image_folder')) ? Session::remove('image_folder') : Session::remove('image_filename');
 
         if (request()->ajax()) {
-            $daerah = Daerah::select('id_daerah_wisata', 'foto', 'nama', 'alamat', 'fasilitas', 'kategori')->orderBy('created_at', 'desc');
+            $daerah = Daerah::select('id', 'foto', 'nama', 'alamat', 'fasilitas', 'kategori')->orderBy('created_at', 'desc');
             return DataTables::of($daerah)
                 ->addIndexColumn()
                 ->addColumn('opsi', function($row) {
@@ -28,13 +28,13 @@ class DaerahController extends Controller
                     </button>
                     <ul class="dropdown-menu border border-1">
                         <li><span
-                                onclick="window.location.href=\''.route('berita.edit', $row->id_berita) .'\'"
+                                onclick="window.location.href=\''.route('berita.edit', $row->id) .'\'"
                                 role="button"class="dropdown-item">Edit</span></li>
                         <li><span onclick="window.location.href="
                                 role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>
-                <form class="d-inline" action="'.route('berita.destroy', $row->id_berita) .'"
+                <form class="d-inline" action="'.route('berita.destroy', $row->id) .'"
                     method="post">
                     '.method_field('DELETE').'
                     '.csrf_field().'

@@ -11,11 +11,11 @@ class Daerah extends Model
 {
     use HasFactory;
     protected $table = 'daerah_wisata';
-    protected $primaryKey = 'id_daerah_wisata';
+    protected $primaryKey = 'id';
     public $incrementing = true;
     public $timestamps = true;
     protected $guarded = [
-        'id_daerah_wisata'
+        'id'
     ];
 
     /**
@@ -25,6 +25,6 @@ class Daerah extends Model
      */
     public function profil(): BelongsTo
     {
-        return $this->belongsTo(Profil::class, 'id_profil_desa', 'id_daerah_wisata');
+        return $this->belongsTo(Profil::class, 'id_profil_desa', 'id');
     }
 }

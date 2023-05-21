@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('temporary_file', function (Blueprint $table) {
+        Schema::create('gambar', function (Blueprint $table) {
             $table->id('id');
-            $table->string('folder', 255);
+            $table->unsignedBigInteger('id_parent');
+            $table->string('tipe_parent', 255);
             $table->string('file', 255);
             $table->timestamps();
         });
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('temporary_file');
+        Schema::dropIfExists('gambar');
     }
 };

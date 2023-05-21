@@ -11,11 +11,11 @@ class Berita extends Model
 {
     use HasFactory;
     protected $table = 'berita';
-    protected $primaryKey = 'id_berita';
+    protected $primaryKey = 'id';
     public $incrementing = true;
     public $timestamps = true;
     protected $guarded = [
-        'id_berita'
+        'id'
     ];
 
     /**
@@ -25,6 +25,6 @@ class Berita extends Model
      */
     public function profil(): BelongsTo
     {
-        return $this->belongsTo(Profil::class, 'id_profil_desa', 'id_berita');
+        return $this->belongsTo(Profil::class, 'id_profil_desa', 'id');
     }
 }

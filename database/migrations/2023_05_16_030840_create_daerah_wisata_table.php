@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('daerah_wisata', function (Blueprint $table) {
-            $table->id('id_daerah_wisata');
+            $table->id('id');
+            $table->unsignedBigInteger('id_profil_desa')->default(1);
             $table->string('nama', 255);
             $table->string('slug', 255);
             $table->text('deskripsi');
@@ -24,6 +25,7 @@ return new class extends Migration
             $table->string('latitude', 255);
             $table->string('kategori');
             $table->timestamps();
+            $table->foreign('id_profil_desa')->references('id')->on('profil_desa');
         });
     }
 
