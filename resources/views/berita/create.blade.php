@@ -85,29 +85,9 @@
 @push('js')
     <script src="{{ asset('') }}assets/extensions/filepond/filepond.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/filepond.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+    <script src="{{ asset('') }}assets/extensions/ckeditor/ckeditor.js"></script>
+    <script src="{{ asset('') }}assets/static/js/pages/ckeditor.js"></script>
     <script>
-        ClassicEditor.create(document.querySelector('#editor'), {
-            toolbar: {
-                items: [
-                    'heading',
-                    '|',
-                    'bold',
-                    'italic',
-                    'link',
-                    'bulletedList',
-                    'numberedList',
-                    'blockQuote',
-                    'insertTable',
-                    'undo',
-                    'redo'
-                ]
-            },
-        }).then(editor => {
-            // console.log('Editor berhasil dibuat', editor);
-        }).catch(error => {
-            // console.error(error);
-        });
         $(document).ready(function() {
             $('#judul').on('input', function() {
                 var judul = $(this).val().toLowerCase().replace(/\s+/g, '-');

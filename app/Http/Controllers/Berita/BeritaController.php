@@ -28,7 +28,7 @@ class BeritaController extends Controller
         (Session::has('image_folder')) ? Session::remove('image_folder') : Session::remove('image_filename');
 
         if (request()->ajax()) {
-            $berita = Berita::orderBy('created_at', 'desc');
+            $berita = Berita::select('id_berita', 'judul', 'foto', 'deskripsi')->orderBy('created_at', 'desc');
             return DataTables::of($berita)
                 ->addIndexColumn()
                 ->editColumn('deskripsi', function($row) {

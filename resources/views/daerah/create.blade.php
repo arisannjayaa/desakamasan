@@ -7,10 +7,14 @@
             height: 500px;
             /* The height is 400 pixels */
         }
+
+        .leaflet-geosearch-bar {
+            z-index: 0;
+        }
     </style>
 @endpush
 @section('content')
-    <form action="{{ route('berita.store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('daerah.store') }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-12 col-12">
                 <div class="card">
@@ -91,12 +95,12 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="longtitude">Longtitude</label>
-                                    <input type="text" class="form-control @error('longtitude') is-invalid  @enderror"
-                                        id="longtitude" placeholder="" name="longtitude">
+                                    <label for="latitude">Latitude</label>
+                                    <input type="text" class="form-control @error('latitude') is-invalid  @enderror"
+                                        id="latitude" placeholder="" name="latitude">
                                     <div class="invalid-feedback">
                                         <i class="bx bx-radio-circle"></i>
-                                        @error('longtitude')
+                                        @error('latitude')
                                             {{ $message }}
                                         @enderror
                                     </div>
@@ -104,12 +108,12 @@
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="latitude">Latitude</label>
-                                    <input type="text" class="form-control @error('latitude') is-invalid  @enderror"
-                                        id="latitude" placeholder="" name="latitude">
+                                    <label for="longitude">Longitude</label>
+                                    <input type="text" class="form-control @error('longitude') is-invalid  @enderror"
+                                        id="longitude" placeholder="" name="longitude">
                                     <div class="invalid-feedback">
                                         <i class="bx bx-radio-circle"></i>
-                                        @error('latitude')
+                                        @error('longitude')
                                             {{ $message }}
                                         @enderror
                                     </div>
@@ -134,40 +138,22 @@
                 </div>
             </div>
         </div>
+        <div class="mt-2">
+            <button type="submit" class="btn btn-primary">Simpan</button>
+        </div>
     </form>
 @endsection
 @push('js')
     <script src="{{ asset('') }}assets/extensions/filepond/filepond.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/filepond.js"></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/37.1.0/classic/ckeditor.js"></script>
+    <script src="{{ asset('') }}assets/extensions/ckeditor/ckeditor.js"></script>
+    <script src="{{ asset('') }}assets/static/js/pages/ckeditor.js"></script>
     <script>
-        ClassicEditor.create(document.querySelector('#editor'), {
-            toolbar: {
-                items: [
-                    'heading',
-                    '|',
-                    'bold',
-                    'italic',
-                    'link',
-                    'bulletedList',
-                    'numberedList',
-                    'blockQuote',
-                    'insertTable',
-                    'undo',
-                    'redo'
-                ]
-            },
-        }).then(editor => {
-            // console.log('Editor berhasil dibuat', editor);
-        }).catch(error => {
-            // console.error(error);
-        });
         $(document).ready(function() {
             $('#judul').on('input', function() {
                 var judul = $(this).val().toLowerCase().replace(/\s+/g, '-');
                 $('#slug').val(judul);
             });
-
 
             // you want to get it of the window global
             const providerOSM = new GeoSearch.OpenStreetMapProvider();
@@ -198,7 +184,7 @@
                     leafletMap.removeLayer(theMarker);
                 };
 
-                $('#longtitude').val(longitude);
+                $('#longitude').val(longitude);
                 $('#latitude').val(latitude);
                 theMarker = L.marker([latitude, longitude]).addTo(leafletMap);
             });
@@ -237,6 +223,7 @@
             credits: null,
             allowImagePreview: true,
             acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+            allowMultiple: true,
             server: {
                 process: '{{ route('image.upload') }}',
                 revert: (uniqueFileId, load, error) => {

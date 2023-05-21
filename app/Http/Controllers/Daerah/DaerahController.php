@@ -18,7 +18,7 @@ class DaerahController extends Controller
         (Session::has('image_folder')) ? Session::remove('image_folder') : Session::remove('image_filename');
 
         if (request()->ajax()) {
-            $daerah = Daerah::orderBy('created_at', 'desc');
+            $daerah = Daerah::select('id_daerah_wisata', 'foto', 'nama', 'alamat', 'fasilitas', 'kategori')->orderBy('created_at', 'desc');
             return DataTables::of($daerah)
                 ->addIndexColumn()
                 ->addColumn('opsi', function($row) {
@@ -80,7 +80,7 @@ class DaerahController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**

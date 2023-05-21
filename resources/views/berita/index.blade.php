@@ -55,6 +55,8 @@
                     {
                         data: 'foto',
                         name: 'foto',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'judul',
@@ -63,6 +65,8 @@
                     {
                         data: 'deskripsi',
                         name: 'deskripsi',
+                        orderable: false,
+                        searchable: false
                     },
                     {
                         data: 'opsi',

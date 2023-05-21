@@ -32,9 +32,8 @@ class UploadImageController extends Controller
 
     public function destroy(Request $request)
     {
-        // dd($request);
         $db = TemporaryFile::where('file', $request->image)->first();
-        // dd($db);
+        dd($request);
         if($db) {
             // $temporaryFolder = Session::get('foto_folder');
             // $fileName = Session::get('foto_filename');

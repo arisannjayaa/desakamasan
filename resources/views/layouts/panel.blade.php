@@ -61,9 +61,6 @@
     <script src="{{ asset('') }}assets/extensions/filepond-plugin-media-preview/filepond-plugin-media-preview.min.js">
     </script>
     <script src="{{ asset('') }}assets/extensions/filepond-plugin-file-poster/filepond-plugin-file-poster.js"></script>
-    {{-- <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="https://unpkg.com/leaflet-geosearch@3.1.0/dist/geosearch.umd.js"></script> --}}
     @stack('js')
 </body>
 
