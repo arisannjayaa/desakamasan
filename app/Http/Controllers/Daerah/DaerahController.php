@@ -44,7 +44,7 @@ class DaerahController extends Controller
                 </form>';
                     })
                 ->rawColumns(['opsi'])
-                ->toJson();
+                ->toJson(true);
         }
 
         $data = [

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('slug', 255);
             $table->text('deskripsi');
             $table->string('alamat', 60);
-            $table->string('foto', 255);
+            $table->text('gambar');
             $table->string('kategori');
             $table->timestamps();
             $table->foreign('id_profil_desa')->references('id')->on('profil_desa');

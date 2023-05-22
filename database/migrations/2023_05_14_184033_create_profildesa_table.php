@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('alamat', 60);
             $table->string('telepon', 20);
             $table->string('foto_profil', 255);
-            $table->string('gambar', 255);
+            $table->text('gambar');
             $table->string('video', 20);
             $table->string('longitude', 255);
             $table->string('latitude', 255);

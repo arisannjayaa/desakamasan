@@ -38,7 +38,7 @@ class BeritaController extends Controller
                     return '<span class="d-block" style="max-width: 200px;">'.$row->judul.'</span>';
                 })
                 ->editColumn('foto', function($row) {
-                    return '<img height="50" src="' . asset('/storage/berita') . '/' . $row->foto . '" alt="">';
+                    return '<img height="40" src="' . asset('/storage/berita') . '/' . $row->foto . '" alt="">';
                 })
                 ->addColumn('opsi', function($row) {
                     return '<div class="btn-group">
@@ -63,7 +63,7 @@ class BeritaController extends Controller
                 </form>';
                     })
                 ->rawColumns(['opsi', 'deskripsi', 'foto', 'judul'])
-                ->toJson();
+                ->toJson(true);
         }
 
         $data = [

@@ -27,7 +27,7 @@ Route::get('/dashboard', function () {
 
 // berita
 Route::resource('berita', BeritaController::class);
-
+Route::post('berita/table', [BeritaController::class, 'datatable'])->name('berita.table');
 // Profil
 Route::resource('profil', ProfilController::class);
 

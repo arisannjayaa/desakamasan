@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('slug', 255);
             $table->text('deskripsi');
             $table->string('alamat', 60);
-            $table->string('foto', 255);
+            $table->text('gambar');
             $table->string('telepon', 20);
             $table->text('fasilitas');
             $table->string('longitude', 255);
