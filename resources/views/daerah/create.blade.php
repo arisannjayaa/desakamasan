@@ -125,7 +125,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-grup">
-                            <label for="deskripsi" class="form-label">Gambar</label>
+                            <label for="deskripsi" class="form-label">Gambar (Maximal 4 Gambar)</label>
                             <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
                             <div class="invalid-feedback">
                                 <i class="bx bx-radio-circle"></i>
@@ -224,6 +224,8 @@
             allowImagePreview: true,
             acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
             allowMultiple: true,
+            maxFiles: 4,
+            maxParallelUploads: 4,
             server: {
                 process: '{{ route('image.upload') }}',
                 revert: (uniqueFileId, load, error) => {
@@ -235,7 +237,7 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'
                 }
             },
-            storeAsFile: true,
+            storeAsFile: true
         });
     </script>
 @endpush

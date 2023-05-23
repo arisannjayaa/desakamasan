@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Daerah;
 use App\Models\Daerah;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\TemporaryFile;
 use Illuminate\Support\Facades\Session;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -13,12 +14,18 @@ class DaerahController extends Controller
     /**
      * Display a listing of the resource.
      */
+    protected $temporaryFile;
+
+    public function __construct()
+    {
+        $this->temporaryFile = new TemporaryFile();
+    }
     public function index()
     {
         (Session::has('image_folder')) ? Session::remove('image_folder') : Session::remove('image_filename');
 
         if (request()->ajax()) {
-            $daerah = Daerah::select('id', 'foto', 'nama', 'alamat', 'fasilitas', 'kategori')->orderBy('created_at', 'desc');
+            $daerah = Daerah::select('id', 'gambar', 'nama', 'alamat', 'fasilitas', 'kategori')->orderBy('created_at', 'desc');
             return DataTables::of($daerah)
                 ->addIndexColumn()
                 ->addColumn('opsi', function($row) {
@@ -80,7 +87,11 @@ class DaerahController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        // dd(Session::get('image_folder'));
+        $temporaryFolder = Session::get('image_folder');
+        $temoraryFileName = Session::get('image_filename');
+
+
     }
 
     /**
