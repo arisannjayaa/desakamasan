@@ -1,6 +1,10 @@
 @extends('layouts.panel')
 @section('title', 'Berita')
 @section('content')
+    <div id="successAlert" class="alert alert-success alert-dismissible show fade d-none">
+        This is a success alert.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
     <div class="card">
         <div class="card-header">
             <h5 class="card-title">
@@ -26,6 +30,31 @@
 @endsection
 @push('js')
     <script>
+        $(document).on('submit', '#formDelete', function(e) {
+            e.preventDefault();
+
+            var form = $(this);
+            var url = form.attr('action');
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: form.serialize(),
+                dataType: 'json',
+                success: function(response) {
+                    // datatable reload otomatis saat delete data
+                    console.log(response);
+                    if (response.status == 200) {
+                        $('#successAlert').removeClass('d-none');
+                        $('#tables').DataTable().ajax.reload();
+                        $('#successAlert').text(response.message).fadeIn;
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Terjadi error saat menghapus data, lakukan penanganan error
+                }
+            });
+        });
         $(document).ready(function() {
             $('#tables').DataTable({
                 ordering: true,
@@ -55,8 +84,8 @@
                         searchable: false
                     },
                     {
-                        data: 'foto',
-                        name: 'foto',
+                        data: 'gambar',
+                        name: 'gambar',
                         orderable: false,
                         searchable: false
                     },

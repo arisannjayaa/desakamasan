@@ -17,7 +17,7 @@ class BeritaSeeder extends Seeder
             Berita::create([
                 'judul' => 'judul-'. $i,
                 'slug' => 'slug-'. $i,
-                'foto' => 'img-'. $i . '.jpg',
+                'gambar' => 'img-'. $i . '.jpg',
                 'deskripsi' => 'deskripsi-' . $i,
             ]);
         }

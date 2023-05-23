@@ -28,7 +28,7 @@ class BeritaController extends Controller
         (Session::has('image_folder')) ? Session::remove('image_folder') : Session::remove('image_filename');
 
         if (request()->ajax()) {
-            $berita = Berita::select('id', 'judul', 'foto', 'deskripsi')->orderBy('created_at', 'desc');
+            $berita = Berita::select('id', 'judul', 'gambar', 'deskripsi')->orderBy('created_at', 'desc');
             return DataTables::of($berita)
                 ->addIndexColumn()
                 ->editColumn('deskripsi', function($row) {
@@ -37,8 +37,8 @@ class BeritaController extends Controller
                 ->editColumn('judul', function($row) {
                     return '<span class="d-block" style="max-width: 200px;">'.$row->judul.'</span>';
                 })
-                ->editColumn('foto', function($row) {
-                    return '<img height="40" src="' . asset('/storage/berita') . '/' . $row->foto . '" alt="">';
+                ->editColumn('gambar', function($row) {
+                    return '<img height="50" src="' . asset('/storage/berita') . '/' . $row->gambar . '" alt="">';
                 })
                 ->addColumn('opsi', function($row) {
                     return '<div class="btn-group">
@@ -53,7 +53,7 @@ class BeritaController extends Controller
                                 role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>
-                <form class="d-inline" action="'.route('berita.destroy', $row->id) .'"
+                <form id="formDelete"  class="d-inline" action="'.route('berita.destroy', $row->id) .'"
                     method="post">
                     '.method_field('DELETE').'
                     '.csrf_field().'
@@ -62,7 +62,7 @@ class BeritaController extends Controller
                             class="bi bi-trash-fill"></i></button>
                 </form>';
                     })
-                ->rawColumns(['opsi', 'deskripsi', 'foto', 'judul'])
+                ->rawColumns(['opsi', 'deskripsi', 'gambar', 'judul'])
                 ->toJson(true);
         }
 
@@ -123,7 +123,7 @@ class BeritaController extends Controller
             'judul' => $request->input('judul'),
             'slug' => $request->input('slug'),
             'deskripsi' => $request->input('deskripsi'),
-            'foto' =>  $temporary->file
+            'gambar' =>  $temporary->file
         ]);
         return redirect()->route('berita.index')->with('success', 'Berhasil menambahkan data berita');
     }
@@ -177,19 +177,19 @@ class BeritaController extends Controller
                 rmdir(storage_path('app/files/tmp/') . $temporary->folder);
                 $temporary->delete();
             }
-            $pathOld = storage_path() . '/app/public/berita/' . $berita->foto;
+            $pathOld = storage_path() . '/app/public/berita/' . $berita->gambar;
                 if(File::exists($pathOld)) {
                     File::delete($pathOld);
                 }
         }
 
-        // dd($berita->foto);
+        // dd($berita->gambar);
         // dd($temporary->file);
         // dd($request->gambar);
         $berita->judul = $request->input('judul');
         $berita->slug = $request->input('slug');
         $berita->deskripsi = $request->input('deskripsi');
-        $berita->foto = ($temporary->file == null) ? $berita->foto : $temporary->file ;
+        $berita->gambar = ($temporary->file == null) ? $berita->gambar : $temporary->file ;
         $berita->save();
         return redirect()->route('berita.index')->with('success', 'Berhasil memperbaharui data');
 
@@ -201,11 +201,15 @@ class BeritaController extends Controller
     public function destroy(string $id)
     {
         $berita = Berita::find($id);
-        $pathOld = storage_path() . '/app/public/berita/' . $berita->foto;
+        $pathOld = storage_path() . '/app/public/berita/' . $berita->gambar;
         if(File::exists($pathOld)) {
             File::delete($pathOld);
         }
         $berita->delete();
-        return redirect()->route('berita.index')->with('success', 'Berhasil menghapus data');
+        // return redirect()->route('berita.index')->with('success', 'Berhasil menghapus data');
+        return response()->json([
+            'status' => 200,
+            'message' => 'Data berita berhasil dihapus!'
+        ]);
     }
 }

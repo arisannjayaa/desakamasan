@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
 @endpush
 @section('content')
-    <form action="{{ route('berita.update', $berita->id_berita) }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('berita.update', $berita->id) }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-9 col-12">
                 <div class="card">
@@ -116,13 +116,13 @@
             allowFilePoster: true,
             files: [{
                 // the server file reference
-                source: "{{ asset('storage/berita') . '/' . $berita->foto }}",
+                source: "{{ asset('storage/berita') . '/' . $berita->gambar }}",
                 // set type to local to indicate an already uploaded file
                 options: {
                     type: 'local',
                     // pass poster property
                     metadata: {
-                        poster: "{{ asset('storage/berita') . '/' . $berita->foto }}",
+                        poster: "{{ asset('storage/berita') . '/' . $berita->gambar }}",
                     },
                 },
             }, ],
