@@ -114,18 +114,20 @@
             credits: null,
             allowImagePreview: true,
             allowFilePoster: true,
-            files: [{
-                // the server file reference
-                source: "{{ asset('storage/berita') . '/' . $berita->gambar }}",
-                // set type to local to indicate an already uploaded file
-                options: {
-                    type: 'local',
-                    // pass poster property
-                    metadata: {
-                        poster: "{{ asset('storage/berita') . '/' . $berita->gambar }}",
+            @if ($berita->gambar)
+                files: [{
+                    // the server file reference
+                    source: "{{ asset('storage/berita') . '/' . $berita->gambar }}",
+                    // set type to local to indicate an already uploaded file
+                    options: {
+                        type: 'local',
+                        // pass poster property
+                        metadata: {
+                            poster: "{{ asset('storage/berita') . '/' . $berita->gambar }}",
+                        },
                     },
-                },
-            }, ],
+                }, ],
+            @endif
             acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
             server: {
                 process: '{{ route('image.upload') }}',

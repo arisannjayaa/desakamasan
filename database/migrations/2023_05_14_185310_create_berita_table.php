@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('id_profil_desa')->default(1);
             $table->string('judul', 255);
             $table->string('slug', 255);
-            $table->string('gambar', 255);
+            $table->string('gambar', 255)->nullable();
             $table->text('deskripsi');
             $table->timestamps();
             $table->foreign('id_profil_desa')->references('id')->on('profil_desa');

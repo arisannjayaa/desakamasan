@@ -25,21 +25,29 @@ class BeritaController extends Controller
 
     public function index()
     {
+        // Mengecek session gambar
         (Session::has('image_folder')) ? Session::remove('image_folder') : Session::remove('image_filename');
 
+        // Mengecek request dari datatables
         if (request()->ajax()) {
-            $berita = Berita::select('id', 'judul', 'gambar', 'deskripsi')->orderBy('created_at', 'desc');
+            // Query tabel berita
+            $berita = Berita::select('id', 'judul', 'gambar', 'deskripsi')->orderBy('updated_at', 'desc');
             return DataTables::of($berita)
+                // Menambahkan index kolom urutan angka dari 1
                 ->addIndexColumn()
+                // Mengedit kolom deskripsi
                 ->editColumn('deskripsi', function($row) {
                     return '<span class="d-block text-truncate" style="max-width: 100px;">'.strip_tags($row->deskripsi).'</span>';
                 })
+                // Mengedit kolom judul
                 ->editColumn('judul', function($row) {
                     return '<span class="d-block" style="max-width: 200px;">'.$row->judul.'</span>';
                 })
+                // Mengedit kolom gambar
                 ->editColumn('gambar', function($row) {
-                    return '<img height="50" src="' . asset('/storage/berita') . '/' . $row->gambar . '" alt="">';
+                    return '<img height="50" width="50" src="' . asset('/storage/berita') . '/' . $row->gambar . '" alt="">';
                 })
+                // Menambahkan kolom baru untuk menambahkan button edit, delete dan lainnya
                 ->addColumn('opsi', function($row) {
                     return '<div class="btn-group">
                     <button type="button" class="btn btn-sm" data-bs-toggle="dropdown"
@@ -62,10 +70,12 @@ class BeritaController extends Controller
                             class="bi bi-trash-fill"></i></button>
                 </form>';
                     })
+                // Mendefinisikan kolom yang sudah ditambahkan tadi maupun kolom yang diedit
                 ->rawColumns(['opsi', 'deskripsi', 'gambar', 'judul'])
                 ->toJson(true);
         }
 
+        // Mendefinikasi data yang perlu dikirimkan ke view
         $data = [
             'menu' => 'Berita',
             'links' => [
@@ -83,6 +93,7 @@ class BeritaController extends Controller
      */
     public function create()
     {
+        // Mendefinikasi data yang perlu dikirimkan ke view
         $data = [
             'menu' => 'Berita Baru',
             'links' => [
@@ -99,32 +110,52 @@ class BeritaController extends Controller
      */
     public function store(Request $request)
     {
+        // Melakukan validasi form dengan kustom pesan
         $request->validate([
-            'judul' => 'required',
-            'slug' => 'required',
+            'judul' => 'required|unique:berita,judul',
+            'slug' => 'required|unique:berita,slug',
             'deskripsi' => 'required',
+        ],[
+            'judul' => [
+                'required' => 'Judul harus diisi',
+                'unique' => 'Judul berita sudah ada!!'
+            ],
+            'slug' => [
+                'required' => 'Slug harus diisi',
+                'unique' => 'Slug berita sudah ada!!'
+            ],
+            'deskripsi.required' => 'Deskripsi harus diisi!!'
         ]);
 
-
+        // Mengambil temporary file dari session
         $temporary = $this->temporaryFile->getFileFolder();
-        // dd($temporary);
 
+        // Mendefinisikan lokasi direktori asal file dan melakukan pemindahan file
         $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
         Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/berita' . '/' . $temporary->file);
 
+        // Menghapus file dari lokasi direktori
         File::delete($path);
-        rmdir(storage_path('app/files/tmp/') . $temporary->folder);
-        $temporary->delete();
+        try {
+            rmdir(storage_path('app/files/tmp/') . $temporary->folder);
+            $temporary->delete();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
 
+        // Menghapus session penyimpanan gambar temporary
         Session::remove('image_folder');
         Session::remove('image_filename');
 
+        // Menyimpan data berita ke tabel berita
         Berita::create([
             'judul' => $request->input('judul'),
             'slug' => $request->input('slug'),
             'deskripsi' => $request->input('deskripsi'),
-            'gambar' =>  $temporary->file
+            'gambar' =>  ($temporary->file) ? $temporary->file : null
         ]);
+
+        // Mengarahkan url ke rute berita dengan method index dan mengirimkan session
         return redirect()->route('berita.index')->with('success', 'Berhasil menambahkan data berita');
     }
 
@@ -141,6 +172,7 @@ class BeritaController extends Controller
      */
     public function edit(string $id)
     {
+        // Mendefinikasi data yang perlu dikirimkan ke view
         $data = [
             'menu' => 'Berita Baru',
             'links' => [
@@ -162,13 +194,26 @@ class BeritaController extends Controller
             'judul' => 'required',
             'slug' => 'required',
             'deskripsi' => 'required',
+        ],[
+            'judul' => [
+                'required' => 'Judul harus diisi',
+                'unique' => 'Judul berita sudah ada!!'
+            ],
+            'slug' => [
+                'required' => 'Slug harus diisi',
+                'unique' => 'Slug berita sudah ada!!'
+            ],
+            'deskripsi.required' => 'Deskripsi harus diisi'
         ]);
 
+        // Mencari berita berdasarkan id
         $berita = Berita::find($id);
+        // Mengambil temporary file dari session
         $temporary = $this->temporaryFile->getFileFolder();
-        // dd($temporary);
+        // Mengecek session apakah null atau tidak
         $path = ($temporary->folder == null) ? '' : storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
 
+        // Mengecek session apakah memiliki data
         if(Session::has('image_folder')) {
             if(File::exists($path)){
                 Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/berita' . '/' . $temporary->file);
@@ -183,16 +228,15 @@ class BeritaController extends Controller
                 }
         }
 
-        // dd($berita->gambar);
-        // dd($temporary->file);
-        // dd($request->gambar);
+        // Menyimpan data berita
         $berita->judul = $request->input('judul');
         $berita->slug = $request->input('slug');
         $berita->deskripsi = $request->input('deskripsi');
         $berita->gambar = ($temporary->file == null) ? $berita->gambar : $temporary->file ;
         $berita->save();
-        return redirect()->route('berita.index')->with('success', 'Berhasil memperbaharui data');
 
+        // Mengarahkan kembali ke berita serta mengirimkan session
+        return redirect()->route('berita.index')->with('success', 'Berhasil memperbaharui data');
     }
 
     /**
@@ -200,13 +244,18 @@ class BeritaController extends Controller
      */
     public function destroy(string $id)
     {
+        // Mencari data berdasarkam id
         $berita = Berita::find($id);
-        $pathOld = storage_path() . '/app/public/berita/' . $berita->gambar;
-        if(File::exists($pathOld)) {
-            File::delete($pathOld);
+
+        // Mendefinisika path penyimpanan gambar dserta
+        // melakukan pengecekan untuk penghapusan gambar
+        $path = storage_path() . '/app/public/berita/' . $berita->gambar;
+        if(File::exists($path)) {
+            File::delete($path);
         }
         $berita->delete();
-        // return redirect()->route('berita.index')->with('success', 'Berhasil menghapus data');
+
+        // Mengirim response dalam bentok json
         return response()->json([
             'status' => 200,
             'message' => 'Data berita berhasil dihapus!'

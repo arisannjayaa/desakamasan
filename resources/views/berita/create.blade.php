@@ -15,9 +15,8 @@
                                 <div class="form-group">
                                     <label for="judul">Judul</label>
                                     <input type="text" class="form-control @error('judul') is-invalid  @enderror"
-                                        id="judul" placeholder="" name="judul">
+                                        id="judul" placeholder="" name="judul" value="{{ old('judul') }}">
                                     <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
                                         @error('judul')
                                             {{ $message }}
                                         @enderror
@@ -28,10 +27,9 @@
                                 <div class="form-group">
                                     <label for="judul">Slug</label>
                                     <input type="text" class="form-control @error('slug') is-invalid  @enderror"
-                                        id="slug" placeholder="" name="slug" readonly>
+                                        id="slug" placeholder="" name="slug" readonly value="{{ old('slug') }}">
                                     <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('judul')
+                                        @error('slug')
                                             {{ $message }}
                                         @enderror
                                     </div>
@@ -40,9 +38,8 @@
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="deskripsi" class="form-label">Deskripsi</label>
-                                    <textarea id="editor" name="deskripsi"></textarea>
+                                    <textarea class="form-control @error('deskripsi') is-invalid  @enderror" id="editor" name="deskripsi">{{ old('deskripsi') }}</textarea>
                                     <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
                                         @error('deskripsi')
                                             {{ $message }}
                                         @enderror

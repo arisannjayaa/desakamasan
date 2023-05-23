@@ -47,7 +47,7 @@
                     if (response.status == 200) {
                         $('#successAlert').removeClass('d-none');
                         $('#tables').DataTable().ajax.reload();
-                        $('#successAlert').text(response.message).fadeIn;
+                        $('#successAlert').text(response.message).fadeIn().delay(2000).fadeOut();
                     }
                 },
                 error: function(xhr, status, error) {
