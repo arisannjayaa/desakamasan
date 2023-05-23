@@ -82,8 +82,7 @@ class BeritaController extends Controller
                 'url' => route('berita.create'),
                 'button' => 'Buat',
                 'class' => 'btn-primary'
-            ],
-            'berita' => Berita::all()
+            ]
         ];
         return view('berita.index', $data);
     }

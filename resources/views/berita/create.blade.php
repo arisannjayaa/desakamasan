@@ -90,43 +90,45 @@
                 var judul = $(this).val().toLowerCase().replace(/\s+/g, '-');
                 $('#slug').val(judul);
             });
-        });
 
-        function deleteImage(namaFile) {
-            $.ajax({
-                url: "{{ route('image.delete') }}",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+
+            function deleteImage(namaFile) {
+                $.ajax({
+                    url: "{{ route('image.delete') }}",
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: "DELETE",
+                    data: {
+                        image: namaFile
+                    },
+                    success: function(response) {
+                        console.log(response)
+                    },
+                    error: function(response) {
+                        console.log('error')
+                    }
+                });
+            };
+
+            // Filepond
+            FilePond.create(document.querySelector("#image_upload"), {
+                credits: null,
+                allowImagePreview: true,
+                acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
+                server: {
+                    process: '{{ route('image.upload') }}',
+                    revert: (uniqueFileId, load, error) => {
+                        deleteImage(uniqueFileId);
+                        error('Error terjadi saat menghapus file');
+                        load();
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
                 },
-                type: "DELETE",
-                data: {
-                    image: namaFile
-                },
-                success: function(response) {
-                    console.log(response)
-                },
-                error: function(response) {
-                    console.log('error')
-                }
+                storeAsFile: true,
             });
-        }
-
-        FilePond.create(document.querySelector("#image_upload"), {
-            credits: null,
-            allowImagePreview: true,
-            acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
-            server: {
-                process: '{{ route('image.upload') }}',
-                revert: (uniqueFileId, load, error) => {
-                    deleteImage(uniqueFileId);
-                    error('Error terjadi saat menghapus file');
-                    load();
-                },
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            },
-            storeAsFile: true,
         });
     </script>
 @endpush

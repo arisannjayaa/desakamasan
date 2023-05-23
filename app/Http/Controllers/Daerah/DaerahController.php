@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Daerah;
 
 use App\Models\Daerah;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\Models\TemporaryFile;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
 class DaerahController extends Controller
@@ -60,8 +62,7 @@ class DaerahController extends Controller
                 'url' => route('daerah.create'),
                 'button' => 'Buat',
                 'class' => 'btn-primary'
-            ],
-            'daerah' => Daerah::all()
+            ]
         ];
         return view('daerah.index', $data);
     }
@@ -87,11 +88,47 @@ class DaerahController extends Controller
      */
     public function store(Request $request)
     {
-        // dd(Session::get('image_folder'));
+        $fasilitas = json_encode($request->fasilitas);
+        dd($request);
         $temporaryFolder = Session::get('image_folder');
         $temoraryFileName = Session::get('image_filename');
 
+        // Mengambil temporary file dari session
+        $temporary = $this->temporaryFile->getFileFolder();
 
+        // Mendefinisikan lokasi direktori asal file dan melakukan pemindahan file
+        $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
+        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/berita' . '/' . $temporary->file);
+
+        // Menghapus file dari lokasi direktori
+        File::delete($path);
+        try {
+            rmdir(storage_path('app/files/tmp/') . $temporary->folder);
+            $temporary->delete();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        // Menghapus session penyimpanan gambar temporary
+        Session::remove('image_folder');
+        Session::remove('image_filename');
+
+        // Menyimpan data berita ke tabel berita
+        Daerah::create([
+            'nama' => $request->input('nama'),
+            'slug' => $request->input('slug'),
+            'deskripsi' => $request->input('deskripsi'),
+            'alamat' => $request->input('alamat'),
+            'gambar' =>  ($temporary->file) ? $temporary->file : null,
+            'telepon' => $request->input('telepon'),
+            'fasilitas' => $request->input('fasilitas'),
+            'latitude' => $request->input('latitude'),
+            'longitude' => $request->input('longitude'),
+            'kategori' => $request->input('kategori'),
+        ]);
+
+        // Mengarahkan url ke rute berita dengan method index dan mengirimkan session
+        return redirect()->route('berita.index')->with('success', 'Berhasil menambahkan data berita');
     }
 
     /**

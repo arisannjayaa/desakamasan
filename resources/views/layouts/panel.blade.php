@@ -61,6 +61,8 @@
     <script src="{{ asset('') }}assets/extensions/filepond-plugin-media-preview/filepond-plugin-media-preview.min.js">
     </script>
     <script src="{{ asset('') }}assets/extensions/filepond-plugin-file-poster/filepond-plugin-file-poster.js"></script>
+    <script src="{{ asset('') }}assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
+    <script src="{{ asset('') }}assets/static/js/pages/form-element-select.js"></script>s
     @stack('js')
 </body>
 
