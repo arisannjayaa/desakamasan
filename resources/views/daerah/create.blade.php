@@ -15,6 +15,11 @@
         .choices__inner {
             background: #fff;
         }
+
+        .choices__list--multiple .choices__item {
+            background: #1942b8;
+            border: 1px solid #1e4fde;
+        }
     </style>
 @endpush
 @section('content')
@@ -77,12 +82,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="fasilitas">Fasilitas</label>
                                     <select class="choices form-select multiple-remove" multiple="multiple"
                                         name="fasilitas[]">
-                                        <option value="Penginapan">Penginapan</option>
+                                        <option selected value="Penginapan">Penginapan</option>
                                         <option value="Areal Parkir">Areal Parkir</option>
                                         <option value="Kamar Mandi Umum">Kamar Mandi Umum</option>
                                         <option value="Selfie Area">Selfie Area</option>
@@ -97,7 +102,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="kategori">Kategori</label>
                                     <select class="choices form-select">
