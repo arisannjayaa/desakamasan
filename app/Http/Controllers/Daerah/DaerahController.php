@@ -27,7 +27,7 @@ class DaerahController extends Controller
         (Session::has('image_folder')) ? Session::remove('image_folder') : Session::remove('image_filename');
 
         if (request()->ajax()) {
-            $daerah = Daerah::select('id', 'gambar', 'nama', 'alamat', 'fasilitas', 'kategori')->orderBy('created_at', 'desc');
+            $daerah = Daerah::select('id', 'nama', 'alamat', 'kategori')->orderBy('updated_at', 'desc');
             return DataTables::of($daerah)
                 ->addIndexColumn()
                 ->addColumn('opsi', function($row) {
@@ -88,27 +88,32 @@ class DaerahController extends Controller
      */
     public function store(Request $request)
     {
-        $fasilitas = json_encode($request->fasilitas);
-        dd($request);
+        // dd($request);
         $temporaryFolder = Session::get('image_folder');
-        $temoraryFileName = Session::get('image_filename');
+        $temporaryFileName = Session::get('image_filename');
 
         // Mengambil temporary file dari session
-        $temporary = $this->temporaryFile->getFileFolder();
+        for ($i=0; $i < count($temporaryFolder); $i++) {
+            $temporary = $this->temporaryFile
+                            ->where('folder', $temporaryFolder[$i])
+                            ->where('file', $temporaryFileName[$i])->first();
+            if ($temporary) {
+                // Mendefinisikan lokasi direktori asal file dan melakukan pemindahan file
+                $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
+                if (File::exists($path)) {
+                    Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/daerah' . '/' . $temporary->file);
 
-        // Mendefinisikan lokasi direktori asal file dan melakukan pemindahan file
-        $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
-        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/berita' . '/' . $temporary->file);
-
-        // Menghapus file dari lokasi direktori
-        File::delete($path);
-        try {
-            rmdir(storage_path('app/files/tmp/') . $temporary->folder);
-            $temporary->delete();
-        } catch (\Throwable $th) {
-            //throw $th;
+                    // Menghapus file dari lokasi direktori
+                    File::delete($path);
+                    try {
+                        rmdir(storage_path('app/files/tmp/') . $temporary->folder);
+                        $temporary->delete();
+                    } catch (\Throwable $th) {
+                        //throw $th;
+                    }
+                }
+            }
         }
-
         // Menghapus session penyimpanan gambar temporary
         Session::remove('image_folder');
         Session::remove('image_filename');
@@ -119,16 +124,16 @@ class DaerahController extends Controller
             'slug' => $request->input('slug'),
             'deskripsi' => $request->input('deskripsi'),
             'alamat' => $request->input('alamat'),
-            'gambar' =>  ($temporary->file) ? $temporary->file : null,
+            'gambar' =>  ($temporary->file) ? json_encode($temporaryFileName) : null,
             'telepon' => $request->input('telepon'),
-            'fasilitas' => $request->input('fasilitas'),
+            'fasilitas' => json_encode($request->input('fasilitas')),
             'latitude' => $request->input('latitude'),
             'longitude' => $request->input('longitude'),
             'kategori' => $request->input('kategori'),
         ]);
 
         // Mengarahkan url ke rute berita dengan method index dan mengirimkan session
-        return redirect()->route('berita.index')->with('success', 'Berhasil menambahkan data berita');
+        return redirect()->route('daerah.index')->with('success', 'Berhasil menambahkan data daerah');
     }
 
     /**

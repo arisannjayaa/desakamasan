@@ -32,12 +32,12 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="judul">Nama</label>
-                                    <input type="text" class="form-control @error('judul') is-invalid  @enderror"
-                                        id="judul" placeholder="" name="judul">
+                                    <label for="nama">Nama</label>
+                                    <input type="text" class="form-control @error('nama') is-invalid  @enderror"
+                                        id="nama" placeholder="" name="nama">
                                     <div class="invalid-feedback">
                                         <i class="bx bx-radio-circle"></i>
-                                        @error('judul')
+                                        @error('nama')
                                             {{ $message }}
                                         @enderror
                                     </div>
@@ -45,12 +45,12 @@
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="judul">Slug</label>
+                                    <label for="slug">Slug</label>
                                     <input type="text" class="form-control @error('slug') is-invalid  @enderror"
                                         id="slug" placeholder="" name="slug" readonly>
                                     <div class="invalid-feedback">
                                         <i class="bx bx-radio-circle"></i>
-                                        @error('judul')
+                                        @error('slug')
                                             {{ $message }}
                                         @enderror
                                     </div>
@@ -87,7 +87,7 @@
                                     <label for="fasilitas">Fasilitas</label>
                                     <select class="choices form-select multiple-remove" multiple="multiple"
                                         name="fasilitas[]">
-                                        <option selected value="Penginapan">Penginapan</option>
+                                        <option value="Penginapan">Penginapan</option>
                                         <option value="Areal Parkir">Areal Parkir</option>
                                         <option value="Kamar Mandi Umum">Kamar Mandi Umum</option>
                                         <option value="Selfie Area">Selfie Area</option>
@@ -105,7 +105,7 @@
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="kategori">Kategori</label>
-                                    <select class="choices form-select">
+                                    <select class="choices form-select" name="kategori">
                                         <option value="Wisata Alam">Wisata Alam</option>
                                         <option value="Wisata Budaya">Wisata Budaya</option>
                                         <option value="Wisata Buatan">Wisata Buatan</option>
@@ -189,9 +189,9 @@
     <script src="{{ asset('') }}assets/static/js/pages/ckeditor.js"></script>
     <script>
         $(document).ready(function() {
-            $('#judul').on('input', function() {
-                var judul = $(this).val().toLowerCase().replace(/\s+/g, '-');
-                $('#slug').val(judul);
+            $('#nama').on('input', function() {
+                var nama = $(this).val().toLowerCase().replace(/\s+/g, '-');
+                $('#slug').val(nama);
             });
 
             // you want to get it of the window global

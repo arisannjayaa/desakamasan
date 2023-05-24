@@ -13,10 +13,8 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Gambar</th>
                             <th>Nama</th>
                             <th>Alamat</th>
-                            <th>Fasilitas</th>
                             <th>Kategori</th>
                             <th>Aksi</th>
                         </tr>
@@ -57,20 +55,12 @@
                         searchable: false
                     },
                     {
-                        data: 'foto',
-                        name: 'foto',
-                    },
-                    {
                         data: 'nama',
                         name: 'nama',
                     },
                     {
                         data: 'alamat',
                         name: 'alamat',
-                    },
-                    {
-                        data: 'fasilitas',
-                        name: 'fasilitas',
                     },
                     {
                         data: 'kategori',
