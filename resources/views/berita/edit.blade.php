@@ -4,6 +4,15 @@
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
 @endpush
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-light-danger color-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li><i class="bi bi-exclamation-circle"></i> {{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('berita.update', $berita->id) }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-9 col-12">
@@ -14,32 +23,22 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="judul">Judul</label>
-                                    <input type="text" class="form-control @error('judul') is-invalid  @enderror"
-                                        id="judul" placeholder="" name="judul" value="{{ $berita->judul }}">
-                                    <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('judul')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label for="judul"
+                                        class="form-label @error('judul') text-danger @enderror">Judul</label>
+                                    <input type="text" class="form-control" id="judul" placeholder="" name="judul"
+                                        value="{{ $berita->judul }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="judul">Slug</label>
-                                    <input type="text" class="form-control @error('slug') is-invalid  @enderror"
-                                        id="slug" placeholder="" name="slug" value="{{ $berita->slug }}" readonly>
-                                    <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('slug')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label for="judul"
+                                        class="form-label @error('slug') text-danger @enderror">Slug</label>
+                                    <input type="text" class="form-control" id="slug" placeholder="" name="slug"
+                                        value="{{ $berita->slug }}" readonly>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
-                                <div class="form-group">
+                                <div class="form-group" class="form-label @error('deskripsi') text-danger @enderror">
                                     <label for="deskripsi" class="form-label">Deskripsi</label>
                                     <textarea id="editor" name="deskripsi">{{ $berita->deskripsi }}</textarea>
                                 </div>
@@ -49,16 +48,9 @@
                 </div>
                 <div class="card">
                     <div class="card-body">
-                        <div class="form-grup">
+                        <div class="form-grup" class="form-label">
                             <label for="deskripsi" class="form-label">Gambar</label>
-                            <input id="image_upload" type="file" class="imgbb-filepond" name="gambar"
-                                value="{{ $berita->foto }}">
-                            <div class="invalid-feedback">
-                                <i class="bx bx-radio-circle"></i>
-                                @error('gambar')
-                                    {{ $message }}
-                                @enderror
-                            </div>
+                            <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
                         </div>
                     </div>
                 </div>
@@ -91,7 +83,7 @@
             });
         });
 
-        function deleteImage(namaFile) {
+        function deleteOld(namaFile) {
             $.ajax({
                 url: "{{ route('image.delete') }}",
                 headers: {
@@ -99,7 +91,7 @@
                 },
                 type: "DELETE",
                 data: {
-                    image: namaFile
+                    old_file: namaFile
                 },
                 success: function(response) {
                     console.log(response)
@@ -108,7 +100,26 @@
                     console.log('error')
                 }
             });
-        }
+        };
+
+        function deleteTemporary(namaFile) {
+            $.ajax({
+                url: "{{ route('image.delete') }}",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: "DELETE",
+                data: {
+                    file_temporary: namaFile
+                },
+                success: function(response) {
+                    console.log(response)
+                },
+                error: function(response) {
+                    console.log('error')
+                }
+            });
+        };
 
         FilePond.create(document.querySelector("#image_upload"), {
             credits: null,
@@ -132,8 +143,12 @@
             server: {
                 process: '{{ route('image.upload') }}',
                 revert: (uniqueFileId, load, error) => {
-                    deleteImage(uniqueFileId);
+                    deleteTemporary(uniqueFileId);
                     error('Error terjadi saat menghapus file');
+                    load();
+                },
+                remove: function(source, load, error) {
+                    deleteOld(source);
                     load();
                 },
                 headers: {

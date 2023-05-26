@@ -1,5 +1,5 @@
 @extends('layouts.panel')
-@section('title', 'Tambah Berita')
+@section('title', 'Tambah Daerah')
 @push('css')
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
     <style>
@@ -23,6 +23,15 @@
     </style>
 @endpush
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-light-danger color-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li><i class="bi bi-exclamation-circle"></i> {{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('daerah.store') }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-12 col-12">
@@ -32,70 +41,49 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="nama">Nama</label>
-                                    <input type="text" class="form-control @error('nama') is-invalid  @enderror"
-                                        id="nama" placeholder="" name="nama">
-                                    <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('nama')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label for="nama"
+                                        class="form-label @error('nama') text-danger @enderror">Nama</label>
+                                    <input type="text" class="form-control" id="nama" placeholder="" name="nama"
+                                        value="{{ old('nama') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="slug">Slug</label>
-                                    <input type="text" class="form-control @error('slug') is-invalid  @enderror"
-                                        id="slug" placeholder="" name="slug" readonly>
-                                    <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('slug')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label for="slug"
+                                        class="form-label @error('slug') text-danger @enderror">Slug</label>
+                                    <input type="text" class="form-control" id="slug" placeholder="" name="slug"
+                                        readonly value="{{ old('slug') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="alamat">Alamat</label>
-                                    <input type="text" class="form-control @error('alamat') is-invalid  @enderror"
-                                        id="alamat" placeholder="" name="alamat">
-                                    <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('alamat')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label for="alamat"
+                                        class="form-label @error('alamat') text-danger @enderror">Alamat</label>
+                                    <input type="text" class="form-control" id="alamat" placeholder="" name="alamat"
+                                        value="{{ old('alamat') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="telepon">Telepon</label>
-                                    <input type="text" class="form-control @error('telepon') is-invalid  @enderror"
-                                        id="telepon" placeholder="" name="telepon">
-                                    <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('telepon')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label
+                                        for="telepon"class="form-label @error('telepon') text-danger @enderror">Telepon</label>
+                                    <input type="text" class="form-control" id="telepon" placeholder="" name="telepon"
+                                        value="{{ old('telepon') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="fasilitas">Fasilitas</label>
+                                    <label for="fasilitas"
+                                        class="form-label @error('fasilitas') text-danger @enderror">Fasilitas
+                                    </label>
                                     <select class="choices form-select multiple-remove" multiple="multiple"
                                         name="fasilitas[]">
                                         <option value="Penginapan">Penginapan</option>
                                         <option value="Areal Parkir">Areal Parkir</option>
                                         <option value="Kamar Mandi Umum">Kamar Mandi Umum</option>
-                                        <option value="Selfie Area">Selfie Area</option>
                                         <option value="ATMs">ATMs</option>
-                                        <option value="Kios Souvenir">Kios Souvenir</option>
                                         <option value="Spot Foto">Spot Foto</option>
                                         <option value="Balai Pertemuan">Balai Pertemuan</option>
-                                        <option value="Kuliner">Kuliner</option>
                                         <option value="Wifi Area">Wifi Area</option>
                                         <option value="Tempat Makan">Tempat Makan</option>
                                         <option value="Pusat Informasi">Pusat Informasi</option>
@@ -104,7 +92,8 @@
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="kategori">Kategori</label>
+                                    <label for="kategori"
+                                        class="form-label @error('kategori') text-danger @enderror">Kategori </label>
                                     <select class="choices form-select" name="kategori">
                                         <option value="Wisata Alam">Wisata Alam</option>
                                         <option value="Wisata Budaya">Wisata Budaya</option>
@@ -114,14 +103,9 @@
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="deskripsi" class="form-label">Deskripsi</label>
-                                    <textarea id="editor" name="deskripsi"></textarea>
-                                    <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('deskripsi')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label for="deskripsi"
+                                        class="form-label @error('deskripsi') text-danger @enderror">Deskripsi </label>
+                                    <textarea id="editor" name="deskripsi">{{ old('deskripsi') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -134,28 +118,18 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="latitude">Latitude</label>
-                                    <input type="text" class="form-control @error('latitude') is-invalid  @enderror"
-                                        id="latitude" placeholder="" name="latitude">
-                                    <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('latitude')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label for="latitude"
+                                        class="form-label @error('latitude') text-danger @enderror">Latitude</label>
+                                    <input type="text" class="form-control" id="latitude" placeholder="" name="latitude"
+                                        value="{{ old('latitude') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="longitude">Longitude</label>
-                                    <input type="text" class="form-control @error('longitude') is-invalid  @enderror"
-                                        id="longitude" placeholder="" name="longitude">
-                                    <div class="invalid-feedback">
-                                        <i class="bx bx-radio-circle"></i>
-                                        @error('longitude')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label for="longitude"
+                                        class="form-label @error('longitude') text-danger @enderror">Longitude </label>
+                                    <input type="text" class="form-control" id="longitude" placeholder=""
+                                        name="longitude" value="{{ old('longitude') }}">
                                 </div>
                             </div>
                         </div>
@@ -164,14 +138,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-grup">
-                            <label for="deskripsi" class="form-label">Gambar (Maximal 4 Gambar)</label>
+                            <label for="deskripsi">Gambar (Maximal
+                                4 Gambar) </label>
                             <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
-                            <div class="invalid-feedback">
-                                <i class="bx bx-radio-circle"></i>
-                                @error('gambar')
-                                    {{ $message }}
-                                @enderror
-                            </div>
                         </div>
                     </div>
                 </div>

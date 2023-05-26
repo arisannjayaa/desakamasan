@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Berita;
 
 use App\Models\Berita;
-use Illuminate\Http\Request;
 use App\Models\TemporaryFile;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreBeritaRequest;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -107,25 +107,8 @@ class BeritaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreBeritaRequest $request)
     {
-        // Melakukan validasi form dengan kustom pesan
-        $request->validate([
-            'judul' => 'required|unique:berita,judul',
-            'slug' => 'required|unique:berita,slug',
-            'deskripsi' => 'required',
-        ],[
-            'judul' => [
-                'required' => 'Judul harus diisi',
-                'unique' => 'Judul berita sudah ada!!'
-            ],
-            'slug' => [
-                'required' => 'Slug harus diisi',
-                'unique' => 'Slug berita sudah ada!!'
-            ],
-            'deskripsi.required' => 'Deskripsi harus diisi!!'
-        ]);
-
         // Mengambil temporary file dari session
         $temporary = $this->temporaryFile->getFileFolder();
 
@@ -173,7 +156,7 @@ class BeritaController extends Controller
     {
         // Mendefinikasi data yang perlu dikirimkan ke view
         $data = [
-            'menu' => 'Berita Baru',
+            'menu' => 'Berita Edit',
             'links' => [
                 'url' => route('berita.index'),
                 'button' => 'Batal',
@@ -187,24 +170,8 @@ class BeritaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(StoreBeritaRequest $request, string $id)
     {
-        $request->validate([
-            'judul' => 'required',
-            'slug' => 'required',
-            'deskripsi' => 'required',
-        ],[
-            'judul' => [
-                'required' => 'Judul harus diisi',
-                'unique' => 'Judul berita sudah ada!!'
-            ],
-            'slug' => [
-                'required' => 'Slug harus diisi',
-                'unique' => 'Slug berita sudah ada!!'
-            ],
-            'deskripsi.required' => 'Deskripsi harus diisi'
-        ]);
-
         // Mencari berita berdasarkan id
         $berita = Berita::find($id);
         // Mengambil temporary file dari session

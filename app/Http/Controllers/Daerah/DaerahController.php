@@ -6,6 +6,8 @@ use App\Models\Daerah;
 use Illuminate\Http\Request;
 use App\Models\TemporaryFile;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreDaerahRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -37,7 +39,7 @@ class DaerahController extends Controller
                     </button>
                     <ul class="dropdown-menu border border-1">
                         <li><span
-                                onclick="window.location.href=\''.route('berita.edit', $row->id) .'\'"
+                                onclick="window.location.href=\''.route('daerah.edit', $row->id) .'\'"
                                 role="button"class="dropdown-item">Edit</span></li>
                         <li><span onclick="window.location.href="
                                 role="button"class="dropdown-item">Lihat</span></li>
@@ -86,9 +88,8 @@ class DaerahController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreDaerahRequest $request)
     {
-        // dd($request);
         $temporaryFolder = Session::get('image_folder');
         $temporaryFileName = Session::get('image_filename');
 
@@ -149,7 +150,27 @@ class DaerahController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $daerah = Daerah::findOrFail($id);
+        // Mendapatkan nilai JSON dari kolom yang diinginkan
+        $jsonDataGambar = $daerah->gambar;
+        $jsonDataFasilitas = $daerah->fasilitas;
+        // Mengubah data JSON menjadi bentuk aslinya
+        $dataGambar = json_decode($jsonDataGambar, true);
+        $dataFasilitas = json_decode($jsonDataFasilitas, true);
+        // Menyimpan data yang diubah dalam variabel $daerah
+        $daerah->gambar = $dataGambar;
+        $daerah->fasilitas = $dataFasilitas;
+        // dd($daerah->gambar[3]);
+        $data = [
+            'menu' => 'Daerah Edit',
+            'links' => [
+                'url' => route('daerah.index'),
+                'button' => 'Batal',
+                'class' => 'btn-danger'
+            ],
+            'daerah' => $daerah
+        ];
+        return view('daerah.edit', $data);
     }
 
     /**

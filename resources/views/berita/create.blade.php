@@ -4,6 +4,15 @@
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
 @endpush
 @section('content')
+    @if ($errors->any())
+        <div class="alert alert-light-danger color-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li><i class="bi bi-exclamation-circle"></i> {{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form action="{{ route('berita.store') }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-9 col-12">
@@ -13,37 +22,24 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="judul">Judul</label>
-                                    <input type="text" class="form-control @error('judul') is-invalid  @enderror"
-                                        id="judul" placeholder="" name="judul" value="{{ old('judul') }}">
-                                    <div class="invalid-feedback">
-                                        @error('judul')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label for="judul"
+                                        class="form-label @error('judul') text-danger @enderror">Judul</label>
+                                    <input type="text" class="form-control" id="judul" placeholder="" name="judul"
+                                        value="{{ old('judul') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
-                                <div class="form-group">
-                                    <label for="judul">Slug</label>
-                                    <input type="text" class="form-control @error('slug') is-invalid  @enderror"
-                                        id="slug" placeholder="" name="slug" readonly value="{{ old('slug') }}">
-                                    <div class="invalid-feedback">
-                                        @error('slug')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                <div class="form-group" class="form-label @error('slug') text-danger @enderror">
+                                    <label for="slug">Slug</label>
+                                    <input type="text" class="form-control" id="slug" placeholder="" name="slug"
+                                        readonly value="{{ old('slug') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="deskripsi" class="form-label">Deskripsi</label>
-                                    <textarea class="form-control @error('deskripsi') is-invalid  @enderror" id="editor" name="deskripsi">{{ old('deskripsi') }}</textarea>
-                                    <div class="invalid-feedback">
-                                        @error('deskripsi')
-                                            {{ $message }}
-                                        @enderror
-                                    </div>
+                                    <label for="deskripsi"
+                                        class="form-label @error('deskripsi') text-danger @enderror">Deskripsi</label>
+                                    <textarea class="form-control" id="editor" name="deskripsi">{{ old('deskripsi') }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -54,29 +50,22 @@
                         <div class="form-grup">
                             <label for="deskripsi" class="form-label">Gambar</label>
                             <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
-                            <div class="invalid-feedback">
-                                <i class="bx bx-radio-circle"></i>
-                                @error('gambar')
-                                    {{ $message }}
-                                @enderror
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Unggah berita</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-grid">
+                                <button type="submit" class="btn btn-primary">Unggah</button>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Unggah berita</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-grid">
-                            <button type="submit" class="btn btn-primary">Unggah</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
     </form>
 @endsection
 @push('js')
@@ -92,7 +81,7 @@
             });
 
 
-            function deleteImage(namaFile) {
+            function deleteTemporary(namaFile) {
                 $.ajax({
                     url: "{{ route('image.delete') }}",
                     headers: {
@@ -100,7 +89,7 @@
                     },
                     type: "DELETE",
                     data: {
-                        image: namaFile
+                        file_temporary: namaFile
                     },
                     success: function(response) {
                         console.log(response)
@@ -119,7 +108,7 @@
                 server: {
                     process: '{{ route('image.upload') }}',
                     revert: (uniqueFileId, load, error) => {
-                        deleteImage(uniqueFileId);
+                        deleteTemporary(uniqueFileId);
                         error('Error terjadi saat menghapus file');
                         load();
                     },
