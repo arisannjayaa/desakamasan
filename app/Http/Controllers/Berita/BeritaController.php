@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Berita;
 use App\Models\Berita;
 use App\Models\TemporaryFile;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreBeritaRequest;
+use App\Http\Requests\BeritaRequest;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -107,7 +107,7 @@ class BeritaController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreBeritaRequest $request)
+    public function store(BeritaRequest $request)
     {
         // Mengambil temporary file dari session
         $temporary = $this->temporaryFile->getFileFolder();
@@ -138,7 +138,10 @@ class BeritaController extends Controller
         ]);
 
         // Mengarahkan url ke rute berita dengan method index dan mengirimkan session
-        return redirect()->route('berita.index')->with('success', 'Berhasil menambahkan data berita');
+        // return redirect()->route('berita.index')->with('success', 'Berhasil menambahkan data berita');
+        return response()->json([
+            'status' => 200
+        ]);
     }
 
     /**
@@ -170,18 +173,20 @@ class BeritaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(StoreBeritaRequest $request, string $id)
+    public function update(BeritaRequest $request, string $id)
     {
         // Mencari berita berdasarkan id
         $berita = Berita::find($id);
+
         // Mengambil temporary file dari session
         $temporary = $this->temporaryFile->getFileFolder();
+
         // Mengecek session apakah null atau tidak
         $path = ($temporary->folder == null) ? '' : storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
 
         // Mengecek session apakah memiliki data
         if(Session::has('image_folder')) {
-            if(File::exists($path)){
+            if(File::exists($path)) {
                 Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/berita' . '/' . $temporary->file);
 
                 File::delete($path);

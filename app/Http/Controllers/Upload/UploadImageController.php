@@ -35,10 +35,10 @@ class UploadImageController extends Controller
     {
         $isOld = $request->input('old_file');
         $isTemporary = $request->input('file_temporary');
-
+        // dd($isOld);
         if ($isTemporary) {
-            $db = TemporaryFile::where('file', $request->fileTemporary)->first();
-            // dd($request);
+            $db = TemporaryFile::where('file', $isTemporary)->first();
+            // dd($db);
             if($db) {
                 // $temporaryFolder = Session::get('foto_folder');
                 // $fileName = Session::get('foto_filename');

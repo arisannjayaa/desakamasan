@@ -2,7 +2,6 @@
 @section('title', 'Berita')
 @section('content')
     <div id="successAlert" class="alert alert-success alert-dismissible show fade d-none">
-        This is a success alert.
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>
     <div class="card">

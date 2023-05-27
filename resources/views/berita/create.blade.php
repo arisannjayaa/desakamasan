@@ -4,16 +4,8 @@
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
 @endpush
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-light-danger color-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li><i class="bi bi-exclamation-circle"></i> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    <form action="{{ route('berita.store') }}" method="post" enctype="multipart/form-data">
+    <div id="errorContainer"></div>
+    <form id="myForm" action="{{ route('berita.store') }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-9 col-12">
                 <div class="card">
@@ -22,23 +14,21 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="judul"
-                                        class="form-label @error('judul') text-danger @enderror">Judul</label>
+                                    <label for="judul" class="form-label">Judul</label>
                                     <input type="text" class="form-control" id="judul" placeholder="" name="judul"
                                         value="{{ old('judul') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
-                                <div class="form-group" class="form-label @error('slug') text-danger @enderror">
-                                    <label for="slug">Slug</label>
+                                <div class="form-group">
+                                    <label for="slug" class="form-label">Slug</label>
                                     <input type="text" class="form-control" id="slug" placeholder="" name="slug"
                                         readonly value="{{ old('slug') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="deskripsi"
-                                        class="form-label @error('deskripsi') text-danger @enderror">Deskripsi</label>
+                                    <label for="deskripsi" class="form-label">Deskripsi</label>
                                     <textarea class="form-control" id="editor" name="deskripsi">{{ old('deskripsi') }}</textarea>
                                 </div>
                             </div>
@@ -53,19 +43,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-3 col-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <h4>Unggah berita</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Unggah</button>
-                            </div>
+            </div>
+            <div class="col-lg-3 col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Unggah berita</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="mt-2 d-grid gap-2 d-md-block">
+                            <button id="btnSubmit" type="submit" class="btn btn-primary">Simpan</button>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
     </form>
 @endsection
 @push('js')
@@ -80,6 +71,53 @@
                 $('#slug').val(judul);
             });
 
+            $('#myForm').on('submit', function(e) {
+                e.preventDefault();
+                $('#btnSubmit').html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
+                );
+                $('#btnSubmit').attr('disabled', 'disabled');
+                var form = $(this);
+                var url = form.attr('action');
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(),
+                    dataType: 'json',
+                    complete: function() {
+                        $('#btnSubmit').html('Unggah');
+                        $('#btnSubmit').removeAttr('disabled');
+                    },
+                    success: function(response) {
+                        console.log('berhasil');
+                        alert('Data berhasil ditambahkan!');
+                        window.location.href = '{{ route('berita.index') }}';
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.responseJSON.errors;
+                        console.log(errorMessage);
+                        if (xhr.status == 422) {
+                            var errorHtml =
+                                '<div class="alert alert-light-danger color-danger">';
+                            errorHtml += '<ul>';
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                errorHtml +=
+                                    '<li><i class="bi bi-exclamation-circle"></i> ' +
+                                    value + '</li>';
+                            });
+                            errorHtml += '</ul>';
+                            errorHtml += '</div>';
+
+                            $('#errorContainer').html(errorHtml);
+                            $('html, body').animate({
+                                scrollTop: $('body').offset().top
+                            }, 100);
+                        } else {
+                            // Logika saat terjadi error selain status 422
+                        }
+                    },
+                });
+            });
 
             function deleteTemporary(namaFile) {
                 $.ajax({
