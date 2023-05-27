@@ -25,6 +25,10 @@ Route::get('/dashboard', function () {
     return view('layouts.admin');
 });
 
+Route::get('/error-view', function() {
+    return view('errors.error');
+});
+
 // berita
 Route::resource('berita', BeritaController::class);
 Route::post('berita/table', [BeritaController::class, 'datatable'])->name('berita.table');

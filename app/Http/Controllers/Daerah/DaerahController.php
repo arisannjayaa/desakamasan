@@ -6,7 +6,7 @@ use App\Models\Daerah;
 use Illuminate\Http\Request;
 use App\Models\TemporaryFile;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\StoreDaerahRequest;
+use App\Http\Requests\DaerahRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
@@ -88,10 +88,12 @@ class DaerahController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreDaerahRequest $request)
+    public function store(DaerahRequest $request)
     {
         $temporaryFolder = Session::get('image_folder');
         $temporaryFileName = Session::get('image_filename');
+
+        // dd($temporaryFolder);
 
         // Mengambil temporary file dari session
         for ($i=0; $i < count($temporaryFolder); $i++) {
@@ -133,8 +135,10 @@ class DaerahController extends Controller
             'kategori' => $request->input('kategori'),
         ]);
 
-        // Mengarahkan url ke rute berita dengan method index dan mengirimkan session
-        return redirect()->route('daerah.index')->with('success', 'Berhasil menambahkan data daerah');
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil menambah daerah baru'
+        ]);
     }
 
     /**
@@ -176,9 +180,37 @@ class DaerahController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(DaerahRequest $request, string $id)
     {
-        //
+        $temporaryFolder = Session::get('image_folder');
+        $temporaryFileName = Session::get('image_filename');
+        // Mencari berita berdasarkan id
+        $daerah = Daerah::find($id);
+        // dd($request);
+
+        if(Session::has('image_folder')) {
+            for ($i=0; $i < count($temporaryFolder); $i++) {
+                $temporary = $this->temporaryFile
+                                ->where('folder', $temporaryFolder[$i])
+                                ->where('file', $temporaryFileName[$i])->first();
+                if ($temporary) {
+                    // Mendefinisikan lokasi direktori asal file dan melakukan pemindahan file
+                    $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
+                    if (File::exists($path)) {
+                        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/daerah' . '/' . $temporary->file);
+
+                        // Menghapus file dari lokasi direktori
+                        File::delete($path);
+                        try {
+                            rmdir(storage_path('app/files/tmp/') . $temporary->folder);
+                            $temporary->delete();
+                        } catch (\Throwable $th) {
+                            //throw $th;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     /**

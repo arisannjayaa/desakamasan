@@ -23,16 +23,8 @@
     </style>
 @endpush
 @section('content')
-    @if ($errors->any())
-        <div class="alert alert-light-danger color-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li><i class="bi bi-exclamation-circle"></i> {{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-    <form action="{{ route('daerah.store') }}" method="post" enctype="multipart/form-data">
+    <div id="errorContainer"></div>
+    <form id="myForm" action="{{ route('daerah.store') }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-12 col-12">
                 <div class="card">
@@ -41,40 +33,35 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="nama"
-                                        class="form-label @error('nama') text-danger @enderror">Nama</label>
+                                    <label for="nama" class="form-label">Nama</label>
                                     <input type="text" class="form-control" id="nama" placeholder="" name="nama"
                                         value="{{ old('nama') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="slug"
-                                        class="form-label @error('slug') text-danger @enderror">Slug</label>
+                                    <label for="slug" class="form-label">Slug</label>
                                     <input type="text" class="form-control" id="slug" placeholder="" name="slug"
                                         readonly value="{{ old('slug') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="alamat"
-                                        class="form-label @error('alamat') text-danger @enderror">Alamat</label>
+                                    <label for="alamat" class="form-label">Alamat</label>
                                     <input type="text" class="form-control" id="alamat" placeholder="" name="alamat"
                                         value="{{ old('alamat') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label
-                                        for="telepon"class="form-label @error('telepon') text-danger @enderror">Telepon</label>
+                                    <label for="telepon"class="form-label">Telepon</label>
                                     <input type="text" class="form-control" id="telepon" placeholder="" name="telepon"
                                         value="{{ old('telepon') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="fasilitas"
-                                        class="form-label @error('fasilitas') text-danger @enderror">Fasilitas
+                                    <label for="fasilitas" class="form-label">Fasilitas
                                     </label>
                                     <select class="choices form-select multiple-remove" multiple="multiple"
                                         name="fasilitas[]">
@@ -92,8 +79,7 @@
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="kategori"
-                                        class="form-label @error('kategori') text-danger @enderror">Kategori </label>
+                                    <label for="kategori" class="form-label">Kategori </label>
                                     <select class="choices form-select" name="kategori">
                                         <option value="Wisata Alam">Wisata Alam</option>
                                         <option value="Wisata Budaya">Wisata Budaya</option>
@@ -103,8 +89,7 @@
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="deskripsi"
-                                        class="form-label @error('deskripsi') text-danger @enderror">Deskripsi </label>
+                                    <label for="deskripsi" class="form-label">Deskripsi </label>
                                     <textarea id="editor" name="deskripsi">{{ old('deskripsi') }}</textarea>
                                 </div>
                             </div>
@@ -118,16 +103,14 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="latitude"
-                                        class="form-label @error('latitude') text-danger @enderror">Latitude</label>
+                                    <label for="latitude" class="form-label">Latitude</label>
                                     <input type="text" class="form-control" id="latitude" placeholder="" name="latitude"
                                         value="{{ old('latitude') }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="longitude"
-                                        class="form-label @error('longitude') text-danger @enderror">Longitude </label>
+                                    <label for="longitude" class="form-label">Longitude </label>
                                     <input type="text" class="form-control" id="longitude" placeholder=""
                                         name="longitude" value="{{ old('longitude') }}">
                                 </div>
@@ -146,8 +129,8 @@
                 </div>
             </div>
         </div>
-        <div class="mt-2">
-            <button type="submit" class="btn btn-primary">Simpan</button>
+        <div class="mt-2 d-grid gap-2 d-md-block">
+            <button id="btnSubmit" type="submit" class="btn btn-primary">Simpan</button>
         </div>
     </form>
 @endsection
@@ -163,6 +146,53 @@
                 $('#slug').val(nama);
             });
 
+            $('#myForm').on('submit', function(e) {
+                e.preventDefault();
+                $('#btnSubmit').html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
+                );
+                $('#btnSubmit').attr('disabled', 'disabled');
+                var form = $(this);
+                var url = form.attr('action');
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(),
+                    dataType: 'json',
+                    complete: function() {
+                        $('#btnSubmit').html('Unggah');
+                        $('#btnSubmit').removeAttr('disabled');
+                    },
+                    success: function(response) {
+                        console.log('berhasil');
+                        alert('Data berhasil ditambahkan!');
+                        window.location.href = '{{ route('daerah.index') }}';
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.responseJSON.errors;
+                        console.log(errorMessage);
+                        if (xhr.status == 422) {
+                            var errorHtml =
+                                '<div class="alert alert-light-danger color-danger">';
+                            errorHtml += '<ul>';
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                errorHtml +=
+                                    '<li><i class="bi bi-exclamation-circle"></i> ' +
+                                    value + '</li>';
+                            });
+                            errorHtml += '</ul>';
+                            errorHtml += '</div>';
+
+                            $('#errorContainer').html(errorHtml);
+                            $('html, body').animate({
+                                scrollTop: $('body').offset().top
+                            }, 100);
+                        } else {
+                            // Logika saat terjadi error selain status 422
+                        }
+                    },
+                });
+            });
             // you want to get it of the window global
             const providerOSM = new GeoSearch.OpenStreetMapProvider();
 
@@ -197,8 +227,6 @@
                 theMarker = L.marker([latitude, longitude]).addTo(leafletMap);
             });
 
-
-
             const search = new GeoSearch.GeoSearchControl({
                 provider: providerOSM,
                 style: 'bar',
@@ -208,7 +236,7 @@
             leafletMap.addControl(search);
         });
 
-        function deleteImage(namaFile) {
+        function deleteTemporary(namaFile) {
             $.ajax({
                 url: "{{ route('image.delete') }}",
                 headers: {
@@ -216,7 +244,7 @@
                 },
                 type: "DELETE",
                 data: {
-                    image: namaFile
+                    file_temporary: namaFile
                 },
                 success: function(response) {
                     console.log(response)
@@ -225,7 +253,7 @@
                     console.log('error')
                 }
             });
-        }
+        };
 
         FilePond.create(document.querySelector("#image_upload"), {
             credits: null,
@@ -237,7 +265,7 @@
             server: {
                 process: '{{ route('image.upload') }}',
                 revert: (uniqueFileId, load, error) => {
-                    deleteImage(uniqueFileId);
+                    deleteTemporary(uniqueFileId);
                     error('Error terjadi saat menghapus file');
                     load();
                 },
