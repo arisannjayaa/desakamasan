@@ -26,7 +26,10 @@ class DaerahController extends Controller
     }
     public function index()
     {
-        (Session::has('image_folder')) ? Session::remove('image_folder') : Session::remove('image_filename');
+        if(Session::has('image_folder')) {
+            Session::remove('image_folder');
+            Session::remove('image_filename');
+        }
 
         if (request()->ajax()) {
             $daerah = Daerah::select('id', 'nama', 'alamat', 'kategori')->orderBy('updated_at', 'desc');
@@ -45,7 +48,7 @@ class DaerahController extends Controller
                                 role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>
-                <form class="d-inline" action="'.route('berita.destroy', $row->id) .'"
+                <form id="formDelete" class="d-inline" action="'.route('daerah.destroy', $row->id) .'"
                     method="post">
                     '.method_field('DELETE').'
                     '.csrf_field().'
@@ -186,8 +189,8 @@ class DaerahController extends Controller
         $temporaryFileName = Session::get('image_filename');
         // Mencari berita berdasarkan id
         $daerah = Daerah::find($id);
-        // dd($request);
-
+        $daerahGambarOld = json_decode($daerah->gambar);
+        // dd($daerahGambarOld);
         if(Session::has('image_folder')) {
             for ($i=0; $i < count($temporaryFolder); $i++) {
                 $temporary = $this->temporaryFile
@@ -211,6 +214,43 @@ class DaerahController extends Controller
                 }
             }
         }
+
+        $pathOld = storage_path() . '/app/public/daerah';
+        $keysToRemove = [];
+        foreach ($daerahGambarOld as $key => $row) {
+            if (!File::exists($pathOld . '/' . $row)) {
+                $keysToRemove[] = $key;
+            }
+        }
+
+        foreach ($keysToRemove as $key) {
+            unset($daerahGambarOld[$key]);
+        }
+
+        $daerahGambarOld = array_values($daerahGambarOld);
+
+        if ($temporaryFileName == null) {
+            $daerahGambarNew = json_encode($daerahGambarOld);
+        } else {
+            $daerahGambarNew = json_encode(array_merge($daerahGambarOld, $temporaryFileName));
+        }
+
+        $daerah->nama = $request->input('nama');
+        $daerah->slug = $request->input('slug');
+        $daerah->deskripsi = $request->input('deskripsi');
+        $daerah->alamat = $request->input('alamat');
+        $daerah->telepon = $request->input('telepon');
+        $daerah->fasilitas = $request->input('fasilitas');
+        $daerah->longitude = $request->input('longitude');
+        $daerah->latitude = $request->input('latitude');
+        $daerah->kategori = $request->input('kategori');
+        $daerah->gambar = $daerahGambarNew;
+        $daerah->save();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil memperbaharui daerah'
+        ]);
     }
 
     /**
@@ -218,6 +258,24 @@ class DaerahController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Mencari data berdasarkam id
+        $daerah = Daerah::find($id);
+
+        // Mendefinisika path penyimpanan gambar dserta
+        // melakukan pengecekan untuk penghapusan gambar
+        $gambar = json_decode($daerah->gambar);
+        // dd($gambar);
+        $path = storage_path() . '/app/public/daerah';
+        for($i=0; $i < count($gambar); $i++) {
+            if(File::exists($path . '/'. $gambar[$i])) {
+                File::delete($path . '/'. $gambar[$i]);
+            }
+        }
+        $daerah->delete();
+        // Mengirim response dalam bentok json
+        return response()->json([
+            'status' => 200,
+            'message' => 'Data daerah berhasil dihapus!'
+        ]);
     }
 }

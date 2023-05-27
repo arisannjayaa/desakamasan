@@ -34,40 +34,35 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="nama"
-                                        class="form-label @error('nama') text-danger @enderror">Nama</label>
+                                    <label for="nama" class="form-label">Nama</label>
                                     <input type="text" class="form-control @error('nama') is-invalid  @enderror"
                                         id="nama" placeholder="" name="nama" value="{{ $daerah->nama }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="slug"
-                                        class="form-label @error('slug') text-danger @enderror">Slug</label>
+                                    <label for="slug" class="form-label">Slug</label>
                                     <input type="text" class="form-control @error('slug') is-invalid  @enderror"
                                         id="slug" placeholder="" name="slug" readonly value="{{ $daerah->slug }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="alamat"
-                                        class="form-label @error('alamat') text-danger @enderror">Alamat</label>
+                                    <label for="alamat" class="form-label">Alamat</label>
                                     <input type="text" class="form-control @error('alamat') is-invalid  @enderror"
                                         id="alamat" placeholder="" name="alamat" value="{{ $daerah->alamat }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="telepon"
-                                        class="form-label @error('telepon') text-danger @enderror">Telepon</label>
+                                    <label for="telepon" class="form-label">Telepon</label>
                                     <input type="text" class="form-control @error('telepon') is-invalid  @enderror"
                                         id="telepon" placeholder="" name="telepon" value="{{ $daerah->telepon }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="fasilitas"
-                                        class="form-label @error('fasilitas') text-danger @enderror">Fasilitas</label>
+                                    <label for="fasilitas" class="form-label">Fasilitas</label>
                                     <select class="choices form-select multiple-remove" multiple="multiple"
                                         name="fasilitas[]">
                                         <option value="Penginapan"
@@ -102,8 +97,7 @@
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="kategori"
-                                        class="form-label @error('kategori') text-danger @enderror">Kategori</label>
+                                    <label for="kategori" class="form-label">Kategori</label>
                                     <select class="choices form-select  @error('kategori') is-invalid  @enderror"
                                         name="kategori">
                                         <option value="Wisata Alam">Wisata Alam</option>
@@ -114,8 +108,7 @@
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="deskripsi"
-                                        class="form-label @error('deskripsi') text-danger @enderror">Deskripsi</label>
+                                    <label for="deskripsi" class="form-label">Deskripsi</label>
                                     <textarea id="editor" name="deskripsi">{{ $daerah->deskripsi }}</textarea>
                                 </div>
                             </div>
@@ -129,16 +122,14 @@
                         <div class="row">
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="latitude"
-                                        class="form-label @error('latitude') text-danger @enderror">Latitude</label>
+                                    <label for="latitude" class="form-label">Latitude</label>
                                     <input type="text" class="form-control @error('latitude') is-invalid  @enderror"
                                         id="latitude" placeholder="" name="latitude" value="{{ $daerah->latitude }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="longitude"
-                                        class="form-label @error('longitude') text-danger @enderror">Longitude</label>
+                                    <label for="longitude" class="form-label">Longitude</label>
                                     <input type="text" class="form-control @error('longitude') is-invalid  @enderror"
                                         id="longitude" placeholder="" name="longitude"
                                         value="{{ $daerah->longitude }}">
@@ -150,7 +141,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="form-grup">
-                            <label for="deskripsi" class="form-label @error('gambar') text-danger @enderror">Gambar
+                            <label for="deskripsi" class="form-label">Gambar
                                 (Maximal 4 Gambar)</label>
                             <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
                         </div>
@@ -159,7 +150,7 @@
             </div>
         </div>
         <div class="mt-2 d-grid gap-2 d-md-block">
-            <button id="btnSubmit" type="submit" class="btn btn-primary">Simpan</button>
+            <button id="btnSubmit" type="submit" class="btn btn-primary">Perbaharui</button>
         </div>
     </form>
 @endsection
@@ -189,12 +180,12 @@
                     data: form.serialize(),
                     dataType: 'json',
                     complete: function() {
-                        $('#btnSubmit').html('Unggah');
+                        $('#btnSubmit').html('Perbaharui');
                         $('#btnSubmit').removeAttr('disabled');
                     },
                     success: function(response) {
-                        console.log('berhasil');
-                        alert('Data berhasil diperbaharui!');
+                        console.log(response);
+                        alert(response.message);
                         window.location.href = '{{ route('daerah.index') }}';
                     },
                     error: function(xhr, status, error) {
