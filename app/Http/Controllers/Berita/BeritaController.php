@@ -26,7 +26,10 @@ class BeritaController extends Controller
     public function index()
     {
         // Mengecek session gambar
-        (Session::has('image_folder')) ? Session::remove('image_folder') : Session::remove('image_filename');
+        if(Session::has('image_folder')) {
+            Session::remove('image_folder');
+            Session::remove('image_filename');
+        }
 
         // Mengecek request dari datatables
         if (request()->ajax()) {
@@ -125,10 +128,6 @@ class BeritaController extends Controller
             //throw $th;
         }
 
-        // Menghapus session penyimpanan gambar temporary
-        Session::remove('image_folder');
-        Session::remove('image_filename');
-
         // Menyimpan data berita ke tabel berita
         Berita::create([
             'judul' => $request->input('judul'),
@@ -193,17 +192,13 @@ class BeritaController extends Controller
                 rmdir(storage_path('app/files/tmp/') . $temporary->folder);
                 $temporary->delete();
             }
-            $pathOld = storage_path() . '/app/public/berita/' . $berita->gambar;
-                if(File::exists($pathOld)) {
-                    File::delete($pathOld);
-                }
         }
 
         // Menyimpan data berita
         $berita->judul = $request->input('judul');
         $berita->slug = $request->input('slug');
         $berita->deskripsi = $request->input('deskripsi');
-        $berita->gambar = ($temporary->file == null) ? $berita->gambar : $temporary->file ;
+        $berita->gambar = ($temporary->file == null) ? '-' : $temporary->file ;
         $berita->save();
 
         // Mengarahkan kembali ke berita serta mengirimkan session
