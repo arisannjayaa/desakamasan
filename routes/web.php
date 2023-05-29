@@ -21,15 +21,7 @@ use App\Http\Controllers\Upload\UploadImageController;
 
 // Beranda
 Route::get('/', [BerandaController::class, 'index']);
-
-// berita
-Route::resource('berita', BeritaController::class);
-Route::post('berita/table', [BeritaController::class, 'datatable'])->name('berita.table');
-// Profil
-Route::resource('profil', ProfilController::class);
-
-// Daerah
-Route::resource('daerah', DaerahController::class);
+Route::get('/berita', [BerandaController::class, 'berita']);
 
 // Filepond
 Route::controller(UploadVideoController::class)->group(function () {
@@ -40,4 +32,16 @@ Route::controller(UploadVideoController::class)->group(function () {
 Route::controller(UploadImageController::class)->group(function () {
     Route::post('image/upload', 'store')->name('image.upload');
     Route::delete('image/delete', 'destroy')->name('image.delete');
+});
+
+Route::prefix('user')->group(function () {
+    // berita
+    Route::resource('berita', BeritaController::class);
+    Route::post('berita/table', [BeritaController::class, 'datatable'])->name('berita.table');
+
+    // Daerah
+    Route::resource('daerah', DaerahController::class);
+
+    // Profil
+    Route::resource('profil', ProfilController::class);
 });
