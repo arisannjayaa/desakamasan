@@ -50,8 +50,8 @@
                         <h4>Unggah berita</h4>
                     </div>
                     <div class="card-body">
-                        <div class="mt-2 d-grid gap-2 d-md-block">
-                            <button id="btnSubmit" type="submit" class="btn btn-primary">Simpan</button>
+                        <div class="mt-2 mt-lg-0 gap-2 d-grid">
+                            <button id="btnSubmit" type="submit" class="btn btn-primary">Unggah</button>
                         </div>
                     </div>
                 </div>
@@ -92,7 +92,7 @@
                     success: function(response) {
                         Swal.fire({
                             title: 'Berhasil!',
-                            text: 'Berhasil menambahkan data berita',
+                            text: response.message,
                             icon: 'success',
                             confirmButtonText: 'Okey',
                         }).then((result) => {

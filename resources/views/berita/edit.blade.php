@@ -53,8 +53,8 @@
                         <h4>Unggah berita</h4>
                     </div>
                     <div class="card-body">
-                        <div class="mt-2 d-grid gap-2 d-md-block">
-                            <button id="btnSubmit" type="submit" class="btn btn-primary">Simpan</button>
+                        <div class="mt-2 mt-lg-0 d-grid gap-2">
+                            <button id="btnSubmit" type="submit" class="btn btn-primary">Perbaharui</button>
                         </div>
                     </div>
                 </div>
@@ -93,9 +93,21 @@
                     $('#btnSubmit').removeAttr('disabled');
                 },
                 success: function(response) {
-                    console.log('berhasil');
-                    alert('Data berhasil ditambahkan!');
-                    window.location.href = '{{ route('berita.index') }}';
+                    Swal.fire({
+                        title: 'Berhasil!',
+                        text: response.message,
+                        icon: 'success',
+                        confirmButtonText: 'Okey',
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Pengguna mengklik tombol "Cool"
+                            window.location.href =
+                                '{{ route('berita.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                        } else {
+                            // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
+                            // Lakukan tindakan lain jika diperlukan
+                        }
+                    });
                 },
                 error: function(xhr, status, error) {
                     var errorMessage = xhr.responseJSON.errors;

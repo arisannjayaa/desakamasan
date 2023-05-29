@@ -22,7 +22,8 @@ class BeritaRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->segment(2);
+        $id = $this->segment(3);
+        // dd($id);
         return [
             'judul' => [
                 'required',
