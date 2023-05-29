@@ -12,7 +12,6 @@
         type="image/png">
 
     <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/app.css">
-    <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/app-dark.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
@@ -39,19 +38,24 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Beranda</a>
+                                <a class="nav-link {{ request()->segment(1) == '' ? 'active' : '' }}"
+                                    href="{{ route('beranda.index') }}">Beranda</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Berita</a>
+                                <a class="nav-link {{ request()->segment(1) == 'berita' ? 'active' : '' }}"
+                                    href="{{ route('beranda.berita') }}">Berita</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Peta Sebaran</a>
+                                <a class="nav-link {{ request()->segment(1) == 'peta-sebaran' ? 'active' : '' }}"
+                                    href="#">Peta Sebaran</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Produk</a>
+                                <a class="nav-link {{ request()->segment(1) == 'produk' ? 'active' : '' }}"
+                                    href="#">Produk</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Daerah Wisata</a>
+                                <a class="nav-link {{ request()->segment(1) == 'daerah-wisata' ? 'active' : '' }}"
+                                    href="#">Daerah Wisata</a>
                             </li>
                         </ul>
                         <div>
@@ -73,14 +77,10 @@
             </div>
         </div>
     </div>
-    <script src="{{ asset('') }}assets/static/js/components/dark.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/horizontal-layout.js"></script>
     <script src="{{ asset('') }}assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
 
     <script src="{{ asset('') }}assets/compiled/js/app.js"></script>
-
-
-    <script src="{{ asset('') }}assets/extensions/apexcharts/apexcharts.min.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/dashboard.js"></script>
 
 </body>

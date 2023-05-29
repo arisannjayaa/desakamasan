@@ -46,31 +46,31 @@
         <div class="sidebar-menu">
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
-                <li class="sidebar-item {{ request()->segment(1) == 'dashboard' ? 'active' : '' }} ">
+                <li class="sidebar-item {{ request()->segment(2) == 'dashboard' ? 'active' : '' }} ">
                     <a href="index.html" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item {{ request()->segment(1) == 'berita' ? 'active' : '' }} ">
+                <li class="sidebar-item {{ request()->segment(2) == 'berita' ? 'active' : '' }} ">
                     <a href="{{ route('berita.index') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Berita</span>
                     </a>
                 </li>
-                <li class="sidebar-item {{ request()->segment(1) == 'produk' ? 'active' : '' }} ">
+                <li class="sidebar-item {{ request()->segment(2) == 'produk' ? 'active' : '' }} ">
                     <a href="index.html" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Produk</span>
                     </a>
                 </li>
-                <li class="sidebar-item {{ request()->segment(1) == 'daerah' ? 'active' : '' }} ">
+                <li class="sidebar-item {{ request()->segment(2) == 'daerah' ? 'active' : '' }} ">
                     <a href="{{ route('daerah.index') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Daerah</span>
                     </a>
                 </li>
-                <li class="sidebar-item {{ request()->segment(1) == 'profil' ? 'active' : '' }} ">
+                <li class="sidebar-item {{ request()->segment(2) == 'profil' ? 'active' : '' }} ">
                     <a href="{{ route('profil.index') }}" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Profil</span>

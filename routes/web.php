@@ -20,8 +20,10 @@ use App\Http\Controllers\Upload\UploadImageController;
 */
 
 // Beranda
-Route::get('/', [BerandaController::class, 'index']);
-Route::get('/berita', [BerandaController::class, 'berita']);
+Route::get('/', [BerandaController::class, 'index'])->name('beranda.index');
+Route::get('/berita', [BerandaController::class, 'berita'])->name('beranda.berita');
+Route::get('/berita/{slug}', [BerandaController::class, 'details_berita'])->name('beranda.berita.details');
+
 
 // Filepond
 Route::controller(UploadVideoController::class)->group(function () {

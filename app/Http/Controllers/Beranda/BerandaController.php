@@ -17,9 +17,18 @@ class BerandaController extends Controller
     public function berita()
     {
         $data = [
-            'berita_all' => DB::table('berita')->paginate(12),
+            'menu' => 'Berita',
+            'berita_simple' => Berita::orderBy('created_at', 'desc')->simplePaginate(12),
+            'berita_all' => Berita::orderBy('created_at', 'desc')->paginate(12),
             'berita_last' => Berita::latest()->first()
         ];
         return view('beranda.berita', $data);
+    }
+
+    public function details_berita(String $slug)
+    {
+        $berita = Berita::where('slug', $slug)->first();
+        // dd($berita);
+        return view('beranda.berita-details', compact('berita'));
     }
 }

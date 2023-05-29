@@ -13,7 +13,7 @@ class BeritaSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 0; $i < 25; $i++) {
+        for ($i = 0; $i < 250; $i++) {
             Berita::create([
                 'judul' => 'judul-'. $i,
                 'slug' => 'slug-'. $i,
