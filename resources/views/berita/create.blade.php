@@ -79,6 +79,7 @@
                 $('#btnSubmit').attr('disabled', 'disabled');
                 var form = $(this);
                 var url = form.attr('action');
+
                 $.ajax({
                     type: "POST",
                     url: url,
@@ -89,13 +90,26 @@
                         $('#btnSubmit').removeAttr('disabled');
                     },
                     success: function(response) {
-                        console.log('berhasil');
-                        alert('Data berhasil ditambahkan!');
-                        window.location.href = '{{ route('berita.index') }}';
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: 'Berhasil menambahkan data berita',
+                            icon: 'success',
+                            confirmButtonText: 'Okey',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Pengguna mengklik tombol "Cool"
+                                window.location.href =
+                                    '{{ route('berita.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                            } else {
+                                // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
+                                // Lakukan tindakan lain jika diperlukan
+                            }
+                        });
                     },
                     error: function(xhr, status, error) {
                         var errorMessage = xhr.responseJSON.errors;
-                        console.log(errorMessage);
+                        // console.log(errorMessage);
+
                         if (xhr.status == 422) {
                             var errorHtml =
                                 '<div class="alert alert-light-danger color-danger">';
