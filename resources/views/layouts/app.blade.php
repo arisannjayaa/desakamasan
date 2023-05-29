@@ -13,60 +13,59 @@
 
     <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/app.css">
     <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/app-dark.css">
-    <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/iconly.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+    @stack('css')
 </head>
 
-<body>
+<body class="">
     <script src="{{ asset('') }}assets/static/js/initTheme.js"></script>
     <div id="app">
-        <div class="container">
+        <div class="container-lg">
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Navbar</a>
+                    <a class="navbar-brand fw-bold" href="#">Desa Kamasan</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                         data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                <a class="nav-link active" aria-current="page" href="#">Beranda</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="#">Link</a>
-                            </li>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
-                                    Dropdown
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="#">Action</a></li>
-                                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                </ul>
+                                <a class="nav-link" href="#">Berita</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link disabled">Disabled</a>
+                                <a class="nav-link" href="#">Peta Sebaran</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Produk</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">Daerah Wisata</a>
                             </li>
                         </ul>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
-                        </form>
+                        <div>
+                            <button class="btn btn-primary">Login</button>
+                        </div>
                     </div>
                 </div>
             </nav>
 
-            <div class="content-wrapper container">
+            <header>
 
-                <div class="page-heading">
-                    <h3>Horizontal Layout</h3>
-                </div>
+            </header>
+
+            <div class="content-wrapper container">
                 <div class="page-content">
                     {{-- Main --}}
                     @yield('content')
