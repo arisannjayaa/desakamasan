@@ -22,8 +22,8 @@ class DaerahRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->segment(2);
-        // dd($id);
+        $id = $this->segment(3);
+        dd($id);
         return [
             'nama' => [
                 'required',

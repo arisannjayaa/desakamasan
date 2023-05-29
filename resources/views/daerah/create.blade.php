@@ -164,9 +164,21 @@
                         $('#btnSubmit').removeAttr('disabled');
                     },
                     success: function(response) {
-                        console.log('berhasil');
-                        alert('Data berhasil ditambahkan!');
-                        window.location.href = '{{ route('daerah.index') }}';
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'Okey',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Pengguna mengklik tombol "Cool"
+                                window.location.href =
+                                    '{{ route('daerah.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                            } else {
+                                // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
+                                // Lakukan tindakan lain jika diperlukan
+                            }
+                        });
                     },
                     error: function(xhr, status, error) {
                         var errorMessage = xhr.responseJSON.errors;

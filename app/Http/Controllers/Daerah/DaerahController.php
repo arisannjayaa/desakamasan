@@ -48,11 +48,11 @@ class DaerahController extends Controller
                                 role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>
-                <form id="formDelete" class="d-inline" action="'.route('daerah.destroy', $row->id) .'"
+                <form id="myForm" class="d-inline" action="'.route('daerah.destroy', $row->id) .'"
                     method="post">
                     '.method_field('DELETE').'
                     '.csrf_field().'
-                    <button type="submit" class="btn btn-sm btn-danger"
+                    <button onclick="deleteData()" type="button" class="btn btn-sm btn-danger"
                     onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\')"><i
                             class="bi bi-trash-fill"></i></button>
                 </form>';
