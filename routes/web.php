@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Beranda\BerandaController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Berita\BeritaController;
 use App\Http\Controllers\Profil\ProfilController;
@@ -18,16 +19,8 @@ use App\Http\Controllers\Upload\UploadImageController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-Route::get('/dashboard', function () {
-    return view('layouts.admin');
-});
-
-Route::get('/error-view', function() {
-    return view('errors.error');
-});
+// Beranda
+Route::get('/', [BerandaController::class, 'index']);
 
 // berita
 Route::resource('berita', BeritaController::class);

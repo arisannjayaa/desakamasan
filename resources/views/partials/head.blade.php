@@ -18,6 +18,8 @@
         text-align: left;
     }
 </style>
+
+<link rel="stylesheet" href="{{ asset('') }}assets/extensions/sweetalert2/sweetalert2.min.css">
 {{-- library --}}
 <link rel="stylesheet" href="{{ asset('') }}assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/table-datatable-jquery.css">

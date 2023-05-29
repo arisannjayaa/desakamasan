@@ -36,12 +36,21 @@
             var url = form.attr('action');
 
             $.ajax({
-                type: 'POST',
+                type: 'DELETE',
                 url: url,
                 data: form.serialize(),
                 dataType: 'json',
                 success: function(response) {
                     // datatable reload otomatis saat delete data
+                    Swal.fire({
+                        title: 'Error!',
+                        text: 'Do you want to continue?',
+                        icon: 'error',
+                        showCancelButton: true,
+                        confirmButtonText: 'Cool',
+                        cancelButtonText: 'Cancel'
+                    });
+
                     console.log(response);
                     if (response.status == 200) {
                         $('#successAlert').removeClass('d-none');

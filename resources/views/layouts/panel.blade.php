@@ -62,7 +62,9 @@
     </script>
     <script src="{{ asset('') }}assets/extensions/filepond-plugin-file-poster/filepond-plugin-file-poster.js"></script>
     <script src="{{ asset('') }}assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
-    <script src="{{ asset('') }}assets/static/js/pages/form-element-select.js"></script>s
+    <script src="{{ asset('') }}assets/static/js/pages/form-element-select.js"></script>
+    <script src="{{ asset('') }}assets/extensions/sweetalert2/sweetalert2.min.js"></script>>
+    {{-- <script src="{{ asset('') }}assets/static/js/pages/sweetalert2.js"></script>> --}}
     @stack('js')
 </body>
 
