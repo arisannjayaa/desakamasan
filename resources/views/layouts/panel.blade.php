@@ -63,7 +63,48 @@
     <script src="{{ asset('') }}assets/extensions/filepond-plugin-file-poster/filepond-plugin-file-poster.js"></script>
     <script src="{{ asset('') }}assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/form-element-select.js"></script>
-    <script src="{{ asset('') }}assets/extensions/sweetalert2/sweetalert2.min.js"></script>>
+    <script src="{{ asset('') }}assets/extensions/sweetalert2/sweetalert2.min.js"></script>
+    <script>
+        function deleteData() {
+            var form = $('#myForm');
+            var url = form.attr('action');
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Anda tidak akan dapat mengembalikan data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1d4ed8',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        type: 'DELETE',
+                        url: url,
+                        data: form.serialize(),
+                        dataType: 'json',
+                        success: function(response) {
+                            console.log(response);
+                            // datatable reload otomatis saat delete data
+                            if (response.status == 200) {
+                                Swal.fire(
+                                    'Dihapus!',
+                                    'Data Anda telah dihapus.',
+                                    'success'
+                                )
+                                $('#tables').DataTable().ajax.reload();
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            // Terjadi error saat menghapus data, lakukan penanganan error
+                        }
+                    });
+
+                }
+            })
+        };
+    </script>
     {{-- <script src="{{ asset('') }}assets/static/js/pages/sweetalert2.js"></script>> --}}
     @stack('js')
 </body>

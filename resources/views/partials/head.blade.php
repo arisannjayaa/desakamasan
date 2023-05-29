@@ -19,7 +19,6 @@
     }
 </style>
 
-<link rel="stylesheet" href="{{ asset('') }}assets/extensions/sweetalert2/sweetalert2.min.css">
 {{-- library --}}
 <link rel="stylesheet" href="{{ asset('') }}assets/extensions/datatables.net-bs5/css/dataTables.bootstrap5.min.css">
 <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/table-datatable-jquery.css">
@@ -45,4 +44,5 @@
     href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" /> --}}
 
 <link rel="stylesheet" href="{{ asset('') }}assets/extensions/choices.js/public/assets/styles/choices.css">
+<link rel="stylesheet" href="{{ asset('') }}assets/extensions/sweetalert2/sweetalert2.min.css">
 @stack('css')
