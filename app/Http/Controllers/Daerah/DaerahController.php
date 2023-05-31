@@ -35,7 +35,7 @@ class DaerahController extends Controller
             $daerah = Daerah::select('id', 'nama', 'alamat', 'kategori')->orderBy('updated_at', 'desc');
             return DataTables::of($daerah)
                 ->addIndexColumn()
-                ->addColumn('opsi', function($row) {
+                ->addColumn('opsi', function ($row) {
                     return '<div class="btn-group">
                     <button type="button" class="btn btn-sm" data-bs-toggle="dropdown"
                         aria-expanded="false"><i class="bi bi-three-dots-vertical"></i>
@@ -56,7 +56,7 @@ class DaerahController extends Controller
                     onclick="return confirm(\'Apakah Anda yakin menghapus data ini?\')"><i
                             class="bi bi-trash-fill"></i></button>
                 </form>';
-                    })
+                })
                 ->rawColumns(['opsi'])
                 ->toJson(true);
         }
@@ -95,8 +95,6 @@ class DaerahController extends Controller
     {
         $temporaryFolder = Session::get('image_folder');
         $temporaryFileName = Session::get('image_filename');
-
-        // dd($temporaryFolder);
 
         // Mengambil temporary file dari session
         for ($i=0; $i < count($temporaryFolder); $i++) {
