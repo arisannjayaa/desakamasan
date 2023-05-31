@@ -26,55 +26,48 @@
 <body class="">
     <script src="{{ asset('') }}assets/static/js/initTheme.js"></script>
     <div id="app">
-        <div class="container-lg">
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand fw-bold" href="#">Desa Kamasan</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                        <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->segment(1) == '' ? 'active' : '' }}"
-                                    href="{{ route('beranda.index') }}">Beranda</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->segment(1) == 'berita' ? 'active' : '' }}"
-                                    href="{{ route('beranda.berita') }}">Berita</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->segment(1) == 'peta-sebaran' ? 'active' : '' }}"
-                                    href="#">Peta Sebaran</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->segment(1) == 'produk' ? 'active' : '' }}"
-                                    href="#">Produk</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link {{ request()->segment(1) == 'daerah-wisata' ? 'active' : '' }}"
-                                    href="#">Daerah Wisata</a>
-                            </li>
-                        </ul>
-                        <div>
-                            <button class="btn btn-primary">Login</button>
-                        </div>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="#">Desa Kamasan</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->segment(1) == '' ? 'active' : '' }}"
+                                href="{{ route('beranda.index') }}">Beranda</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->segment(1) == 'berita' ? 'active' : '' }}"
+                                href="{{ route('beranda.berita') }}">Berita</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->segment(1) == 'peta-sebaran' ? 'active' : '' }}"
+                                href="#">Peta Sebaran</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->segment(1) == 'produk' ? 'active' : '' }}"
+                                href="#">Produk</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ request()->segment(1) == 'daerah-wisata' ? 'active' : '' }}"
+                                href="#">Daerah Wisata</a>
+                        </li>
+                    </ul>
+                    <div>
+                        <button class="btn btn-primary">Login</button>
                     </div>
                 </div>
-            </nav>
-
-            <header>
-
-            </header>
-
-            <div class="content-wrapper container">
-                <div class="page-content">
-                    {{-- Main --}}
-                    @yield('content')
-                </div>
             </div>
+        </nav>
+        <div class="content-wrapper">
+            <section class="page-content container-fluid">
+                {{-- Main --}}
+                @yield('content')
+            </section>
         </div>
     </div>
     <script src="{{ asset('') }}assets/static/js/pages/horizontal-layout.js"></script>
