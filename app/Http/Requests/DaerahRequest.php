@@ -35,7 +35,7 @@ class DaerahRequest extends FormRequest
                 Rule::unique('daerah_wisata', 'slug')->ignore($id),
                 'max:255'
             ],
-            'deskripsi' => 'required|max:1500',
+            'deskripsi' => 'required|max:15000',
             'alamat' => 'required|min:10|max:60',
             'telepon' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8',
             'fasilitas' => 'required',

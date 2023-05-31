@@ -33,7 +33,7 @@ class BeritaRequest extends FormRequest
                 'required',
                 Rule::unique('berita', 'slug')->ignore($id)
             ],
-            'deskripsi' => 'required|min:50|max:500',
+            'deskripsi' => 'required|min:50|max:15000',
         ];
     }
 
