@@ -160,7 +160,7 @@
                     data: form.serialize(),
                     dataType: 'json',
                     complete: function() {
-                        $('#btnSubmit').html('Unggah');
+                        $('#btnSubmit').html('Simpan');
                         $('#btnSubmit').removeAttr('disabled');
                     },
                     success: function(response) {

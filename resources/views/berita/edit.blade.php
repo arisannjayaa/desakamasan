@@ -89,7 +89,7 @@
                 data: form.serialize(),
                 dataType: 'json',
                 complete: function() {
-                    $('#btnSubmit').html('Unggah');
+                    $('#btnSubmit').html('Perbaharui');
                     $('#btnSubmit').removeAttr('disabled');
                 },
                 success: function(response) {
