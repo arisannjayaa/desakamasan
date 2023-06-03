@@ -54,7 +54,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->segment(1) == 'daerah-wisata' ? 'active' : '' }}"
-                                href="#">Daerah Wisata</a>
+                                href="{{ route('beranda.daerah') }}">Daerah Wisata</a>
                         </li>
                     </ul>
                     <div>
