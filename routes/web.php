@@ -23,6 +23,8 @@ use App\Http\Controllers\Upload\UploadImageController;
 Route::get('/', [BerandaController::class, 'index'])->name('beranda.index');
 Route::get('/berita', [BerandaController::class, 'berita'])->name('beranda.berita');
 Route::get('/berita/{slug}', [BerandaController::class, 'details_berita'])->name('beranda.berita.details');
+Route::get('/daerah-wisata', [BerandaController::class, 'daerah'])->name('beranda.daerah');
+Route::get('/daerah-wisata/{slug}', [BerandaController::class, 'details_daerah'])->name('beranda.daerah.details');
 
 
 // Filepond
