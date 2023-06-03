@@ -17,8 +17,7 @@
                     <div>
                         <p><i
                                 class="bi bi-calendar3 me-2"></i>{{ \Carbon\Carbon::parse($berita_last->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($berita_last->created_at)->year ? 'd M' : 'd M Y') }}
-                        </p>
-                        <p><i class="bi bi-pencil-square me-2"></i>Ditulis oleh Administrator</p>
+                        </p><i class="bi"></i>
                     </div>
                 </div>
                 <div class="col-lg-5 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
@@ -46,7 +45,7 @@
                 <div class="col-lg-4 col-md-6 col-12">
                     <article>
                         <a class="links" href="{{ route('beranda.berita.details', $row->slug) }}">
-                            <div class="mb-3 ratio ratio-4x3">
+                            <div class="mb-3 ratio ratio-16x9">
                                 <img style="object-fit: cover; width: 100%; height: 100%;"
                                     class="img-fluid rounded-4 shadow-sm"
                                     src="{{ asset('storage/berita/') . '/' . $row->gambar }}" alt="">
@@ -56,10 +55,9 @@
                             <div class="d-flex align-items-center gap-2 mb-3">
                                 <span>{{ \Carbon\Carbon::parse($row->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($row->created_at)->year ? 'd M' : 'd M Y') }}
                                 </span>
-                                <span>Author</span>
                             </div>
                             <div class="mb-4">
-                                <h3 class="text-truncate">{{ $row->judul }}</h3>
+                                <h3 class="text-truncate fs-5">{{ $row->judul }}</h3>
                                 <p class="text-truncate text-sm">{{ strip_tags($row->deskripsi) }}</p>
                             </div>
                         </div>
