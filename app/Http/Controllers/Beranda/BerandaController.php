@@ -38,6 +38,7 @@ class BerandaController extends Controller
 
     public function daerah()
     {
+        $daerah = Daerah::all();
         $daerahLast = Daerah::latest()->first();
         $daerahLast->gambar = json_decode($daerahLast->gambar);
         $daerahAll = Daerah::orderBy('created_at', 'DESC')

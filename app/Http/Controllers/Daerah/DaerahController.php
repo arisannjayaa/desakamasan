@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Daerah;
 
 use App\Models\Daerah;
+use App\Models\FotoDaerah;
 use Illuminate\Http\Request;
 use App\Models\TemporaryFile;
+use App\Models\KategoriDaerah;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DaerahRequest;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\File;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
@@ -32,7 +34,7 @@ class DaerahController extends Controller
         }
 
         if (request()->ajax()) {
-            $daerah = Daerah::select('id', 'nama', 'alamat', 'kategori')->orderBy('updated_at', 'desc');
+            $daerah = Daerah::select('id', 'nama', 'alamat', 'id_kategori_daerah')->orderBy('updated_at', 'desc');
             return DataTables::of($daerah)
                 ->addIndexColumn()
                 ->addColumn('opsi', function ($row) {
@@ -84,6 +86,7 @@ class DaerahController extends Controller
                 'button' => 'Batal',
                 'class' => 'btn-danger'
             ],
+            'kategori' => KategoriDaerah::all()
         ];
         return view('daerah.create', $data);
     }
@@ -95,7 +98,7 @@ class DaerahController extends Controller
     {
         $temporaryFolder = Session::get('image_folder');
         $temporaryFileName = Session::get('image_filename');
-
+        // dd(count($temporaryFileName));
         // Mengambil temporary file dari session
         for ($i=0; $i < count($temporaryFolder); $i++) {
             $temporary = $this->temporaryFile
@@ -121,20 +124,25 @@ class DaerahController extends Controller
         // Menghapus session penyimpanan gambar temporary
         Session::remove('image_folder');
         Session::remove('image_filename');
-
         // Menyimpan data berita ke tabel berita
-        Daerah::create([
+        // dd($temporaryFileName);
+        $daerah = Daerah::create([
             'nama' => $request->input('nama'),
             'slug' => $request->input('slug'),
             'deskripsi' => $request->input('deskripsi'),
             'alamat' => $request->input('alamat'),
-            'gambar' =>  ($temporary->file) ? json_encode($temporaryFileName) : null,
             'telepon' => $request->input('telepon'),
-            'fasilitas' => json_encode($request->input('fasilitas')),
             'latitude' => $request->input('latitude'),
             'longitude' => $request->input('longitude'),
-            'kategori' => $request->input('kategori'),
+            'id_kategori_daerah' => $request->input('kategori'),
         ]);
+
+        foreach ($temporaryFileName as $row) {
+            FotoDaerah::create([
+                'id_daerah' => $daerah->id,
+                'file' => $row
+            ]);
+        }
 
         return response()->json([
             'status' => 200,

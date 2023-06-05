@@ -61,29 +61,12 @@
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="fasilitas" class="form-label">Fasilitas
-                                    </label>
-                                    <select class="choices form-select multiple-remove" multiple="multiple"
-                                        name="fasilitas[]">
-                                        <option value="Penginapan">Penginapan</option>
-                                        <option value="Areal Parkir">Areal Parkir</option>
-                                        <option value="Kamar Mandi Umum">Kamar Mandi Umum</option>
-                                        <option value="ATMs">ATMs</option>
-                                        <option value="Spot Foto">Spot Foto</option>
-                                        <option value="Balai Pertemuan">Balai Pertemuan</option>
-                                        <option value="Wifi Area">Wifi Area</option>
-                                        <option value="Tempat Makan">Tempat Makan</option>
-                                        <option value="Pusat Informasi">Pusat Informasi</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-12">
-                                <div class="form-group">
                                     <label for="kategori" class="form-label">Kategori </label>
                                     <select class="choices form-select" name="kategori">
-                                        <option value="Wisata Alam">Wisata Alam</option>
-                                        <option value="Wisata Budaya">Wisata Budaya</option>
-                                        <option value="Wisata Buatan">Wisata Buatan</option>
+                                        <option value="">Pilih kategori:</option>
+                                        @foreach ($kategori as $row)
+                                            <option value="{{ $row->id }}">{{ $row->nama }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
