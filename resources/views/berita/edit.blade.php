@@ -30,6 +30,18 @@
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="kategori" class="form-label">Kategori</label>
+                                    <select class="choices form-select" name="kategori">
+                                        <option value="">Pilih kategori:</option>
+                                        @foreach ($kategori as $row)
+                                            <option {{ $berita->id_kategori_berita == $row->id ? 'selected' : '' }}
+                                                value="{{ $row->id }}">{{ $row->nama }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-12">
                                 <div class="form-group" class="form-label @error('deskripsi') text-danger @enderror">
                                     <label for="deskripsi" class="form-label">Deskripsi</label>
                                     <textarea id="editor" name="deskripsi">{{ old('deskripsi', $berita->deskripsi) }}</textarea>
@@ -177,18 +189,18 @@
             credits: null,
             allowImagePreview: true,
             allowFilePoster: true,
-            @if ($berita->gambar)
+            @if ($berita->foto)
                 files: [
-                    @if (Storage::exists('public/berita/' . $berita->gambar))
+                    @if (Storage::exists('public/berita/' . $berita->foto))
                         {
                             // the server file reference
-                            source: "{{ asset('storage/berita') . '/' . $berita->gambar }}",
+                            source: "{{ asset('storage/berita') . '/' . $berita->foto }}",
                             // set type to local to indicate an already uploaded file
                             options: {
                                 type: 'local',
                                 // pass poster property
                                 metadata: {
-                                    poster: "{{ asset('storage/berita') . '/' . $berita->gambar }}",
+                                    poster: "{{ asset('storage/berita') . '/' . $berita->foto }}",
                                 },
                             },
                         },

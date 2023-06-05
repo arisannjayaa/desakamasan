@@ -23,8 +23,18 @@ class Berita extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function profil(): BelongsTo
+    public function kategori(): BelongsTo
     {
-        return $this->belongsTo(Profil::class, 'id_profil_desa', 'id');
+        return $this->belongsTo(KategoriBerita::class, 'id_kategori_berita', 'id');
+    }
+
+    /**
+     * Get the user that owns the Berita
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'id_user', 'id');
     }
 }

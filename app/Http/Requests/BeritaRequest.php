@@ -34,6 +34,7 @@ class BeritaRequest extends FormRequest
                 Rule::unique('berita', 'slug')->ignore($id)
             ],
             'deskripsi' => 'required|min:50|max:15000',
+            'kategori' => 'required'
         ];
     }
 
@@ -52,6 +53,9 @@ class BeritaRequest extends FormRequest
                 'required' => 'Deskripsi tidak boleh kosong!!',
                 'min' => 'Deskirpsi setidaknya memiliki 50 karakter',
                 'max' => 'Deskripsi tidak boleh melebihi dari 500 karakter'
+            ] ,
+            'kategori' => [
+                'required' => 'Kategori tidak boleh kosong!!',
             ] ,
         ];
     }

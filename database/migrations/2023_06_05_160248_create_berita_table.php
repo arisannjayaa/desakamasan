@@ -11,17 +11,17 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('produk_wisata', function (Blueprint $table) {
+        Schema::create('berita', function (Blueprint $table) {
             $table->id('id');
-            $table->unsignedBigInteger('id_profil_desa')->default(1);
-            $table->string('nama', 255);
+            $table->string('judul', 255);
             $table->string('slug', 255);
+            $table->string('foto', 255)->nullable();
             $table->text('deskripsi');
-            $table->string('alamat', 60);
-            $table->text('gambar');
-            $table->string('kategori');
+            $table->unsignedBigInteger('id_user')->default(1);;
+            $table->unsignedBigInteger('id_kategori_berita');
             $table->timestamps();
-            $table->foreign('id_profil_desa')->references('id')->on('profil_desa');
+            $table->foreign('id_user')->references('id')->on('user');
+            $table->foreign('id_kategori_berita')->references('id')->on('kategori_berita');
         });
     }
 
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('produk_wisata');
+        Schema::dropIfExists('berita');
     }
 };

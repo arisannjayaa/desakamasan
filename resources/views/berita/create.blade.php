@@ -2,6 +2,16 @@
 @section('title', 'Tambah Berita')
 @push('css')
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
+    <style>
+        .choices__inner {
+            background: #fff;
+        }
+
+        .choices__list--multiple .choices__item {
+            background: #1942b8;
+            border: 1px solid #1e4fde;
+        }
+    </style>
 @endpush
 @section('content')
     <div id="errorContainer"></div>
@@ -24,6 +34,17 @@
                                     <label for="slug" class="form-label">Slug</label>
                                     <input type="text" class="form-control" id="slug" placeholder="" name="slug"
                                         readonly value="{{ old('slug') }}">
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-12">
+                                <div class="form-group">
+                                    <label for="kategori" class="form-label">Kategori</label>
+                                    <select class="choices form-select" name="kategori">
+                                        <option value="">Pilih kategori:</option>
+                                        @foreach ($kategori as $row)
+                                            <option value="{{ $row->id }}">{{ $row->nama }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">

@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class User extends Model
+class KategoriBerita extends Model
 {
     use HasFactory;
-    protected $table = 'user';
+    protected $table = 'kategori_berita';
     protected $primaryKey = 'id';
     public $incrementing = true;
     public $timestamps = true;
@@ -17,13 +17,14 @@ class User extends Model
         'id'
     ];
 
+
     /**
-     * Get all of the comments for the User
+     * Get the user associated with the KategoriBerita
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function berita(): HasMany
+    public function user(): HasOne
     {
-        return $this->hasMany(Berita::class);
+        return $this->hasOne(Berita::class);
     }
 }

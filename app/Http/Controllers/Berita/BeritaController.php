@@ -6,6 +6,7 @@ use App\Models\Berita;
 use App\Models\TemporaryFile;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BeritaRequest;
+use App\Models\KategoriBerita;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -34,7 +35,7 @@ class BeritaController extends Controller
         // Mengecek request dari datatables
         if (request()->ajax()) {
             // Query tabel berita
-            $berita = Berita::select('id', 'judul', 'gambar', 'deskripsi')->orderBy('updated_at', 'desc');
+            $berita = Berita::select('id', 'judul', 'foto', 'deskripsi')->orderBy('updated_at', 'desc');
             return DataTables::of($berita)
                 // Menambahkan index kolom urutan angka dari 1
                 ->addIndexColumn()
@@ -48,7 +49,7 @@ class BeritaController extends Controller
                 })
                 // Mengedit kolom gambar
                 ->editColumn('gambar', function($row) {
-                    return '<img height="50" width="50" src="' . asset('/storage/berita') . '/' . $row->gambar . '" alt="">';
+                    return '<img height="50" width="50" src="' . asset('/storage/berita') . '/' . $row->foto . '" alt="">';
                 })
                 // Menambahkan kolom baru untuk menambahkan button edit, delete dan lainnya
                 ->addColumn('opsi', function($row) {
@@ -102,6 +103,7 @@ class BeritaController extends Controller
                 'button' => 'Batal',
                 'class' => 'btn-danger'
             ],
+            'kategori' => KategoriBerita::all()
         ];
         return view('berita.create', $data);
     }
@@ -132,7 +134,8 @@ class BeritaController extends Controller
             'judul' => $request->input('judul'),
             'slug' => $request->input('slug'),
             'deskripsi' => $request->input('deskripsi'),
-            'gambar' =>  ($temporary->file) ? $temporary->file : null
+            'foto' =>  ($temporary->file) ? $temporary->file : null,
+            'id_kategori_berita' => $request->input('kategori')
         ]);
 
         // Mengarahkan url ke rute berita dengan method index dan mengirimkan session
@@ -163,7 +166,8 @@ class BeritaController extends Controller
                 'button' => 'Batal',
                 'class' => 'btn-danger'
             ],
-            'berita' => Berita::findOrFail($id)
+            'berita' => Berita::findOrFail($id),
+            'kategori' => KategoriBerita::all()
         ];
         return view('berita.edit', $data);
     }
@@ -193,11 +197,13 @@ class BeritaController extends Controller
             }
         }
 
+        $foto = basename($request->input('gambar'));
         // Menyimpan data berita
         $berita->judul = $request->input('judul');
         $berita->slug = $request->input('slug');
         $berita->deskripsi = $request->input('deskripsi');
-        $berita->gambar = ($temporary->file == null) ? '-' : $temporary->file ;
+        $berita->id_kategori_berita = $request->input('kategori');
+        $berita->foto = ($temporary->file == null) ?  $foto : $temporary->file ;
         $berita->save();
 
         // Mengarahkan kembali ke berita serta mengirimkan session
@@ -214,7 +220,7 @@ class BeritaController extends Controller
 
         // Mendefinisika path penyimpanan gambar dserta
         // melakukan pengecekan untuk penghapusan gambar
-        $path = storage_path() . '/app/public/berita/' . $berita->gambar;
+        $path = storage_path() . '/app/public/berita/' . $berita->foto;
         if(File::exists($path)) {
             File::delete($path);
         }

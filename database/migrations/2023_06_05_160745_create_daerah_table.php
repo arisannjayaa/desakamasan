@@ -11,17 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profil_desa', function (Blueprint $table) {
+        Schema::create('daerah', function (Blueprint $table) {
             $table->id('id');
-            $table->string('nama', 60);
+            $table->string('nama', 255);
             $table->text('deskripsi');
-            $table->string('alamat', 60);
-            $table->string('telepon', 20);
-            $table->string('foto_profil', 255);
-            $table->text('gambar');
-            $table->string('video', 20);
-            $table->string('longitude', 255);
-            $table->string('latitude', 255);
+            $table->string('slug', 255);
+            $table->string('alamat', 255);
+            $table->text('latitude');
+            $table->text('longitude');
+            $table->unsignedBigInteger('id_kategori_daerah');
+            $table->foreign('id_kategori_daerah')->references('id')->on('kategori_berita');
             $table->timestamps();
         });
     }
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profil_desa');
+        Schema::dropIfExists('daerah');
     }
 };
