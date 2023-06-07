@@ -22,7 +22,7 @@ class BeritaRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->segment(2);
+        $id = $this->segment(3);
         return [
             'judul' => [
                 'required',
@@ -32,7 +32,8 @@ class BeritaRequest extends FormRequest
                 'required',
                 Rule::unique('berita', 'slug')->ignore($id)
             ],
-            'deskripsi' => 'required|min:50|max:500',
+            'deskripsi' => 'required|min:50|max:15000',
+            'kategori' => 'required'
         ];
     }
 
@@ -51,6 +52,9 @@ class BeritaRequest extends FormRequest
                 'required' => 'Deskripsi tidak boleh kosong!!',
                 'min' => 'Deskirpsi setidaknya memiliki 50 karakter',
                 'max' => 'Deskripsi tidak boleh melebihi dari 500 karakter'
+            ] ,
+            'kategori' => [
+                'required' => 'Kategori tidak boleh kosong!!',
             ] ,
         ];
     }

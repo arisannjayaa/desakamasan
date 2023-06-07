@@ -22,23 +22,22 @@ class DaerahRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->segment(2);
+        $id = $this->segment(3);
         // dd($id);
         return [
             'nama' => [
                 'required',
-                Rule::unique('daerah_wisata', 'nama')->ignore($id),
+                Rule::unique('daerah', 'nama')->ignore($id),
                 'max:255'
             ],
             'slug' => [
                 'required',
-                Rule::unique('daerah_wisata', 'slug')->ignore($id),
+                Rule::unique('daerah', 'slug')->ignore($id),
                 'max:255'
             ],
-            'deskripsi' => 'required|max:1500',
+            'deskripsi' => 'required|max:15000',
             'alamat' => 'required|min:10|max:60',
             'telepon' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:8',
-            'fasilitas' => 'required',
             'longitude' => 'required',
             'latitude' => 'required',
             'kategori' => 'required',
@@ -72,9 +71,6 @@ class DaerahRequest extends FormRequest
                 'required' => 'Telepon tidak boleh kosong',
                 'min' => 'Telepon setidaknya memliki 8 digit angka',
                 'regex' => 'Telepon hanya boleh menggunakan angka'
-            ],
-            'fasilitas' => [
-                'required' => 'Fasilitas tidak boleh kosong',
             ],
             'longitude' => [
                 'required' => 'Longitude tidak boleh kosong',

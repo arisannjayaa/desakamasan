@@ -6,7 +6,7 @@
                     <a class="d-flex align-items-end gap-3" href="#">
                         <img class="w-25 h-25 mb-2" src="{{ asset('/assets/static/images/logo/logo.png') }}"
                             alt="">
-                        <h5>Desa Wisata <br> Jimbaran</h5>
+                        <h5>Desa <br> Kamasan</h5>
                     </a>
                 </div>
                 {{-- <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
@@ -46,35 +46,79 @@
         <div class="sidebar-menu">
             <ul class="menu">
                 <li class="sidebar-title">Menu</li>
-                <li class="sidebar-item {{ request()->segment(1) == 'dashboard' ? 'active' : '' }} ">
+                <li class="sidebar-item {{ request()->segment(2) == 'dashboard' ? 'active' : '' }} ">
                     <a href="index.html" class='sidebar-link'>
                         <i class="bi bi-grid-fill"></i>
                         <span>Dashboard</span>
                     </a>
                 </li>
-                <li class="sidebar-item {{ request()->segment(1) == 'berita' ? 'active' : '' }} ">
-                    <a href="{{ route('berita.index') }}" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
+
+                {{-- berita --}}
+                <li
+                    class="sidebar-item has-sub {{ request()->segment(2) == 'berita-post' || request()->segment(2) == 'berita-kategori' ? 'active' : '' }}">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-file-earmark-text-fill"></i>
                         <span>Berita</span>
                     </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item {{ request()->segment(2) == 'berita-kategori' ? 'active' : '' }}">
+                            <a href="{{ route('berita-kategori.index') }}" class="submenu-link">Kategori</a>
+                        </li>
+                        <li class="submenu-item {{ request()->segment(2) == 'berita-post' ? 'active' : '' }}">
+                            <a href="{{ route('berita-post.index') }}" class="submenu-link">Berita</a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="sidebar-item {{ request()->segment(1) == 'produk' ? 'active' : '' }} ">
-                    <a href="index.html" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
+
+                {{-- produk --}}
+                <li
+                    class="sidebar-item has-sub {{ request()->segment(2) == 'produk-post' || request()->segment(2) == 'produk-kategori' ? 'active' : '' }}">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-basket-fill"></i>
                         <span>Produk</span>
                     </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item {{ request()->segment(2) == 'produk-kategori' ? 'active' : '' }}">
+                            <a href="{{ route('produk-kategori.index') }}" class="submenu-link">Kategori</a>
+                        </li>
+                        <li class="submenu-item {{ request()->segment(2) == 'produk-post' ? 'active' : '' }}">
+                            <a href="{{ route('produk-post.index') }}" class="submenu-link">Produk</a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="sidebar-item {{ request()->segment(1) == 'daerah' ? 'active' : '' }} ">
-                    <a href="{{ route('daerah.index') }}" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
+
+                {{-- daerah --}}
+                <li
+                    class="sidebar-item has-sub {{ request()->segment(2) == 'daerah-post' || request()->segment(2) == 'daerah-kategori' ? 'active' : '' }}">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-stack"></i>
                         <span>Daerah</span>
                     </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item {{ request()->segment(2) == 'daerah-kategori' ? 'active' : '' }}">
+                            <a href="{{ route('daerah-kategori.index') }}" class="submenu-link">Kategori</a>
+                        </li>
+                        <li class="submenu-item {{ request()->segment(2) == 'daerah-post' ? 'active' : '' }}">
+                            <a href="{{ route('daerah-post.index') }}" class="submenu-link">Daerah</a>
+                        </li>
+                    </ul>
                 </li>
-                <li class="sidebar-item {{ request()->segment(1) == 'profil' ? 'active' : '' }} ">
-                    <a href="{{ route('profil.index') }}" class='sidebar-link'>
-                        <i class="bi bi-grid-fill"></i>
+
+                {{-- profil --}}
+                <li
+                    class="sidebar-item has-sub {{ request()->segment(2) == 'profil-desa' || request()->segment(2) == 'pengurus-desa' ? 'active' : '' }}">
+                    <a href="#" class='sidebar-link'>
+                        <i class="bi bi-person-lines-fill"></i>
                         <span>Profil</span>
                     </a>
+                    <ul class="submenu ">
+                        <li class="submenu-item {{ request()->segment(2) == 'profil-desa' ? 'active' : '' }}">
+                            <a href="{{ route('profil-desa.index') }}" class="submenu-link">Profil Desa</a>
+                        </li>
+                        <li class="submenu-item {{ request()->segment(2) == 'perangkat-desa' ? 'active' : '' }}">
+                            <a href="{{ route('perangkat-desa.index') }}" class="submenu-link">Perangkat Desa</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
         </div>

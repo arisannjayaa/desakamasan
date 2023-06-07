@@ -11,22 +11,13 @@ class Profil extends Model
 {
     use HasFactory;
 
-    protected $table = 'profil_desa';
-    protected $primaryKey = 'id_profil_desa';
+    protected $table = 'profil';
+    protected $primaryKey = 'id';
     public $incrementing = true;
     public $timestamps = true;
     protected $guarded = [
-        'id_profil_desa'
+        'id'
     ];
 
-    /**
-     * Get all of the comments for the Profil
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function Berita(): HasMany
-    {
-        return $this->hasMany(Berita::class, 'id_profil_desa', 'id_profil_desa');
-    }
 
 }

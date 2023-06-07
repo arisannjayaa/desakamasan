@@ -2,15 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\Profil;
+use App\Models\FotoDaerah;
+use App\Models\KategoriDaerah;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Daerah extends Model
 {
     use HasFactory;
-    protected $table = 'daerah_wisata';
+    protected $table = 'daerah';
     protected $primaryKey = 'id';
     public $incrementing = true;
     public $timestamps = true;
@@ -23,8 +25,18 @@ class Daerah extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function profil(): BelongsTo
+    public function kategori(): BelongsTo
     {
-        return $this->belongsTo(Profil::class, 'id_profil_desa', 'id');
+        return $this->belongsTo(KategoriDaerah::class, 'id_kategori_daerah', 'id');
+    }
+
+    /**
+     * Get all of the foto for the Daerah
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function foto(): HasMany
+    {
+        return $this->hasMany(FotoDaerah::class, 'id_daerah', 'id');
     }
 }
