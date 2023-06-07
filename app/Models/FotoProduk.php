@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Produk extends Model
+class FotoProduk extends Model
 {
     use HasFactory;
-    protected $table = 'produk';
+    protected $table = 'foto_produk';
     protected $primaryKey = 'id';
     public $incrementing = true;
     public $timestamps = true;
@@ -19,17 +18,12 @@ class Produk extends Model
     ];
 
     /**
-     * Get the user that owns the Berita
+     * Get the daerah that owns the FotoDaerah
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function kategori(): BelongsTo
+    public function produk(): BelongsTo
     {
-        return $this->belongsTo(KategoriProduk::class, 'id_kategori_produk', 'id');
-    }
-
-    public function foto(): HasMany
-    {
-        return $this->hasMany(FotoProduk::class, 'id_produk', 'id');
+        return $this->belongsTo(Produk::class, 'id_produk', 'id');
     }
 }

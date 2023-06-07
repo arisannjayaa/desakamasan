@@ -47,7 +47,7 @@
                         previous: "Sebelumnya"
                     },
                 },
-                ajax: '{{ route('daerah.index') }}',
+                ajax: '{{ route('daerah-post.index') }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',

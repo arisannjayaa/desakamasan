@@ -24,7 +24,7 @@
 @endpush
 @section('content')
     <div id="errorContainer"></div>
-    <form id="myForm" action="{{ route('daerah.store') }}" method="post" enctype="multipart/form-data">
+    <form id="myForm" action="{{ route('daerah-post.store') }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-12 col-12">
                 <div class="card">
@@ -34,29 +34,26 @@
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="nama" class="form-label">Nama</label>
-                                    <input type="text" class="form-control" id="nama" placeholder="" name="nama"
-                                        value="{{ old('nama') }}">
+                                    <input type="text" class="form-control" id="nama" placeholder="" name="nama">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="slug" class="form-label">Slug</label>
                                     <input type="text" class="form-control" id="slug" placeholder="" name="slug"
-                                        readonly value="{{ old('slug') }}">
+                                        readonly>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="alamat" class="form-label">Alamat</label>
-                                    <input type="text" class="form-control" id="alamat" placeholder="" name="alamat"
-                                        value="{{ old('alamat') }}">
+                                    <input type="text" class="form-control" id="alamat" placeholder="" name="alamat">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="telepon"class="form-label">Telepon</label>
-                                    <input type="text" class="form-control" id="telepon" placeholder="" name="telepon"
-                                        value="{{ old('telepon') }}">
+                                    <input type="text" class="form-control" id="telepon" placeholder="" name="telepon">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
@@ -73,7 +70,7 @@
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="deskripsi" class="form-label">Deskripsi </label>
-                                    <textarea id="editor" name="deskripsi">{{ old('deskripsi') }}</textarea>
+                                    <textarea id="editor" name="deskripsi"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -87,15 +84,15 @@
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="latitude" class="form-label">Latitude</label>
-                                    <input type="text" class="form-control" id="latitude" placeholder="" name="latitude"
-                                        value="{{ old('latitude') }}">
+                                    <input type="text" class="form-control" id="latitude" placeholder=""
+                                        name="latitude">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="longitude" class="form-label">Longitude </label>
                                     <input type="text" class="form-control" id="longitude" placeholder=""
-                                        name="longitude" value="{{ old('longitude') }}">
+                                        name="longitude">
                                 </div>
                             </div>
                         </div>
@@ -156,7 +153,7 @@
                             if (result.isConfirmed) {
                                 // Pengguna mengklik tombol "Cool"
                                 window.location.href =
-                                    '{{ route('daerah.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                                    '{{ route('daerah-post.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
                             } else {
                                 // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
                                 // Lakukan tindakan lain jika diperlukan
@@ -188,6 +185,7 @@
                     },
                 });
             });
+
             // you want to get it of the window global
             const providerOSM = new GeoSearch.OpenStreetMapProvider();
 

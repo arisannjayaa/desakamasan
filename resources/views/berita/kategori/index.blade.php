@@ -1,13 +1,10 @@
 @extends('layouts.panel')
-@section('title', 'Produk')
+@section('title', 'Kategori Berita')
 @section('content')
-    <div id="successAlert" class="alert alert-success alert-dismissible show fade d-none">
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
     <div class="card">
         <div class="card-header">
             <h5 class="card-title">
-                Tabel Produk
+                Tabel Kategori Berita
             </h5>
         </div>
         <div class="card-body">
@@ -17,8 +14,6 @@
                         <tr>
                             <th>No</th>
                             <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Kategori</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -29,31 +24,6 @@
 @endsection
 @push('js')
     <script>
-        $(document).on('submit', '#formDelete', function(e) {
-            e.preventDefault();
-
-            var form = $(this);
-            var url = form.attr('action');
-
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: form.serialize(),
-                dataType: 'json',
-                success: function(response) {
-                    // datatable reload otomatis saat delete data
-                    console.log(response);
-                    if (response.status == 200) {
-                        $('#successAlert').removeClass('d-none');
-                        $('#tables').DataTable().ajax.reload();
-                        $('#successAlert').text(response.message).fadeIn().delay(2000).fadeOut();
-                    }
-                },
-                error: function(xhr, status, error) {
-                    // Terjadi error saat menghapus data, lakukan penanganan error
-                }
-            });
-        });
         $(document).ready(function() {
             $('#tables').DataTable({
                 ordering: true,
@@ -75,7 +45,7 @@
                         previous: "Sebelumnya"
                     },
                 },
-                ajax: '{{ route('daerah.index') }}',
+                ajax: '{{ route('berita-kategori.index') }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -87,14 +57,6 @@
                         name: 'nama',
                     },
                     {
-                        data: 'alamat',
-                        name: 'alamat',
-                    },
-                    {
-                        data: 'kategori',
-                        name: 'kategori',
-                    },
-                    {
                         data: 'opsi',
                         name: 'opsi',
                         orderable: false,
@@ -103,6 +65,6 @@
                 ],
                 columnsDefs: []
             })
-        })
+        });
     </script>
 @endpush

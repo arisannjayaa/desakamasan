@@ -24,7 +24,7 @@
 @endpush
 @section('content')
     <div id="errorContainer"></div>
-    <form id="myForm" action="{{ route('daerah.update', $daerah->id) }}" method="post" enctype="multipart/form-data">
+    <form id="myForm" action="{{ route('daerah-post.update', $daerah->id) }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-12 col-12">
                 <div class="card">
@@ -35,74 +35,40 @@
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="nama" class="form-label">Nama</label>
-                                    <input type="text" class="form-control @error('nama') is-invalid  @enderror"
-                                        id="nama" placeholder="" name="nama" value="{{ $daerah->nama }}">
+                                    <input type="text" class="form-control" id="nama" placeholder="" name="nama"
+                                        value="{{ $daerah->nama }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="slug" class="form-label">Slug</label>
-                                    <input type="text" class="form-control @error('slug') is-invalid  @enderror"
-                                        id="slug" placeholder="" name="slug" readonly value="{{ $daerah->slug }}">
+                                    <input type="text" class="form-control" id="slug" placeholder="" name="slug"
+                                        readonly value="{{ $daerah->slug }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="alamat" class="form-label">Alamat</label>
-                                    <input type="text" class="form-control @error('alamat') is-invalid  @enderror"
-                                        id="alamat" placeholder="" name="alamat" value="{{ $daerah->alamat }}">
+                                    <input type="text" class="form-control" id="alamat" placeholder="" name="alamat"
+                                        value="{{ $daerah->alamat }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="telepon" class="form-label">Telepon</label>
-                                    <input type="text" class="form-control @error('telepon') is-invalid  @enderror"
-                                        id="telepon" placeholder="" name="telepon" value="{{ $daerah->telepon }}">
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-12">
-                                <div class="form-group">
-                                    <label for="fasilitas" class="form-label">Fasilitas</label>
-                                    <select class="choices form-select multiple-remove" multiple="multiple"
-                                        name="fasilitas[]">
-                                        <option value="Penginapan"
-                                            {{ in_array('Penginapan', $daerah->fasilitas) ? 'selected' : '' }}>Penginapan
-                                        </option>
-                                        <option value="Areal Parkir"
-                                            {{ in_array('Areal Parkir', $daerah->fasilitas) ? 'selected' : '' }}>Areal
-                                            Parkir</option>
-                                        <option value="Kamar Mandi Umum"
-                                            {{ in_array('Kamar Mandi Umum', $daerah->fasilitas) ? 'selected' : '' }}>Kamar
-                                            Mandi Umum</option>
-                                        <option value="ATMs" {{ in_array('ATMs', $daerah->fasilitas) ? 'selected' : '' }}>
-                                            ATMs</option>
-                                        <option value="Spot Foto"
-                                            {{ in_array('Spot Foto', $daerah->fasilitas) ? 'selected' : '' }}>Spot Foto
-                                        </option>
-                                        <option value="Balai Pertemuan"
-                                            {{ in_array('Balai Pertemuan', $daerah->fasilitas) ? 'selected' : '' }}>Balai
-                                            Pertemuan</option>
-                                        <option value="Wifi Area"
-                                            {{ in_array('Wifi Area', $daerah->fasilitas) ? 'selected' : '' }}>Wifi Area
-                                        </option>
-                                        <option value="Tempat Makan"
-                                            {{ in_array('Tempat Makan', $daerah->fasilitas) ? 'selected' : '' }}>Tempat
-                                            Makan</option>
-                                        <option value="Pusat Informasi"
-                                            {{ in_array('Pusat Informasi', $daerah->fasilitas) ? 'selected' : '' }}>Pusat
-                                            Informasi</option>
-                                    </select>
-                                    kerej
+                                    <input type="text" class="form-control" id="telepon" placeholder="" name="telepon"
+                                        value="{{ $daerah->telepon }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="kategori" class="form-label">Kategori</label>
-                                    <select class="choices form-select  @error('kategori') is-invalid  @enderror"
-                                        name="kategori">
-                                        <option value="Wisata Alam">Wisata Alam</option>
-                                        <option value="Wisata Budaya">Wisata Budaya</option>
-                                        <option value="Wisata Buatan">Wisata Buatan</option>
+                                    <select class="choices form-select" name="kategori">
+                                        <option value="">Pilih kategori:</option>
+                                        @foreach ($kategori as $row)
+                                            <option {{ $daerah->id_kategori_daerah == $row->id ? 'selected' : '' }}
+                                                value="{{ $row->id }}">{{ $row->nama }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -123,16 +89,15 @@
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="latitude" class="form-label">Latitude</label>
-                                    <input type="text" class="form-control @error('latitude') is-invalid  @enderror"
-                                        id="latitude" placeholder="" name="latitude" value="{{ $daerah->latitude }}">
+                                    <input type="text" class="form-control" id="latitude" placeholder="" name="latitude"
+                                        value="{{ $daerah->latitude }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
                                     <label for="longitude" class="form-label">Longitude</label>
-                                    <input type="text" class="form-control @error('longitude') is-invalid  @enderror"
-                                        id="longitude" placeholder="" name="longitude"
-                                        value="{{ $daerah->longitude }}">
+                                    <input type="text" class="form-control" id="longitude" placeholder=""
+                                        name="longitude" value="{{ $daerah->longitude }}">
                                 </div>
                             </div>
                         </div>
@@ -193,7 +158,7 @@
                             if (result.isConfirmed) {
                                 // Pengguna mengklik tombol "Cool"
                                 window.location.href =
-                                    '{{ route('daerah.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                                    '{{ route('daerah-post.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
                             } else {
                                 // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
                                 // Lakukan tindakan lain jika diperlukan
@@ -318,24 +283,24 @@
             allowMultiple: true,
             maxFiles: 4,
             maxParallelUploads: 4,
-            @if ($daerah->gambar)
+            @if ($daerah->foto)
                 files: [
-                    @for ($i = 0; $i < count($daerah->gambar); $i++)
-                        @if (Storage::exists('public/daerah/' . $daerah->gambar[$i]))
+                    @foreach ($daerah->foto as $foto)
+                        @if (Storage::exists('public/daerah/' . $foto->file))
                             {
                                 // the server file reference
-                                source: "{{ asset('storage/daerah') . '/' . $daerah->gambar[$i] }}",
+                                source: "{{ asset('storage/daerah') . '/' . $foto->file }}",
                                 // set type to local to indicate an already uploaded file
                                 options: {
                                     type: 'local',
                                     // pass poster property
                                     metadata: {
-                                        poster: "{{ asset('storage/daerah') . '/' . $daerah->gambar[$i] }}",
+                                        poster: "{{ asset('storage/daerah') . '/' . $foto->file }}",
                                     },
                                 },
                             },
                         @endif
-                    @endfor
+                    @endforeach
                 ],
             @endif
             server: {

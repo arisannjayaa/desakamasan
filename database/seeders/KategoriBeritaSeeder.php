@@ -15,14 +15,17 @@ class KategoriBeritaSeeder extends Seeder
     {
         KategoriBerita::create([
             'nama' => 'Seni dan Budaya',
+            'slug' => 'seni-dan-budaya'
         ]);
 
         KategoriBerita::create([
             'nama' => 'Alam dan Wisata',
+            'slug' => 'alam-dan-wisata'
         ]);
 
         KategoriBerita::create([
             'nama' => 'Sosial dan Masyarakat',
+            'slug' => 'sosial-dan-masyarakat'
         ]);
     }
 }

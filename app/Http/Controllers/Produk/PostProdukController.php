@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Daerah;
+namespace App\Http\Controllers\Produk;
 
-use App\Models\Daerah;
-use App\Models\FotoDaerah;
+use App\Models\Produk;
+use App\Models\FotoProduk;
 use Illuminate\Http\Request;
 use App\Models\TemporaryFile;
-use App\Models\KategoriDaerah;
+use App\Models\KategoriProduk;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DaerahRequest;
+use App\Http\Requests\ProdukRequest;
 use Illuminate\Support\Facades\File;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
 
-class DaerahController extends Controller
+class PostProdukController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
+      * Display a listing of the resource.
+      */
     protected $temporaryFile;
 
     public function __construct()
@@ -34,9 +33,13 @@ class DaerahController extends Controller
         }
 
         if (request()->ajax()) {
-            $daerah = Daerah::select('id', 'nama', 'alamat', 'id_kategori_daerah')->orderBy('updated_at', 'desc');
-            return DataTables::of($daerah)
+            $produk = Produk::with('kategori')->select('*')->orderBy('updated_at', 'desc');
+            return DataTables::of($produk)
                 ->addIndexColumn()
+                // Mengedit kolom judul
+                ->editColumn('id_kategori_produk', function ($row) {
+                    return '<span class="d-block" style="max-width: 200px;">'.$row->kategori->nama.'</span>';
+                })
                 ->addColumn('opsi', function ($row) {
                     return '<div class="btn-group">
                     <button type="button" class="btn btn-sm" data-bs-toggle="dropdown"
@@ -44,13 +47,13 @@ class DaerahController extends Controller
                     </button>
                     <ul class="dropdown-menu border border-1">
                         <li><span
-                                onclick="window.location.href=\''.route('daerah.edit', $row->id) .'\'"
+                                onclick="window.location.href=\''.route('produk-post.edit', $row->id) .'\'"
                                 role="button"class="dropdown-item">Edit</span></li>
                         <li><span onclick="window.location.href="
                                 role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>
-                <form id="myForm" class="d-inline" action="'.route('daerah.destroy', $row->id) .'"
+                <form id="myForm" class="d-inline" action="'.route('produk-post.destroy', $row->id) .'"
                     method="post">
                     '.method_field('DELETE').'
                     '.csrf_field().'
@@ -59,19 +62,19 @@ class DaerahController extends Controller
                             class="bi bi-trash-fill"></i></button>
                 </form>';
                 })
-                ->rawColumns(['opsi'])
+                ->rawColumns(['opsi', 'id_kategori_produk'])
                 ->toJson(true);
         }
 
         $data = [
-            'menu' => 'Daerah',
+            'menu' => 'Produk',
             'links' => [
-                'url' => route('daerah.create'),
+                'url' => route('produk-post.create'),
                 'button' => 'Buat',
                 'class' => 'btn-primary'
             ]
         ];
-        return view('daerah.index', $data);
+        return view('produk.post.index', $data);
     }
 
     /**
@@ -80,21 +83,21 @@ class DaerahController extends Controller
     public function create()
     {
         $data = [
-            'menu' => 'Daerah Baru',
+            'menu' => 'Produk Baru',
             'links' => [
-                'url' => route('daerah.index'),
+                'url' => route('produk-post.index'),
                 'button' => 'Batal',
                 'class' => 'btn-danger'
             ],
-            'kategori' => KategoriDaerah::all()
+            'kategori' => KategoriProduk::all()
         ];
-        return view('daerah.create', $data);
+        return view('produk.post.create', $data);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(DaerahRequest $request)
+    public function store(ProdukRequest $request)
     {
         $temporaryFolder = Session::get('image_folder');
         $temporaryFileName = Session::get('image_filename');
@@ -108,7 +111,7 @@ class DaerahController extends Controller
                 // Mendefinisikan lokasi direktori asal file dan melakukan pemindahan file
                 $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
                 if (File::exists($path)) {
-                    Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/daerah' . '/' . $temporary->file);
+                    Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/produk' . '/' . $temporary->file);
 
                     // Menghapus file dari lokasi direktori
                     File::delete($path);
@@ -126,27 +129,24 @@ class DaerahController extends Controller
         Session::remove('image_filename');
         // Menyimpan data berita ke tabel berita
         // dd($temporaryFileName);
-        $daerah = Daerah::create([
+        $produk = Produk::create([
             'nama' => $request->input('nama'),
             'slug' => $request->input('slug'),
             'deskripsi' => $request->input('deskripsi'),
             'alamat' => $request->input('alamat'),
-            'telepon' => $request->input('telepon'),
-            'latitude' => $request->input('latitude'),
-            'longitude' => $request->input('longitude'),
-            'id_kategori_daerah' => $request->input('kategori'),
+            'id_kategori_produk' => $request->input('kategori'),
         ]);
 
         foreach ($temporaryFileName as $row) {
-            FotoDaerah::create([
-                'id_daerah' => $daerah->id,
+            FotoProduk::create([
+                'id_produk' => $produk->id,
                 'file' => $row
             ]);
         }
 
         return response()->json([
             'status' => 200,
-            'message' => 'Berhasil menambah daerah baru'
+            'message' => 'Berhasil menambah data produk baru'
         ]);
     }
 
@@ -163,40 +163,29 @@ class DaerahController extends Controller
      */
     public function edit(string $id)
     {
-        $daerah = Daerah::findOrFail($id);
-        // Mendapatkan nilai JSON dari kolom yang diinginkan
-        $jsonDataGambar = $daerah->gambar;
-        $jsonDataFasilitas = $daerah->fasilitas;
-        // Mengubah data JSON menjadi bentuk aslinya
-        $dataGambar = json_decode($jsonDataGambar, true);
-        $dataFasilitas = json_decode($jsonDataFasilitas, true);
-        // Menyimpan data yang diubah dalam variabel $daerah
-        $daerah->gambar = $dataGambar;
-        $daerah->fasilitas = $dataFasilitas;
-        // dd($daerah->gambar[3]);
         $data = [
             'menu' => 'Daerah Edit',
             'links' => [
-                'url' => route('daerah.index'),
+                'url' => route('daerah-post.index'),
                 'button' => 'Batal',
                 'class' => 'btn-danger'
             ],
-            'daerah' => $daerah
+            'produk' => Produk::findOrFail($id),
+            'kategori' => KategoriProduk::all()
         ];
-        return view('daerah.edit', $data);
+        return view('produk.post.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(DaerahRequest $request, string $id)
+    public function update(Request $request, string $id)
     {
         $temporaryFolder = Session::get('image_folder');
         $temporaryFileName = Session::get('image_filename');
         // Mencari berita berdasarkan id
-        $daerah = Daerah::find($id);
-        $daerahGambarOld = json_decode($daerah->gambar);
-        // dd($daerahGambarOld);
+        $produk = Produk::find($id);
+
         if(Session::has('image_folder')) {
             for ($i=0; $i < count($temporaryFolder); $i++) {
                 $temporary = $this->temporaryFile
@@ -206,7 +195,7 @@ class DaerahController extends Controller
                     // Mendefinisikan lokasi direktori asal file dan melakukan pemindahan file
                     $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
                     if (File::exists($path)) {
-                        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/daerah' . '/' . $temporary->file);
+                        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/produk' . '/' . $temporary->file);
 
                         // Menghapus file dari lokasi direktori
                         File::delete($path);
@@ -221,41 +210,46 @@ class DaerahController extends Controller
             }
         }
 
-        $pathOld = storage_path() . '/app/public/daerah';
-        $keysToRemove = [];
-        foreach ($daerahGambarOld as $key => $row) {
-            if (!File::exists($pathOld . '/' . $row)) {
-                $keysToRemove[] = $key;
+        $fotos = [];
+        foreach ($produk->foto as $foto) {
+            $file = $foto->file;
+            $filePath = storage_path('app/public/produk/' . $file);
+
+            if (File::exists($filePath)) {
+                $fotos[] = $file;
+            } else {
+                FotoProduk::where('file', $file)->delete();
+                // echo 'file terhapus: ' . $file;
             }
         }
 
-        foreach ($keysToRemove as $key) {
-            unset($daerahGambarOld[$key]);
-        }
-
-        $daerahGambarOld = array_values($daerahGambarOld);
+        $produk->foto()->delete();
+        // dd($fotos);
 
         if ($temporaryFileName == null) {
-            $daerahGambarNew = json_encode($daerahGambarOld);
+            $newFoto = $fotos;
         } else {
-            $daerahGambarNew = json_encode(array_merge($daerahGambarOld, $temporaryFileName));
+            $newFoto = array_merge($fotos, $temporaryFileName);
         }
 
-        $daerah->nama = $request->input('nama');
-        $daerah->slug = $request->input('slug');
-        $daerah->deskripsi = $request->input('deskripsi');
-        $daerah->alamat = $request->input('alamat');
-        $daerah->telepon = $request->input('telepon');
-        $daerah->fasilitas = $request->input('fasilitas');
-        $daerah->longitude = $request->input('longitude');
-        $daerah->latitude = $request->input('latitude');
-        $daerah->kategori = $request->input('kategori');
-        $daerah->gambar = $daerahGambarNew;
-        $daerah->save();
+        // $newFoto = array_unique($newFoto); // Menghapus duplikasi data
+        foreach ($newFoto as $row) {
+            $fotoProduk = new FotoProduk();
+            $fotoProduk->id_produk = $produk->id;
+            $fotoProduk->file = $row;
+            $fotoProduk->save();
+        }
+
+        $produk->nama = $request->input('nama');
+        $produk->slug = $request->input('slug');
+        $produk->deskripsi = $request->input('deskripsi');
+        $produk->alamat = $request->input('alamat');
+        $produk->id_kategori_produk = $request->input('kategori');
+        $produk->save();
 
         return response()->json([
             'status' => 200,
-            'message' => 'Berhasil memperbaharui daerah'
+            'message' => 'Berhasil memperbaharui data produk'
         ]);
     }
 
@@ -265,23 +259,23 @@ class DaerahController extends Controller
     public function destroy(string $id)
     {
         // Mencari data berdasarkam id
-        $daerah = Daerah::find($id);
+        $produk = Produk::find($id);
 
-        // Mendefinisika path penyimpanan gambar dserta
-        // melakukan pengecekan untuk penghapusan gambar
-        $gambar = json_decode($daerah->gambar);
-        // dd($gambar);
-        $path = storage_path() . '/app/public/daerah';
-        for($i=0; $i < count($gambar); $i++) {
-            if(File::exists($path . '/'. $gambar[$i])) {
-                File::delete($path . '/'. $gambar[$i]);
+        foreach ($produk->foto as $foto) {
+            $file = $foto->file;
+            $filePath = storage_path('app/public/produk/' . $file);
+
+            if (File::exists($filePath)) {
+                File::delete($filePath);
             }
         }
-        $daerah->delete();
+
+        $produk->foto()->delete();
+        $produk->delete();
         // Mengirim response dalam bentok json
         return response()->json([
             'status' => 200,
-            'message' => 'Data daerah berhasil dihapus!'
+            'message' => 'Data produk berhasil dihapus!'
         ]);
     }
 }

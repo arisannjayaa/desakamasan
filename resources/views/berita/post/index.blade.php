@@ -47,7 +47,7 @@
                         previous: "Sebelumnya"
                     },
                 },
-                ajax: '{{ route('berita.index') }}',
+                ajax: '{{ route('berita-post.index') }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',

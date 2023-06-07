@@ -5,7 +5,7 @@
 @endpush
 @section('content')
     <div id="errorContainer"></div>
-    <form id="myForm" action="{{ route('berita.update', $berita->id) }}" method="post" enctype="multipart/form-data">
+    <form id="myForm" action="{{ route('berita-post.update', $berita->id) }}" method="post" enctype="multipart/form-data">
         <div class="row">
             <div class="col-lg-9 col-12">
                 <div class="card">
@@ -114,7 +114,7 @@
                         if (result.isConfirmed) {
                             // Pengguna mengklik tombol "Cool"
                             window.location.href =
-                                '{{ route('berita.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                                '{{ route('berita-post.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
                         } else {
                             // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
                             // Lakukan tindakan lain jika diperlukan
