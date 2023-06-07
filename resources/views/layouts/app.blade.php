@@ -170,42 +170,45 @@
             $('#searchInput').keyup(function() {
                 var query = $(this).val();
                 var token = $('meta[name="csrf-token"]').attr('content');
-
-                $.ajax({
-                    url: '{{ route('search') }}',
-                    method: 'POST',
-                    data: {
-                        query: query
-                    },
-                    headers: {
-                        'X-CSRF-TOKEN': token // Menambahkan token CSRF dalam header permintaan
-                    },
-                    success: function(response) {
-                        // Menghapus hasil pencarian sebelumnya
-                        $('#searchResults').empty();
-                        // Menampilkan hasil pencarian
-                        if (response.length > 0) {
-                            $.each(response, function(index, result) {
-                                var listItem = $(
-                                    '<li class="nav-item link-hover">'
-                                );
-                                var link = $('<a class="nav-link text-sm">').attr(
-                                    'href',
-                                    getResultURL(result)).text(
-                                    result.judul || result.nama);
-                                listItem.append(link);
-                                $('#searchResults').append(listItem);
-                            });
-                        } else {
-                            var message = $('<li class="nav-item text-sm">').text(
-                                'Data tidak tersedia');
-                            $('#searchResults').append(message);
+                if (query !== '') {
+                    $.ajax({
+                        url: '{{ route('search') }}',
+                        method: 'POST',
+                        data: {
+                            query: query
+                        },
+                        headers: {
+                            'X-CSRF-TOKEN': token // Menambahkan token CSRF dalam header permintaan
+                        },
+                        success: function(response) {
+                            // Menghapus hasil pencarian sebelumnya
+                            $('#searchResults').empty();
+                            // Menampilkan hasil pencarian
+                            if (response.length > 0) {
+                                $.each(response, function(index, result) {
+                                    var listItem = $(
+                                        '<li class="nav-item link-hover">'
+                                    );
+                                    var link = $('<a class="nav-link text-sm">').attr(
+                                        'href',
+                                        getResultURL(result)).text(
+                                        result.judul || result.nama);
+                                    listItem.append(link);
+                                    $('#searchResults').append(listItem);
+                                });
+                            } else {
+                                var message = $('<li class="nav-item text-sm">').text(
+                                    'Data tidak tersedia');
+                                $('#searchResults').append(message);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(error);
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.log(error);
-                    }
-                });
+                    });
+                } else {
+                    $('#searchResults').empty();
+                }
             });
 
             function getResultURL(result) {
