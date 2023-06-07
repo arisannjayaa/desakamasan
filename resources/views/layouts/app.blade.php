@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
     <title>@yield('title')</title>
 
     <link rel="shortcut icon" href="{{ asset('') }}assets/compiled/svg/favicon.svg" type="image/x-icon">
@@ -29,6 +30,10 @@
             background: #1942b8;
             border: 1px solid #1e4fde;
         }
+
+        .link-hover:hover {
+            color: #1942b8;
+        }
     </style>
     @stack('css')
 </head>
@@ -45,7 +50,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link {{ request()->segment(1) == '' ? 'active' : '' }}"
                                 href="{{ route('beranda.index') }}">Beranda</a>
@@ -65,6 +70,13 @@
                         <li class="nav-item">
                             <a class="nav-link {{ request()->segment(1) == 'kontak' ? 'active' : '' }}"
                                 href="#">Kontak</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <button id="btnSearch" class="btn border rounded-3 text-secondary w-100"
+                                data-bs-toggle="modal" data-bs-target="#modalSearch"><i class="bi bi-search me-2"></i>
+                                Telusuri...</button>
                         </li>
                     </ul>
                 </div>
@@ -147,11 +159,72 @@
             </div>
         </footer>
     </div>
+    @include('beranda.modal-search');
     <script src="{{ asset('') }}assets/compiled/js/app.js"></script>
     <script src="{{ asset('') }}assets/extensions/choices.js/public/assets/scripts/choices.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/form-element-select.js"></script>
     <script src="{{ asset('') }}assets/extensions/jquery/jquery.min.js"></script>
+    <script src="{{ asset('') }}assets/extensions/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#searchInput').keyup(function() {
+                var query = $(this).val();
+                var token = $('meta[name="csrf-token"]').attr('content');
 
+                $.ajax({
+                    url: '{{ route('search') }}',
+                    method: 'POST',
+                    data: {
+                        query: query
+                    },
+                    headers: {
+                        'X-CSRF-TOKEN': token // Menambahkan token CSRF dalam header permintaan
+                    },
+                    success: function(response) {
+                        // Menghapus hasil pencarian sebelumnya
+                        $('#searchResults').empty();
+                        // Menampilkan hasil pencarian
+                        if (response.length > 0) {
+                            $.each(response, function(index, result) {
+                                var listItem = $(
+                                    '<li class="nav-item link-hover">'
+                                );
+                                var link = $('<a class="nav-link text-sm">').attr(
+                                    'href',
+                                    getResultURL(result)).text(
+                                    result.judul || result.nama);
+                                listItem.append(link);
+                                $('#searchResults').append(listItem);
+                            });
+                        } else {
+                            var message = $('<li class="nav-item text-sm">').text(
+                                'Data tidak tersedia');
+                            $('#searchResults').append(message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log(error);
+                    }
+                });
+            });
+
+            function getResultURL(result) {
+                // Mengembalikan URL berdasarkan jenis entitas (berita, produk, dsb.)
+                if (result.type === 'berita') {
+                    return "{{ url('/berita') }}" + "/" +
+                        result.slug;
+                } else if (result.type === 'produk') {
+                    return "{{ url('/produk') }}" + "/" +
+                        result.slug;
+                } else if (result.type === 'daerah') {
+                    return "{{ url('/daerah') }}" + "/" +
+                        result.slug;
+                } else {
+                    return '#'; // Jika tidak ada jenis entitas yang cocok, dapat diganti dengan URL lain atau '#' jika tidak ingin mengarahkan ke URL tertentu
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
