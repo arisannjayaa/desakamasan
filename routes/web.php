@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Profil\ProfilController;
 use App\Http\Controllers\Beranda\BerandaController;
@@ -30,6 +31,7 @@ Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
 Route::get('/daerah-wisata', [BerandaController::class, 'daerah'])->name('beranda.daerah');
 Route::get('/daerah-wisata/{slug}', [BerandaController::class, 'details_daerah'])->name('beranda.daerah.details');
+Route::get('/login-admin', [LoginController::class, 'login'])->name('auth.login');
 
 
 // Filepond
@@ -44,28 +46,20 @@ Route::controller(UploadImageController::class)->group(function () {
 });
 
 Route::prefix('user')->group(function () {
-
     // berita-post
     Route::resource('berita-post', PostBeritaController::class);
-
     // berita-kategori
     Route::resource('berita-kategori', KategoriBeritaController::class);
-
     // Daerah
     Route::resource('daerah-post', PostDaerahController::class);
-
     // daerah-kategori
     Route::resource('daerah-kategori', KategoriDaerahController::class);
-
     // produk
     Route::resource('produk-post', PostProdukController::class);
-
     // produk-kategori
     Route::resource('produk-kategori', KategoriProdukController::class);
-
     // Profil
     Route::resource('profil-desa', ProfilController::class);
-
     // pemerintah
     Route::resource('perangkat-desa', PemerintahanController::class);
 });
