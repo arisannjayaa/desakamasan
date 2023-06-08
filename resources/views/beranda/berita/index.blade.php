@@ -13,8 +13,10 @@
             <div class="row mt-lg-5 mt-2 mb-lg-5">
                 <div class="col-lg-7 col-12 align-self-end order-2 order-lg-1">
                     <h1 class="display-6 fw-bold mb-4">{{ $berita_last->judul }}</h1>
-                    <p style="line-height: 1.8;">
+                    <p class="mb-0" style="line-height: 1.8;">
                         {{ strip_tags(Str::limit($berita_last->deskripsi, 110)) }}</p>
+                    <a href="{{ route('berita.show', $berita_last->slug) }}"><button
+                            class="btn btn-primary mb-3 mt-2 rounded-4">Selengkapnya</button></a>
                     <div>
                         <p>
                             <i class="bi bi-calendar3 me-2"></i>
@@ -24,7 +26,7 @@
                             <i class="bi bi-pencil me-2"></i>
                             Ditulis oleh {{ $berita_last->user->username }}
                         </p>
-                        <a href="#" class="nav-link">
+                        <a href="{{ url('/berita/tags/') . '/' . $berita_last->kategori->slug }}" class="nav-link">
                             <i class="bi bi-tag me-2"></i>
                             <span class="badge border rounded-4 text-secondary">{{ $berita_last->kategori->nama }}</span>
                         </a>
@@ -73,6 +75,8 @@
                                 <div class="mb-4">
                                     <h5 class="text-truncate">{{ $row->judul }}</h5>
                                     <p class="text-sm">{{ strip_tags(Str::limit($row->deskripsi, 85)) }}</p>
+                                    <a href="{{ route('berita.show', $row->slug) }}"><button
+                                            class="btn btn-primary rounded-4">Selengkapnya</button></a>
                                 </div>
                             </div>
                         </article>
