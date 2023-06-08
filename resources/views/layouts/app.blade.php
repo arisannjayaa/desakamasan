@@ -61,11 +61,11 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->segment(1) == 'produk' ? 'active' : '' }}"
-                                href="#">Produk</a>
+                                href="{{ route('produk.index') }}">Produk</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link {{ request()->segment(1) == 'daerah-wisata' ? 'active' : '' }}"
-                                href="{{ route('beranda.daerah') }}">Daerah Wisata</a>
+                            <a class="nav-link {{ request()->segment(1) == 'daerah' ? 'active' : '' }}"
+                                href="{{ route('daerah.index') }}">Daerah</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link {{ request()->segment(1) == 'kontak' ? 'active' : '' }}"
@@ -74,8 +74,8 @@
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <button id="btnSearch" class="btn border rounded-3 text-secondary w-100"
-                                data-bs-toggle="modal" data-bs-target="#modalSearch"><i class="bi bi-search me-2"></i>
+                            <button id="btnSearch" class="btn btn-primary rounded-4 w-100" data-bs-toggle="modal"
+                                data-bs-target="#modalSearch"><i class="bi bi-search me-2"></i>
                                 Telusuri...</button>
                         </li>
                     </ul>
