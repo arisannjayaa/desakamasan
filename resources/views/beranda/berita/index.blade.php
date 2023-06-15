@@ -57,7 +57,7 @@
                     <div class="col-lg-4 col-md-6 col-12">
                         <article>
                             <a class="links" href="{{ route('berita.show', $row->slug) }}">
-                                <div class="mb-3 ratio ratio-16x9">
+                                <div class="mb-3 ratio ratio-4x3">
                                     <img style="object-fit: cover; width: 100%; height: 100%;"
                                         class="img-fluid rounded-4 shadow-sm"
                                         src="{{ asset('storage/berita/') . '/' . $row->foto }}" alt="">

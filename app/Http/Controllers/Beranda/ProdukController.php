@@ -21,9 +21,14 @@ class ProdukController extends Controller
 
     public function show(String $slug)
     {
+        $produk = Produk::with('kategori')
+                    ->where('slug', $slug)->first();
         $data = [
-            'produk' => Produk::with('kategori')->where('slug', $slug)->first(),
-            'produk_all' => Produk::latest()->take(5)->get()
+            'produk' => $produk,
+            'produk_all' => Produk::latest()
+                            ->take(5)
+                            ->where('id_kategori_produk', $produk->id_kategori_produk)
+                            ->get()
         ];
 
         return view('beranda.produk.details', $data);

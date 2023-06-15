@@ -22,9 +22,14 @@ class BeritaController extends Controller
 
     public function show(String $slug)
     {
+        $berita = Berita::with('kategori', 'user')
+                    ->where('slug', $slug)->first();
         $data = [
-            'berita' => Berita::with('kategori', 'user')->where('slug', $slug)->first(),
-            'berita_all' => Berita::latest()->take(5)->get()
+            'berita' => $berita,
+            'berita_all' => Berita::latest()
+                            ->take(5)
+                            ->where('id_kategori_berita', $berita->id_kategori_berita)
+                            ->get()
         ];
 
         return view('beranda.berita.details', $data);

@@ -21,9 +21,14 @@ class DaerahController extends Controller
 
     public function show(String $slug)
     {
+        $daerah = Daerah::with('kategori')
+                    ->where('slug', $slug)->first();
         $data = [
-            'daerah' => Daerah::with('kategori')->where('slug', $slug)->first(),
-            'daerah_all' => Daerah::latest()->take(5)->get()
+            'daerah' => $daerah,
+            'daerah_all' => Daerah::latest()
+                            ->take(5)
+                            ->where('id_kategori_daerah', $daerah->id_kategori_daerah)
+                            ->get()
         ];
 
         return view('beranda.daerah.details', $data);

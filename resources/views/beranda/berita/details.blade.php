@@ -11,7 +11,7 @@
     @isset($berita)
         <div class="bg-white">
             <div class="container">
-                <div class="row flex-column  align-items-center text-center  pt-lg-5 pt-2">
+                <div class="row flex-column align-items-center pt-lg-5 pt-2">
                     <div class="col-lg-8 col-12">
                         <h1 class="fw-bold mb-3 text-truncate fs-1 text-wrap">{{ $berita->judul }}</h1>
                     </div>
@@ -51,15 +51,15 @@
         <hr class="mb-0">
     </div>
     <div class="container-lg container-fluid">
-        <div class="row gap-4 bg-white">
+        <div class="row gap-lg-4 gap-1 bg-white">
             <div class="col-lg-7 col-12">
-                <div class="p-lg-4 px-0 py-3">
+                <div class="p-lg-4 px-0 py-lg-3 py-1">
                     <div class="text-wrap">{!! $berita->deskripsi !!}</div>
                 </div>
             </div>
             <div class="col-lg-4 col-12">
                 <div class="mt-4">
-                    <h5>Berita Lainnya</h5>
+                    <h5>Berita Terkait Lainnya</h5>
                     <div class="mt-3">
                         @foreach ($berita_all as $row)
                             <article class="d-flex gap-2 mb-3">
@@ -67,8 +67,10 @@
                                     <a style="object-fit: contain; width: 40%; height: 40%;" class="links"
                                         href="{{ route('berita.show', $row->slug) }}">
                                         <div class="mb-2">
-                                            <img class="img-fluid rounded-4 shadow-sm"
-                                                src="{{ asset('storage/berita/') . '/' . $row->foto }}" alt="">
+                                            <div class="ratio ratio-4x3">
+                                                <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
+                                                    src="{{ asset('storage/berita/') . '/' . $row->foto }}" alt="">
+                                            </div>
                                         </div>
                                     </a>
                                     <div class="mb-1">
