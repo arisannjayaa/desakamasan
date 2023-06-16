@@ -14,7 +14,7 @@ class LoginController extends Controller
 
     }
 
-    public function checkLogin(Request $request)
+    public function authenticate(Request $request)
     {
 
     }
