@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Berita')
+@section('title', 'Daerah')
 @push('css')
     <style>
         ul.pagination {
@@ -8,34 +8,36 @@
     </style>
 @endpush
 @section('content')
-    @if (isset($berita_last))
+    @if (isset($daerah_last))
         <div class="container">
             <div class="row mt-lg-5 mt-2 mb-lg-5">
                 <div class="col-lg-7 col-12 align-self-end order-2 order-lg-1">
-                    <h1 class="display-6 fw-bold mb-4">{{ $berita_last->judul }}</h1>
+                    <h1 class="display-6 fw-bold mb-4">{{ $daerah_last->nama }}</h1>
                     <p class="mb-0" style="line-height: 1.8;">
-                        {{ strip_tags(Str::limit($berita_last->deskripsi, 110)) }}</p>
-                    <a href="{{ route('berita.show', $berita_last->slug) }}"><button
+                        {{ strip_tags(Str::limit($daerah_last->deskripsi, 110)) }}</p>
+                    <a href="{{ route('daerah.show', $daerah_last->slug) }}"><button
                             class="btn btn-primary mb-3 mt-2 rounded-4">Selengkapnya</button></a>
                     <div>
                         <p>
                             <i class="bi bi-calendar3 me-2"></i>
-                            {{ \Carbon\Carbon::parse($berita_last->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($berita_last->created_at)->year ? 'd M' : 'd M Y') }}
+                            {{ \Carbon\Carbon::parse($daerah_last->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($daerah_last->created_at)->year ? 'd M' : 'd M Y') }}
                         </p>
-                        <p>
-                            <i class="bi bi-pencil me-2"></i>
-                            Ditulis oleh {{ $berita_last->user->username }}
-                        </p>
-                        <a href="{{ url('/berita/tags/') . '/' . $berita_last->kategori->slug }}" class="nav-link">
+                        <a href="#" class="nav-link">
                             <i class="bi bi-tag me-2"></i>
-                            <span class="badge border rounded-4 text-secondary">{{ $berita_last->kategori->nama }}</span>
+                            <span class="badge border rounded-4 text-secondary">{{ $daerah_last->kategori->nama }}</span>
                         </a>
                     </div>
                 </div>
                 <div class="col-lg-5 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
-                    <div class="ratio ratio-4x3">
-                        <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
-                            src="{{ asset('storage/berita/') . '/' . $berita_last->foto }}" alt="">
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @foreach ($daerah_last->foto as $index => $daerah_img)
+                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                    <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
+                                        src="{{ asset('storage/daerah/') . '/' . $daerah_img->file }}" alt="...">
+                                </div>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -45,7 +47,7 @@
             <hr>
             <div class="container">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#">Berita</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('daerah.index') }}">Daerah</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Terbaru</li>
                 </ol>
             </div>
@@ -53,14 +55,14 @@
         </div>
         <div class="container">
             <div class="row">
-                @foreach ($berita_all as $row)
+                @foreach ($daerah_all as $row)
                     <div class="col-lg-4 col-md-6 col-12">
                         <article>
-                            <a class="links" href="{{ route('berita.show', $row->slug) }}">
-                                <div class="mb-3 ratio ratio-4x3">
+                            <a class="links" href="{{ route('daerah.show', $row->slug) }}">
+                                <div class="mb-3 ratio ratio-16x9">
                                     <img style="object-fit: cover; width: 100%; height: 100%;"
                                         class="img-fluid rounded-4 shadow-sm"
-                                        src="{{ asset('storage/berita/') . '/' . $row->foto }}" alt="">
+                                        src="{{ asset('storage/daerah/') . '/' . $row->foto[0]->file }}" alt="">
                                 </div>
                             </a>
                             <div>
@@ -75,7 +77,7 @@
                                 <div class="mb-4">
                                     <h5 class="text-truncate">{{ $row->judul }}</h5>
                                     <p class="text-sm">{{ strip_tags(Str::limit($row->deskripsi, 85)) }}</p>
-                                    <a href="{{ route('berita.show', $row->slug) }}"><button
+                                    <a href="{{ route('daerah.show', $row->slug) }}"><button
                                             class="btn btn-primary rounded-4">Selengkapnya</button></a>
                                 </div>
                             </div>
@@ -84,10 +86,10 @@
                 @endforeach
             </div>
             <div class="d-lg-block d-none">
-                {{ $berita_all->links() }}
+                {{ $daerah_all->links() }}
             </div>
             <div class="d-lg-none d-block">
-                {{ $berita_simple->links() }}
+                {{ $daerah_simple->links() }}
             </div>
         </div>
     @else
