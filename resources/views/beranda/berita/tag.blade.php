@@ -13,10 +13,8 @@
             <div class="row mt-lg-5 mt-2 mb-lg-5">
                 <div class="col-lg-7 col-12 align-self-end order-2 order-lg-1">
                     <h1 class="display-6 fw-bold mb-4">{{ $berita_last->judul }}</h1>
-                    <p class="mb-0" style="line-height: 1.8;">
+                    <p style="line-height: 1.8;">
                         {{ strip_tags(Str::limit($berita_last->deskripsi, 110)) }}</p>
-                    <a href="{{ route('berita.show', $berita_last->slug) }}"><button
-                            class="btn btn-primary mb-3 mt-2 rounded-4">Selengkapnya</button></a>
                     <div>
                         <p>
                             <i class="bi bi-calendar3 me-2"></i>
@@ -57,7 +55,7 @@
                     <div class="col-lg-4 col-md-6 col-12">
                         <article>
                             <a class="links" href="{{ route('berita.show', $row->slug) }}">
-                                <div class="mb-3 ratio ratio-4x3">
+                                <div class="mb-3 ratio ratio-16x9">
                                     <img style="object-fit: cover; width: 100%; height: 100%;"
                                         class="img-fluid rounded-4 shadow-sm"
                                         src="{{ asset('storage/berita/') . '/' . $row->foto }}" alt="">
@@ -75,8 +73,6 @@
                                 <div class="mb-4">
                                     <h5 class="text-truncate">{{ $row->judul }}</h5>
                                     <p class="text-sm">{{ strip_tags(Str::limit($row->deskripsi, 85)) }}</p>
-                                    <a href="{{ route('berita.show', $row->slug) }}"><button
-                                            class="btn btn-primary rounded-4">Selengkapnya</button></a>
                                 </div>
                             </div>
                         </article>

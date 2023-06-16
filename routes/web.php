@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Profil\ProfilController;
 use App\Http\Controllers\Beranda\BerandaController;
 use App\Http\Controllers\Beranda\BeritaController;
+use App\Http\Controllers\Beranda\SearchController;
+use App\Http\Controllers\Beranda\DaerahController;
+use App\Http\Controllers\Beranda\ProdukController;
 use App\Http\Controllers\Berita\PostBeritaController;
 use App\Http\Controllers\Daerah\PostDaerahController;
 use App\Http\Controllers\Produk\PostProdukController;
@@ -29,9 +32,13 @@ use App\Http\Controllers\Daerah\KategoriDaerahController;
 Route::get('/', [BerandaController::class, 'index'])->name('beranda.index');
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
-Route::get('/daerah-wisata', [BerandaController::class, 'daerah'])->name('beranda.daerah');
-Route::get('/daerah-wisata/{slug}', [BerandaController::class, 'details_daerah'])->name('beranda.daerah.details');
+Route::get('/berita/tags/{slug}', [BeritaController::class, 'tags'])->name('berita.tags');
+Route::get('/daerah', [DaerahController::class, 'index'])->name('daerah.index');
+Route::get('/daerah/{slug}', [DaerahController::class, 'show'])->name('daerah.show');
+Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
+Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.show');
 Route::get('/login-admin', [LoginController::class, 'login'])->name('auth.login');
+Route::post('/search', [SearchController::class, 'search'])->name('search');
 
 
 // Filepond
