@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Profil\ProfilController;
 use App\Http\Controllers\Beranda\BerandaController;
@@ -37,7 +38,13 @@ Route::get('/daerah', [DaerahController::class, 'index'])->name('daerah.index');
 Route::get('/daerah/{slug}', [DaerahController::class, 'show'])->name('daerah.show');
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.show');
-Route::get('/login-admin', [LoginController::class, 'login'])->name('auth.login');
+
+Route::get('/login', [LoginController::class, 'login'])->name('auth.login')->middleware('guest');
+Route::get('/register', [RegisterController::class, 'register'])->middleware('guest');
+Route::post('/login', [LoginController::class, 'authenticate']);
+Route::post('/logout', [LoginController::class. 'login']);
+Route::post('/register', [RegisterController::class, 'store']);
+
 Route::post('/search', [SearchController::class, 'search'])->name('search');
 
 
