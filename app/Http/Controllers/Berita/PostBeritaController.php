@@ -35,7 +35,7 @@ class PostBeritaController extends Controller
         // Mengecek request dari datatables
         if (request()->ajax()) {
             // Query tabel berita
-            $berita = Berita::select('id', 'judul', 'foto', 'deskripsi')->orderBy('updated_at', 'desc');
+            $berita = Berita::select('id', 'judul', 'foto', 'deskripsi', 'slug')->orderBy('updated_at', 'desc');
             return DataTables::of($berita)
                 // Menambahkan index kolom urutan angka dari 1
                 ->addIndexColumn()
@@ -61,7 +61,7 @@ class PostBeritaController extends Controller
                         <li><span
                                 onclick="window.location.href=\''.route('berita-post.edit', $row->id) .'\'"
                                 role="button"class="dropdown-item">Edit</span></li>
-                        <li><span onclick="window.location.href="
+                        <li><span onclick="window.location.href=\''.route('berita.show', $row->slug) .'\'"
                                 role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>

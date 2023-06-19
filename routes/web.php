@@ -40,7 +40,6 @@ Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.sh
 Route::get('/login-admin', [LoginController::class, 'login'])->name('auth.login');
 Route::post('/search', [SearchController::class, 'search'])->name('search');
 
-
 // Filepond
 Route::controller(UploadVideoController::class)->group(function () {
     Route::post('video/upload', 'store')->name('video.upload');
