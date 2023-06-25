@@ -16,6 +16,7 @@ use App\Http\Controllers\Upload\UploadImageController;
 use App\Http\Controllers\Upload\UploadVideoController;
 use App\Http\Controllers\Berita\KategoriBeritaController;
 use App\Http\Controllers\Daerah\KategoriDaerahController;
+use App\Http\Controllers\Pemerintah\PostPemerintahController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,5 +68,5 @@ Route::prefix('user')->group(function () {
     // Profil
     Route::resource('profil-desa', ProfilController::class);
     // pemerintah
-    Route::resource('perangkat-desa', PemerintahanController::class);
+    Route::resource('perangkat-desa', PostPemerintahController::class);
 });
