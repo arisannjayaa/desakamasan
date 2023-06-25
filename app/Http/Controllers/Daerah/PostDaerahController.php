@@ -33,7 +33,7 @@ class PostDaerahController extends Controller
         }
 
         if (request()->ajax()) {
-            $daerah = Daerah::select('id', 'nama', 'alamat', 'id_kategori_daerah', 'slug')->orderBy('updated_at', 'desc');
+            $daerah = Daerah::with('kategori')->select('id', 'nama', 'alamat', 'id_kategori_daerah', 'slug')->orderBy('updated_at', 'desc');
             return DataTables::of($daerah)
                 ->addIndexColumn()
                 ->addColumn('opsi', function ($row) {

@@ -63,8 +63,8 @@
                         name: 'alamat',
                     },
                     {
-                        data: 'id_kategori_daerah',
-                        name: 'id_kategori_daerah',
+                        data: 'kategori.nama',
+                        name: 'kategori.nama',
                     },
                     {
                         data: 'opsi',
