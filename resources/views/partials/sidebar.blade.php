@@ -53,6 +53,7 @@
                     </a>
                 </li>
 
+                <li class="sidebar-title">Post</li>
                 {{-- berita --}}
                 <li
                     class="sidebar-item has-sub {{ request()->segment(2) == 'berita-post' || request()->segment(2) == 'berita-kategori' ? 'active' : '' }}">

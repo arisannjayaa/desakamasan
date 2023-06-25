@@ -74,7 +74,7 @@
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <button id="btnSearch" class="btn btn-primary rounded-4 w-100" data-bs-toggle="modal"
+                            <button id="btnSearch" class="btn border rounded-4" data-bs-toggle="modal"
                                 data-bs-target="#modalSearch"><i class="bi bi-search me-2"></i>
                                 Telusuri...</button>
                         </li>

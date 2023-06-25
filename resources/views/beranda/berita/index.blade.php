@@ -14,7 +14,7 @@
                 <div class="col-lg-7 col-12 align-self-end order-2 order-lg-1">
                     <h1 class="display-6 fw-bold mb-4">{{ $berita_last->judul }}</h1>
                     <p class="mb-0" style="line-height: 1.8;">
-                        {{ strip_tags(Str::limit($berita_last->deskripsi, 110)) }}</p>
+                        {{ strip_tags(Str::limit($berita_last->deskripsi, 150)) }}</p>
                     <a href="{{ route('berita.show', $berita_last->slug) }}"><button
                             class="btn btn-primary mb-3 mt-2 rounded-4">Selengkapnya</button></a>
                     <div>
