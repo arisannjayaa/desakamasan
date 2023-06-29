@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Profil\ProfilController;
 use App\Http\Controllers\Beranda\BerandaController;
@@ -17,6 +16,9 @@ use App\Http\Controllers\Upload\UploadVideoController;
 use App\Http\Controllers\Berita\KategoriBeritaController;
 use App\Http\Controllers\Daerah\KategoriDaerahController;
 use App\Http\Controllers\Pemerintah\PostPemerintahController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
+use App\Http\Controllers\Dashboard\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,8 +40,12 @@ Route::get('/daerah', [DaerahController::class, 'index'])->name('daerah.index');
 Route::get('/daerah/{slug}', [DaerahController::class, 'show'])->name('daerah.show');
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.show');
-Route::get('/login-admin', [LoginController::class, 'login'])->name('auth.login');
 Route::post('/search', [SearchController::class, 'search'])->name('search');
+
+// auth
+Route::get('/login', [LoginController::class, 'login'])->name('auth.login')->middleware('guest');
+Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('auth.authenticate')->middleware('guest');
+Route::get('/logout', [LogoutController::class, 'logout'])->name('auth.logout')->middleware('auth');
 
 // Filepond
 Route::controller(UploadVideoController::class)->group(function () {
@@ -52,7 +58,10 @@ Route::controller(UploadImageController::class)->group(function () {
     Route::delete('image/delete', 'destroy')->name('image.delete');
 });
 
-Route::prefix('user')->group(function () {
+// Route::controller('/login', [LoginController::class, 'login'])->name('login');
+
+Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // berita-post
     Route::resource('berita-post', PostBeritaController::class);
     // berita-kategori
