@@ -67,9 +67,16 @@
                             <a class="nav-link {{ request()->segment(1) == 'daerah' ? 'active' : '' }}"
                                 href="{{ route('daerah.index') }}">Daerah</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link {{ request()->segment(1) == 'kontak' ? 'active' : '' }}"
-                                href="#">Kontak</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Informasi
+                            </a>
+                            <ul class="dropdown-menu border">
+                                <li><a class="dropdown-item" href="#">Profil Desa</a></li>
+                                <li><a class="dropdown-item" href="#">Perangkat Desa</a></li>
+                                <li><a class="dropdown-item" href="#">Kontak</a></li>
+                            </ul>
                         </li>
                     </ul>
                     <ul class="navbar-nav mb-2 mb-lg-0">
@@ -137,20 +144,6 @@
                             </li>
                             <li class="nav-item">
                                 <a href="" class="nav-link">Tiktok</a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="col-lg-2 col-6">
-                        <h6>Kontak</h6>
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a href="" class="nav-link">Telepon</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">Email</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">Alamat</a>
                             </li>
                         </ul>
                     </div>

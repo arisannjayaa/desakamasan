@@ -75,7 +75,9 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     // produk-kategori
     Route::resource('produk-kategori', KategoriProdukController::class);
     // Profil
-    Route::resource('profil-desa', ProfilController::class);
+    // Route::resource('profil-desa', ProfilController::class);
+    Route::get('profil-desa', [ProfilController::class, 'index'])->name('profil-desa.index');
+    Route::put('profil-desa/{id}', [ProfilController::class, 'update'])->name('profil-desa.update');
     // pemerintah
     Route::resource('perangkat-desa', PostPemerintahController::class);
 });
