@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Berita;
 
 use App\Models\Berita;
 use App\Models\TemporaryFile;
+use App\Models\KategoriBerita;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BeritaRequest;
-use App\Models\KategoriBerita;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -135,7 +136,8 @@ class PostBeritaController extends Controller
             'slug' => $request->input('slug'),
             'deskripsi' => $request->input('deskripsi'),
             'foto' =>  ($temporary->file) ? $temporary->file : null,
-            'id_kategori_berita' => $request->input('kategori')
+            'id_kategori_berita' => $request->input('kategori'),
+            'id_user' => Auth::user()->id,
         ]);
 
         // Mengarahkan url ke rute berita dengan method index dan mengirimkan session
@@ -204,6 +206,7 @@ class PostBeritaController extends Controller
         $berita->slug = $request->input('slug');
         $berita->deskripsi = $request->input('deskripsi');
         $berita->id_kategori_berita = $request->input('kategori');
+        $berita->id_user = Auth::user()->id;
         $berita->foto = ($temporary->file == null) ? $foto : $temporary->file ;
         $berita->save();
 
