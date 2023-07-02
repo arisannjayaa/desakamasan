@@ -79,6 +79,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-heading mb-2">Peta</div>
+                        <div class="alert alert-light-info">Cari lokasi yang diinginkan pada kotak pencarian. Setelah muncul hasil akan muncul pin lokasi pencarian. Klik lagi titik lokasi agar data lokasi dapat terbaca.</div>
                         <div class="mb-2 rounded" id="map"></div>
                         <div class="row">
                             <div class="col-12 col-lg-6">
