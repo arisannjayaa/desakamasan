@@ -10,7 +10,7 @@
 @section('content')
     @if (isset($berita_last))
         <div class="container">
-            <div class="row mt-lg-5 mt-2 mb-lg-5">
+        <div class="row mt-lg-5 mt-2 mb-lg-5">
                 <div class="col-lg-7 col-12 align-self-end order-2 order-lg-1">
                     <h1 class="display-6 fw-bold mb-4">{{ $berita_last->judul }}</h1>
                     <p class="mb-0" style="line-height: 1.8;">
@@ -24,7 +24,7 @@
                         </p>
                         <p>
                             <i class="bi bi-pencil me-2"></i>
-                            Ditulis oleh {{ $berita_last->user->username }}
+                            Ditulis oleh {{ Str::ucfirst($berita_last->user->username) }}
                         </p>
                         <a href="{{ url('/berita/tags/') . '/' . $berita_last->kategori->slug }}" class="nav-link">
                             <i class="bi bi-tag me-2"></i>

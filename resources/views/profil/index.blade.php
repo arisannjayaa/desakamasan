@@ -14,7 +14,7 @@
     </style>
 @endpush
 @section('content')
-    <form action="{{ route('profil-desa.update', $profil->id) }}" method="post" enctype="multipart/form-data">
+    <form id="myForm" action="{{ route('profil-desa.update', $profil->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="row">
@@ -59,8 +59,8 @@
                             </div>
                             <div class="col-12 col-lg-6">
                                 <div class="form-group">
-                                    <label for="telepon" class="form-label">Email</label>
-                                    <input type="text" class="form-control" id="telepon" placeholder="" name="telepon"
+                                    <label for="email" class="form-label">Email</label>
+                                    <input type="text" class="form-control" id="email" placeholder="" name="email"
                                         value="{{ $profil->email }}">
                                 </div>
                             </div>
@@ -76,6 +76,7 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="card-heading mb-2">Peta</div>
+                        <div class="alert alert-light-info">Cari lokasi yang diinginkan pada kotak pencarian. Setelah muncul hasil akan muncul pin lokasi pencarian. Klik lagi titik lokasi agar data lokasi dapat terbaca.</div>
                         <div class="mb-2 rounded" id="map"></div>
                         <div class="row">
                             <div class="col-12 col-lg-6">
@@ -129,9 +130,68 @@
     <script src="{{ asset('') }}assets/static/js/pages/ckeditor.js"></script>
     <script>
         $(document).ready(function() {
+            $('#myForm').on('submit', function(e) {
+                e.preventDefault();
+                $('#btnSubmit').html(
+                    '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Loading...'
+                );
+                $('#btnSubmit').attr('disabled', 'disabled');
+                var form = $(this);
+                var url = form.attr('action');
+                $.ajax({
+                    type: "POST",
+                    url: url,
+                    data: form.serialize(),
+                    dataType: 'json',
+                    complete: function() {
+                        $('#btnSubmit').html('Simpan');
+                        $('#btnSubmit').removeAttr('disabled');
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            title: 'Berhasil!',
+                            text: response.message,
+                            icon: 'success',
+                            confirmButtonText: 'Okey',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                // Pengguna mengklik tombol "Cool"
+                                window.location.href =
+                                    '{{ route('produk-post.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                            } else {
+                                // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
+                                // Lakukan tindakan lain jika diperlukan
+                            }
+                        });
+                    },
+                    error: function(xhr, status, error) {
+                        var errorMessage = xhr.responseJSON.errors;
+                        console.log(errorMessage);
+                        if (xhr.status == 422) {
+                            var errorHtml =
+                                '<div class="alert alert-light-danger color-danger">';
+                            errorHtml += '<ul>';
+                            $.each(xhr.responseJSON.errors, function(key, value) {
+                                errorHtml +=
+                                    '<li><i class="bi bi-exclamation-circle"></i> ' +
+                                    value + '</li>';
+                            });
+                            errorHtml += '</ul>';
+                            errorHtml += '</div>';
+
+                            $('#errorContainer').html(errorHtml);
+                            $('html, body').animate({
+                                scrollTop: $('body').offset().top
+                            }, 100);
+                        } else {
+                            // Logika saat terjadi error selain status 422
+                        }
+                    },
+                });
+            });
+
             // you want to get it of the window global
             const providerOSM = new GeoSearch.OpenStreetMapProvider();
-            s
             //leaflet map
             var leafletMap = L.map('map', {
                 fullscreenControl: true,
@@ -172,6 +232,8 @@
             });
 
             leafletMap.addControl(search);
+
+            console.log(search.resultList);
 
             $('#btn_triger_input_foto').click(function() {
                 $(this).siblings('input[id="input_foto"]').trigger('click');
