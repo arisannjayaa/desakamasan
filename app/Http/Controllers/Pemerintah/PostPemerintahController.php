@@ -2,20 +2,31 @@
 
 namespace App\Http\Controllers\Pemerintah;
 
-use App\Models\Daerah;
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-use App\Http\Requests\PerangkatDesaRequest;
 use App\Models\Pemerintah;
 use App\Models\RiwayatKerja;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\Facades\DataTables;
+use App\Http\Requests\PerangkatDesaRequest;
+use App\Models\RiwayatPendidikan;
+use App\Models\TemporaryFile;
 
 class PostPemerintahController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+
+    protected $temporaryFile;
+
+    public function __construct()
+    {
+        $this->temporaryFile = new TemporaryFile();
+    }
+
     public function index()
     {
         if (Session::has('image_folder')) {
@@ -34,13 +45,13 @@ class PostPemerintahController extends Controller
                     </button>
                     <ul class="dropdown-menu border border-1">
                         <li><span
-                                onclick="window.location.href=\'' . route('daerah-post.edit', $row->id) . '\'"
+                                onclick="window.location.href=\'' . route('perangkat-desa.edit', $row->id) . '\'"
                                 role="button"class="dropdown-item">Edit</span></li>
-                        <li><span onclick="window.location.href=\'' . route('daerah.show', $row->slug) . '\'"
+                        <li><span onclick="window.location.href=\'' . route('perangkat-desa.show', $row->id) . '\'"
                                 role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>
-                <form id="myForm" class="d-inline" action="' . route('daerah-post.destroy', $row->id) . '"
+                <form id="myForm" class="d-inline" action="' . route('perangkat-desa.destroy', $row->id) . '"
                     method="post">
                     ' . method_field('DELETE') . '
                     ' . csrf_field() . '
@@ -85,7 +96,65 @@ class PostPemerintahController extends Controller
      */
     public function store(PerangkatDesaRequest $request)
     {
-        
+        // Mengambil temporary file dari session
+        $temporary = $this->temporaryFile->getFileFolder();
+
+        // Mendefinisikan lokasi direktori asal file dan melakukan pemindahan file
+        $path = storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
+        Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/perangkat-desa' . '/' . $temporary->file);
+
+        // Menghapus file dari lokasi direktori
+        File::delete($path);
+        try {
+            rmdir(storage_path('app/files/tmp/') . $temporary->folder);
+            $temporary->delete();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        // Menyimpan data berita ke tabel berita
+        try {
+            $pemerintah =  Pemerintah::create([
+                'nama' => $request->input('nama'),
+                'jabatan' => $request->input('jabatan'),
+                'tempat_lahir' => $request->input('tempat_lahir'),
+                'tanggal_lahir' => $request->input('tanggal_lahir'),
+                'jenis_kelamin' => $request->input('jenis_kelamin'),
+                'status_kawin' => $request->input('status_kawin'),
+                'jumlah_anak' => $request->input('jumlah_anak'),
+                'pendidikan_terakhir' => $request->input('pendidikan_terakhir'),
+                'pendidikan_terakhir' => $request->input('pendidikan_terakhir'),
+                'alamat' => $request->input('alamat'),
+                'foto' =>  ($temporary->file) ? $temporary->file : null,
+            ]);
+
+            foreach ($request->input('perusahaan_organisasi') as $key => $row) {
+                $riwayaKerja = new RiwayatKerja();
+                $riwayaKerja->id_pemerintah = $pemerintah->id;
+                $riwayaKerja->perusahaan_organisasi = $row;
+                $riwayaKerja->tahun_mulai = $request->input('tahun_mulai')[$key];
+                $riwayaKerja->tahun_selesai = $request->input('tahun_selesai')[$key];
+                $riwayaKerja->save();
+            }
+
+            foreach ($request->input('tahun_lulus') as $key => $row) {
+                $riwayatPendidikan = new RiwayatPendidikan();
+                $riwayatPendidikan->id_pemerintah = $pemerintah->id;
+                $riwayatPendidikan->jenjang = $request->input('jenjang')[$key];
+                $riwayatPendidikan->institusi = $request->input('institusi_pendidikan')[$key];
+                $riwayatPendidikan->tahun_lulus = $request->input('tahun_lulus')[$key];
+                $riwayatPendidikan->save();
+            }
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+
+        // Mengarahkan url ke rute berita dengan method index dan mengirimkan session
+        // return redirect()->route('berita.index')->with('success', 'Berhasil menambahkan data berita');
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil menambahkan data perangkat desa'
+        ]);
     }
 
 
@@ -102,7 +171,17 @@ class PostPemerintahController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        // Mendefinikasi data yang perlu dikirimkan ke view
+        $data = [
+            'menu' => 'Berita Edit',
+            'links' => [
+                'url' => route('berita-post.index'),
+                'button' => 'Batal',
+                'class' => 'btn-danger'
+            ],
+            'perangkat_desa' => Pemerintah::findOrFail($id),
+        ];
+        return view('pemerintah.edit', $data);
     }
 
     /**

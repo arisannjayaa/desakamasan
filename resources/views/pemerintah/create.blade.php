@@ -20,6 +20,21 @@
             <div class="col-lg-12 col-12">
                 <div class="card">
                     <div class="card-header">
+                        <span>Foto</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-grup">
+                            <label for="deskripsi" class="form-label">Gambar</label>
+                            <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-12">
+                <div class="card">
+                    <div class="card-header">
                         <span>Informasi Pribadi</span>
                     </div>
                     <div class="card-body">
@@ -54,15 +69,21 @@
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                    <input type="text" class="form-control" id="jenis_kelamin" placeholder=""
-                                        name="jenis_kelamin">
+                                    <select class="choices form-select" name="jenis_kelamin">
+                                        <option value="">Pilih jenis kelamin:</option>
+                                        <option value="Laki-Laki">Laki-Laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-10">
                                 <div class="form-group">
                                     <label for="status_kawin" class="form-label">Status Kawin</label>
-                                    <input type="text" class="form-control" id="status_kawin" placeholder=""
-                                        name="status_kawin">
+                                    <select class="choices form-select" name="status_kawin">
+                                        <option value="">Pilih status kawin:</option>
+                                        <option value="Kawin">Kawin</option>
+                                        <option value="Belum Kawin">Belum Kawin</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-2">
@@ -94,13 +115,13 @@
             <div class="col-lg-12 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <span>Riwayat Pekerjaan</span>
+                        <span>Riwayat Pekerjaan dan Pengalaman Organisasi</span>
                     </div>
                     <div class="card-body">
                         <div id="riwayat_kerja" class="card riwayat-kerja">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="perusahaan_organisasi" class="form-label">Perusahaan
                                                 Organisasi</label>
@@ -108,21 +129,14 @@
                                                 placeholder="" name="perusahaan_organisasi[]">
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label for="jabatan" class="form-label">Jabatan</label>
-                                            <input type="text" class="form-control" id="jabatan" placeholder=""
-                                                name="jabatan_kerja[]">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="tahun_mulai" class="form-label">Tahun Mulai</label>
                                             <input type="text" class="form-control" id="tahun_mulai" placeholder=""
                                                 name="tahun_mulai[]">
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="tahun_selesai" class="form-label">Tahun Selesai</label>
                                             <input type="text" class="form-control" id="tahun_selesai" placeholder=""
@@ -148,21 +162,21 @@
                         <div id="riwayat_pendidikan" class="card riwayat-pendidikan">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="jenjang" class="form-label">Jenjang</label>
                                             <input type="text" class="form-control" id="jenjang" placeholder=""
                                                 name="jenjang[]">
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="institusi" class="form-label">Institusi</label>
                                             <input type="text" class="form-control" id="institusi" placeholder=""
                                                 name="institusi_pendidikan[]">
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="tahun_lulus" class="form-label">Tahun Lulus</label>
                                             <input type="text" class="form-control" id="tahun_lulus" placeholder=""
@@ -278,11 +292,6 @@
                 counterPendidikan++; // Menambahkan counter setelah menambahkan elemen riwayat kerja baru
             });
 
-            $('#nama').on('input', function() {
-                var nama = $(this).val().toLowerCase().replace(/\s+/g, '-');
-                $('#slug').val(nama);
-            });
-
             $('#myForm').on('submit', function(e) {
                 e.preventDefault();
                 $('#btnSubmit').html(
@@ -310,7 +319,7 @@
                             if (result.isConfirmed) {
                                 // Pengguna mengklik tombol "Cool"
                                 window.location.href =
-                                    '{{ route('produk-post.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                                    '{{ route('perangkat-desa.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
                             } else {
                                 // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
                                 // Lakukan tindakan lain jika diperlukan
