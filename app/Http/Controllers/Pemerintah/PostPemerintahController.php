@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Pemerintah;
 use App\Models\Daerah;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\PerangkatDesaRequest;
 use App\Models\Pemerintah;
 use App\Models\RiwayatKerja;
 use Illuminate\Support\Facades\Session;
@@ -82,9 +83,9 @@ class PostPemerintahController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(PerangkatDesaRequest $request)
     {
-        dd($request->all());
+        
     }
 
 

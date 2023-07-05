@@ -97,7 +97,7 @@
                         <span>Riwayat Pekerjaan</span>
                     </div>
                     <div class="card-body">
-                        <div id="riwayat_kerja" class="card">
+                        <div id="riwayat_kerja" class="card riwayat-kerja">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12 col-lg-6">
@@ -145,14 +145,14 @@
                         <span>Riwayat Pendidikan</span>
                     </div>
                     <div class="card-body">
-                        <div id="riwayat_pendidikan" class="card">
+                        <div id="riwayat_pendidikan" class="card riwayat-pendidikan">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12 col-lg-6">
                                         <div class="form-group">
                                             <label for="jenjang" class="form-label">Jenjang</label>
-                                            <input type="text" class="form-control" id="jenjang"
-                                                placeholder="" name="jenjang[]">
+                                            <input type="text" class="form-control" id="jenjang" placeholder=""
+                                                name="jenjang[]">
                                         </div>
                                     </div>
                                     <div class="col-12 col-lg-6">
@@ -190,46 +190,92 @@
     <script src="{{ asset('') }}assets/static/js/pages/ckeditor.js"></script>
     <script>
         $(document).ready(function() {
-            // Menambahkan event listener pada tombol tambah riwayat
+            let counterKerja = 1; // Menyimpan jumlah elemen riwayat kerja yang telah ditambahkan
+
             $('#btn_riwayat_kerja').click(function() {
-                // Membuat salinan elemen riwayat kerja
-                const clonedRiwayatKerja = $('#riwayat_kerja').clone();
+                // Mengambil elemen terakhir yang ditambahkan
+                const lastRiwayatKerja = $('.riwayat-kerja').last();
+
+                // Membuat salinan elemen terakhir yang ditambahkan
+                const clonedRiwayatKerja = lastRiwayatKerja.clone();
 
                 // Menghapus nilai input pada elemen riwayat kerja yang baru
                 clonedRiwayatKerja.find('input').val('');
 
+                // Menghapus elemen yang tidak diperlukan
+                clonedRiwayatKerja.find('.d-flex.justify-content-end.mb-3.me-3').remove();
+
                 // Menambahkan tombol hapus
-                const hapusButton = $(`<div class="d-flex justify-content-end mb-3 me-3">
-                                    <button type="button" class="btn btn-danger">Hapus</button>
-                                    </div>`);
-                hapusButton.click(function() {
+                const hapusButton = $('<div class="d-flex justify-content-end mb-3 me-3">' +
+                    '<button type="button" class="btn btn-danger">Hapus</button>' +
+                    '</div>');
+
+                // Menghapus event click sebelumnya dari tombol hapus
+                hapusButton.off('click').click(function() {
                     $(this).parent().remove();
                 });
+
                 clonedRiwayatKerja.append(hapusButton);
 
-                // Menambahkan elemen riwayat kerja yang baru ke dalam container
-                clonedRiwayatKerja.insertAfter('#riwayat_kerja');
+                // Mengupdate nomor urut elemen riwayat kerja
+                clonedRiwayatKerja.find('.nomor-urut').text(counterKerja + 1);
+
+                // Menambahkan atribut "name" yang unik untuk input dan elemen terkait
+                const inputs = clonedRiwayatKerja.find('input');
+                inputs.each(function() {
+                    const name = $(this).attr('name');
+                    const newName = name + counterKerja;
+                    $(this).attr('name', newName);
+                });
+
+                // Menambahkan elemen riwayat kerja yang baru setelah elemen terakhir
+                clonedRiwayatKerja.insertAfter(lastRiwayatKerja);
+
+                counterKerja++; // Menambahkan counter setelah menambahkan elemen riwayat kerja baru
             });
 
-            // Menambahkan event listener pada tombol tambah riwayat
+            let counterPendidikan = 1; // Menyimpan jumlah elemen riwayat kerja yang telah ditambahkan
+
             $('#btn_riwayat_pendidikan').click(function() {
-                // Membuat salinan elemen riwayat kerja
-                const clonedRiwayatPendidikan = $('#riwayat_pendidikan').clone();
+                // Mengambil elemen terakhir yang ditambahkan
+                const lastRiwayatPendidikan = $('.riwayat-pendidikan').last();
+
+                // Membuat salinan elemen terakhir yang ditambahkan
+                const clonedRiwayatPendidikan = lastRiwayatPendidikan.clone();
 
                 // Menghapus nilai input pada elemen riwayat kerja yang baru
                 clonedRiwayatPendidikan.find('input').val('');
 
+                // Menghapus elemen yang tidak diperlukan
+                clonedRiwayatPendidikan.find('.d-flex.justify-content-end.mb-3.me-3').remove();
+
                 // Menambahkan tombol hapus
-                const hapusButton = $(`<div class="d-flex justify-content-end mb-3 me-3">
-                                    <button type="button" class="btn btn-danger">Hapus</button>
-                                    </div>`);
-                hapusButton.click(function() {
+                const hapusButton = $('<div class="d-flex justify-content-end mb-3 me-3">' +
+                    '<button type="button" class="btn btn-danger">Hapus</button>' +
+                    '</div>');
+
+                // Menghapus event click sebelumnya dari tombol hapus
+                hapusButton.off('click').click(function() {
                     $(this).parent().remove();
                 });
+
                 clonedRiwayatPendidikan.append(hapusButton);
 
-                // Menambahkan elemen riwayat kerja yang baru ke dalam container
-                clonedRiwayatPendidikan.insertAfter('#riwayat_pendidikan');
+                // Mengupdate nomor urut elemen riwayat kerja
+                clonedRiwayatPendidikan.find('.nomor-urut').text(counterPendidikan + 1);
+
+                // Menambahkan atribut "name" yang unik untuk input dan elemen terkait
+                const inputs = clonedRiwayatPendidikan.find('input');
+                inputs.each(function() {
+                    const name = $(this).attr('name');
+                    const newName = name + counterPendidikan;
+                    $(this).attr('name', newName);
+                });
+
+                // Menambahkan elemen riwayat kerja yang baru setelah elemen terakhir
+                clonedRiwayatPendidikan.insertAfter(lastRiwayatPendidikan);
+
+                counterPendidikan++; // Menambahkan counter setelah menambahkan elemen riwayat kerja baru
             });
 
             $('#nama').on('input', function() {
