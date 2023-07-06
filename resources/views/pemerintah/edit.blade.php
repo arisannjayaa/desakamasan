@@ -18,6 +18,7 @@
     </style>
 @endpush
 @section('content')
+{{-- @dd($riwayat_kerja) --}}
     <div id="errorContainer"></div>
     <form id="myForm" action="{{ route('perangkat-desa.update', $perangkat_desa->id) }}" method="post"
         enctype="multipart/form-data">
@@ -135,6 +136,8 @@
                             <div id="riwayat_kerja_{{ $key }}" class="card riwayat-kerja">
                                 <div class="card-body">
                                     <div class="row">
+                                        <input id="id_kerja"" type="text" value="{{ $row->id }}" hidden
+                                            name="id_kerja[]">
                                         <div class="col-12 col-lg-12">
                                             <div class="form-group">
                                                 <label for="perusahaan_organisasi" class="form-label">Perusahaan
@@ -164,7 +167,8 @@
                                 @if ($key != 0)
                                     <div class="d-flex justify-content-end mb-3 me-3"><button id="btnHapus"
                                             type="button" class="btn btn-danger"
-                                            onclick="removeKerja({{ $key }})">Hapus</button></div>
+                                            onclick="removeKerja('{{ $key }}', '{{ $row->id }}')">Hapus</button>
+                                    </div>
                                 @endif
                             </div>
                         @endforeach
@@ -185,6 +189,7 @@
                             <div id="riwayat_pendidikan_{{ $key }}" class="card riwayat-pendidikan">
                                 <div class="card-body">
                                     <div class="row">
+                                        <input type="text" value="{{ $row->id }}" hidden name="id_pendidikan[]">
                                         <div class="col-12 col-lg-12">
                                             <div class="form-group">
                                                 <label for="jenjang" class="form-label">Jenjang</label>
@@ -211,7 +216,8 @@
                                 @if ($key != 0)
                                     <div class="d-flex justify-content-end mb-3 me-3"><button id="btnHapus"
                                             type="button" class="btn btn-danger"
-                                            onclick="removePendidikan({{ $key }})">Hapus</button></div>
+                                            onclick="removePendidikan('{{ $key }}', '{{ $row->id }}')">Hapus</button>
+                                    </div>
                                 @endif
                             </div>
                         @endforeach
@@ -232,16 +238,72 @@
     <script src="{{ asset('') }}assets/extensions/ckeditor/ckeditor.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/ckeditor.js"></script>
     <script>
-        function removeKerja(id) {
-            console.log(id);
-            var riwayatKerja = $('#riwayat_kerja_' + id);
-            riwayatKerja.remove();
+        function removeKerja(id, id_kerja) {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Anda tidak akan dapat mengembalikan data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1d4ed8',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var riwayatKerja = $('#riwayat_kerja_' + id);
+                    riwayatKerja.remove();
+                    $.ajax({
+                        type: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{ url('/user/riwayatkerja/delete/') }}" + '/' + id_kerja,
+                        data: {
+                            id_kerja: id_kerja
+                        },
+                        success: function(response) {
+                            console.log(response);
+                        }
+                    });
+                }
+            });
         }
 
-        function removePendidikan(id) {
-            console.log(id);
-            var riwayatPendidikan = $('#riwayat_pendidikan_' + id);
-            riwayatPendidikan.remove();
+        function removePendidikan(id, id_pendidikan) {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Anda tidak akan dapat mengembalikan data ini!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#1d4ed8',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, hapus!',
+                cancelButtonText: 'Batal'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var riwayatPendidikan = $('#riwayat_pendidikan_' + id);
+                    riwayatPendidikan.remove();
+                    $.ajax({
+                        type: "DELETE",
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{ url('/user/riwayatpendidikan/delete/') }}" + '/' + id_pendidikan,
+                        data: {
+                            id_pendidikan: id_pendidikan
+                        },
+                        success: function(response) {
+                            console.log(response);
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText: 'Okey',
+                            })
+                        }
+                    });
+                }
+            });
         }
 
         $(document).ready(function() {
