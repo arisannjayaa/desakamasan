@@ -180,16 +180,83 @@ class PostPemerintahController extends Controller
                 'class' => 'btn-danger'
             ],
             'perangkat_desa' => Pemerintah::findOrFail($id),
+            'riwayat_kerja' => RiwayatKerja::with('pemerintah')
+                                ->where('id_pemerintah', $id)
+                                ->get(),
+            'riwayat_pendidikan' => RiwayatPendidikan::with('pemerintah')
+                                    ->where('id_pemerintah', $id)
+                                    ->get()
         ];
+
         return view('pemerintah.edit', $data);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(PerangkatDesaRequest $request, string $id)
     {
-        //
+        $riwayaKerja = RiwayatKerja::where('id_pemerintah', $id)->get();
+        dd($riwayaKerja[2]);
+        // dd($request->all());
+        // Mencari berita berdasarkan id
+        $pemerintah = Pemerintah::find($id);
+
+        // Mengambil temporary file dari session
+        $temporary = $this->temporaryFile->getFileFolder();
+
+        // Mengecek session apakah null atau tidak
+        $path = ($temporary->folder == null) ? '' : storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
+
+        // Mengecek session apakah memiliki data
+        if(Session::has('image_folder')) {
+            if(File::exists($path)) {
+                Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/perangkat-desa' . '/' . $temporary->file);
+
+                File::delete($path);
+                rmdir(storage_path('app/files/tmp/') . $temporary->folder);
+                $temporary->delete();
+            }
+        }
+
+        $foto = basename($request->input('gambar'));
+        // Menyimpan data berita
+        $pemerintah->nama = $request->input('nama');
+        $pemerintah->jabatan = $request->input('jabatan');
+        $pemerintah->tempat_lahir = $request->input('tempat_lahir');
+        $pemerintah->tanggal_lahir = $request->input('tanggal_lahir');
+        $pemerintah->jenis_kelamin = $request->input('jenis_kelamin');
+        $pemerintah->status_kawin = $request->input('status_kawin');
+        $pemerintah->jumlah_anak = $request->input('jumlah_anak');
+        $pemerintah->pendidikan_terakhir = $request->input('pendidikan_terakhir');
+        $pemerintah->alamat = $request->input('alamat');
+        $pemerintah->foto = ($temporary->file == null) ? $foto : $temporary->file ;
+        $pemerintah->save();
+
+        foreach ($request->input('perusahaan_organisasi') as $key => $row) {
+            $riwayaKerja = RiwayatKerja::where('id_pemerintah', $id)
+            ->first();
+            $riwayaKerja->id_pemerintah = $pemerintah->id;
+            $riwayaKerja->perusahaan_organisasi = $row;
+            $riwayaKerja->tahun_mulai = $request->input('tahun_mulai')[$key];
+            $riwayaKerja->tahun_selesai = $request->input('tahun_selesai')[$key];
+            $riwayaKerja->save();
+        }
+
+        foreach ($request->input('tahun_lulus') as $key => $row) {
+            $riwayatPendidikan = RiwayatPendidikan::where('id_pemerintah', $id)->first();
+            $riwayatPendidikan->id_pemerintah = $pemerintah->id;
+            $riwayatPendidikan->jenjang = $request->input('jenjang')[$key];
+            $riwayatPendidikan->institusi = $request->input('institusi_pendidikan')[$key];
+            $riwayatPendidikan->tahun_lulus = $request->input('tahun_lulus')[$key];
+            $riwayatPendidikan->save();
+        }
+        // Mengarahkan kembali ke berita serta mengirimkan session
+        // return redirect()->route('berita.index')->with('success', 'Berhasil memperbaharui data');
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil memperbaharui data berita'
+        ]);
     }
 
     /**
