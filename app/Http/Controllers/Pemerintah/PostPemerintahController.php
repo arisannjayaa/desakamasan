@@ -125,7 +125,7 @@ class PostPemerintahController extends Controller
                 'pendidikan_terakhir' => $request->input('pendidikan_terakhir'),
                 'pendidikan_terakhir' => $request->input('pendidikan_terakhir'),
                 'alamat' => $request->input('alamat'),
-                'foto' =>  ($temporary->file) ? $temporary->file : null,
+                'foto' => ($temporary->file) ? $temporary->file : null,
             ]);
 
             foreach ($request->input('perusahaan_organisasi') as $key => $row) {
@@ -181,11 +181,11 @@ class PostPemerintahController extends Controller
             ],
             'perangkat_desa' => Pemerintah::findOrFail($id),
             'riwayat_kerja' => RiwayatKerja::with('pemerintah')
-                                ->where('id_pemerintah', $id)
-                                ->get(),
+                ->where('id_pemerintah', $id)
+                ->get(),
             'riwayat_pendidikan' => RiwayatPendidikan::with('pemerintah')
-                                    ->where('id_pemerintah', $id)
-                                    ->get()
+                ->where('id_pemerintah', $id)
+                ->get()
         ];
 
         return view('pemerintah.edit', $data);
@@ -196,10 +196,10 @@ class PostPemerintahController extends Controller
      */
     public function update(PerangkatDesaRequest $request, string $id)
     {
-        $riwayaKerja = RiwayatKerja::where('id_pemerintah', $id)->get();
-        dd($riwayaKerja[2]);
+        // $riwayaKerja = RiwayatKerja::where('id_pemerintah', $id)->get();
+        // dd($riwayaKerja[2]);
         // dd($request->all());
-        // Mencari berita berdasarkan id
+        // // Mencari berita berdasarkan id
         $pemerintah = Pemerintah::find($id);
 
         // Mengambil temporary file dari session
@@ -209,8 +209,8 @@ class PostPemerintahController extends Controller
         $path = ($temporary->folder == null) ? '' : storage_path() . '/app/files/tmp/' . $temporary->folder . '/' . $temporary->file;
 
         // Mengecek session apakah memiliki data
-        if(Session::has('image_folder')) {
-            if(File::exists($path)) {
+        if (Session::has('image_folder')) {
+            if (File::exists($path)) {
                 Storage::move('files/tmp/' . $temporary->folder . '/' . $temporary->file, 'public/perangkat-desa' . '/' . $temporary->file);
 
                 File::delete($path);
@@ -230,32 +230,74 @@ class PostPemerintahController extends Controller
         $pemerintah->jumlah_anak = $request->input('jumlah_anak');
         $pemerintah->pendidikan_terakhir = $request->input('pendidikan_terakhir');
         $pemerintah->alamat = $request->input('alamat');
-        $pemerintah->foto = ($temporary->file == null) ? $foto : $temporary->file ;
+        $pemerintah->foto = ($temporary->file == null) ? $foto : $temporary->file;
         $pemerintah->save();
 
-        foreach ($request->input('perusahaan_organisasi') as $key => $row) {
-            $riwayaKerja = RiwayatKerja::where('id_pemerintah', $id)
-            ->first();
-            $riwayaKerja->id_pemerintah = $pemerintah->id;
-            $riwayaKerja->perusahaan_organisasi = $row;
-            $riwayaKerja->tahun_mulai = $request->input('tahun_mulai')[$key];
-            $riwayaKerja->tahun_selesai = $request->input('tahun_selesai')[$key];
-            $riwayaKerja->save();
+        $riwayatKerja= [];
+        for ($i = 0; $i < count($request->input('id_kerja')); $i++) {
+            $riwayatKerja[] = [
+                'id_kerja' => $request->input('id_kerja')[$i],
+                'perusahaan_organisasi' => $request->input('perusahaan_organisasi')[$i],
+                'tahun_mulai' => $request->input('tahun_mulai')[$i],
+                'tahun_selesai' => $request->input('tahun_selesai')[$i]
+            ];
+        }
+        // dd($riwayatKerja);
+        foreach ($riwayatKerja as $key => $row) {
+            if ($row['id_kerja'] != null) {
+                RiwayatKerja::where('id', $row['id_kerja'])
+                    ->where('id_pemerintah', $id)
+                    ->update([
+                        'perusahaan_organisasi' => $row['perusahaan_organisasi'],
+                        'tahun_mulai' => $row['tahun_mulai'],
+                        'tahun_selesai' => $row['tahun_selesai'],
+                    ]);
+
+            } else {
+                    RiwayatKerja::create([
+                        'id_pemerintah' => $id,
+                        'perusahaan_organisasi' => $row['perusahaan_organisasi'],
+                        'tahun_mulai' => $row['tahun_mulai'],
+                        'tahun_selesai' => $row['tahun_selesai'],
+                ]);
+            }
         }
 
-        foreach ($request->input('tahun_lulus') as $key => $row) {
-            $riwayatPendidikan = RiwayatPendidikan::where('id_pemerintah', $id)->first();
-            $riwayatPendidikan->id_pemerintah = $pemerintah->id;
-            $riwayatPendidikan->jenjang = $request->input('jenjang')[$key];
-            $riwayatPendidikan->institusi = $request->input('institusi_pendidikan')[$key];
-            $riwayatPendidikan->tahun_lulus = $request->input('tahun_lulus')[$key];
-            $riwayatPendidikan->save();
+        $riwayatPendidikan= [];
+        for ($i = 0; $i < count($request->input('id_pendidikan')); $i++) {
+            $riwayatPendidikan[] = [
+                'id_pendidikan' => $request->input('id_pendidikan')[$i],
+                'jenjang' => $request->input('jenjang')[$i],
+                'institusi_pendidikan' => $request->input('institusi_pendidikan')[$i],
+                'tahun_lulus' => $request->input('tahun_lulus')[$i],
+            ];
         }
+
+        foreach ($riwayatPendidikan as $key => $row) {
+            if ($row['id_pendidikan'] != null) {
+                RiwayatPendidikan::where('id', $row['id_pendidikan'])
+                    ->where('id_pemerintah', $id)
+                    ->update([
+                        'jenjang' => $row['jenjang'],
+                        'institusi' => $row['institusi_pendidikan'],
+                        'tahun_lulus' => $row['tahun_lulus'],
+                    ]);
+
+            } else {
+                    RiwayatPendidikan::create([
+                        'id_pemerintah' => $id,
+                        'jenjang' => $row['jenjang'],
+                        'institusi' => $row['institusi_pendidikan'],
+                        'tahun_lulus' => $row['tahun_lulus'],
+                ]);
+            }
+        }
+
         // Mengarahkan kembali ke berita serta mengirimkan session
         // return redirect()->route('berita.index')->with('success', 'Berhasil memperbaharui data');
         return response()->json([
             'status' => 200,
-            'message' => 'Berhasil memperbaharui data berita'
+            'message' => 'Berhasil memperbaharui data perangkat desa'
         ]);
     }
 
