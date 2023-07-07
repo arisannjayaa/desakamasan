@@ -1,21 +1,26 @@
 <?php
 
-use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Profil\ProfilController;
-use App\Http\Controllers\Beranda\BerandaController;
 use App\Http\Controllers\Beranda\BeritaController;
-use App\Http\Controllers\Beranda\SearchController;
 use App\Http\Controllers\Beranda\DaerahController;
 use App\Http\Controllers\Beranda\ProdukController;
+use App\Http\Controllers\Beranda\SearchController;
+use App\Http\Controllers\Beranda\BerandaController;
 use App\Http\Controllers\Berita\PostBeritaController;
 use App\Http\Controllers\Daerah\PostDaerahController;
 use App\Http\Controllers\Produk\PostProdukController;
-use App\Http\Controllers\Produk\KategoriProdukController;
 use App\Http\Controllers\Upload\UploadImageController;
 use App\Http\Controllers\Upload\UploadVideoController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Berita\KategoriBeritaController;
 use App\Http\Controllers\Daerah\KategoriDaerahController;
+use App\Http\Controllers\Produk\KategoriProdukController;
+use App\Http\Controllers\Pemerintah\PostPemerintahController;
+use App\Http\Controllers\Pemerintah\PostRiwayatKerjaController;
+use App\Http\Controllers\Pemerintah\PostRiwayatPendidikanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,9 +42,12 @@ Route::get('/daerah', [DaerahController::class, 'index'])->name('daerah.index');
 Route::get('/daerah/{slug}', [DaerahController::class, 'show'])->name('daerah.show');
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.show');
-Route::get('/login-admin', [LoginController::class, 'login'])->name('auth.login');
 Route::post('/search', [SearchController::class, 'search'])->name('search');
 
+// auth
+Route::get('/login', [LoginController::class, 'login'])->name('auth.login')->middleware('guest');
+Route::post('/authenticate', [LoginController::class, 'authenticate'])->name('auth.authenticate')->middleware('guest');
+Route::get('/logout', [LogoutController::class, 'logout'])->name('auth.logout')->middleware('auth');
 
 // Filepond
 Route::controller(UploadVideoController::class)->group(function () {
@@ -52,7 +60,10 @@ Route::controller(UploadImageController::class)->group(function () {
     Route::delete('image/delete', 'destroy')->name('image.delete');
 });
 
-Route::prefix('user')->group(function () {
+// Route::controller('/login', [LoginController::class, 'login'])->name('login');
+
+Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
+    Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
     // berita-post
     Route::resource('berita-post', PostBeritaController::class);
     // berita-kategori
@@ -66,7 +77,13 @@ Route::prefix('user')->group(function () {
     // produk-kategori
     Route::resource('produk-kategori', KategoriProdukController::class);
     // Profil
-    Route::resource('profil-desa', ProfilController::class);
+    // Route::resource('profil-desa', ProfilController::class);
+    Route::get('profil-desa', [ProfilController::class, 'index'])->name('profil-desa.index');
+    Route::put('profil-desa/{id}', [ProfilController::class, 'update'])->name('profil-desa.update');
     // pemerintah
-    Route::resource('perangkat-desa', PemerintahanController::class);
+    Route::resource('perangkat-desa', PostPemerintahController::class);
+    Route::delete('riwayatkerja/delete/{id}', [PostRiwayatKerjaController::class, 'destroy']);
+    Route::delete('riwayatpendidikan/delete/{id}', [PostRiwayatPendidikanController::class, 'destroy']);
 });
+
+

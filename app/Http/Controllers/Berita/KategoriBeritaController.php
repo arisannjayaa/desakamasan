@@ -31,8 +31,6 @@ class KategoriBeritaController extends Controller
                         <li><span
                                 onclick="window.location.href=\''.route('berita-kategori.edit', $row->id) .'\'"
                                 role="button"class="dropdown-item">Edit</span></li>
-                        <li><span onclick="window.location.href="
-                                role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>
                 <form id="myForm"  class="d-inline" action="'.route('berita-kategori.destroy', $row->id) .'"

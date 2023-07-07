@@ -4,9 +4,10 @@ namespace App\Http\Controllers\Berita;
 
 use App\Models\Berita;
 use App\Models\TemporaryFile;
+use App\Models\KategoriBerita;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BeritaRequest;
-use App\Models\KategoriBerita;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
@@ -35,7 +36,7 @@ class PostBeritaController extends Controller
         // Mengecek request dari datatables
         if (request()->ajax()) {
             // Query tabel berita
-            $berita = Berita::select('id', 'judul', 'foto', 'deskripsi')->orderBy('updated_at', 'desc');
+            $berita = Berita::select('id', 'judul', 'foto', 'deskripsi', 'slug')->orderBy('updated_at', 'desc');
             return DataTables::of($berita)
                 // Menambahkan index kolom urutan angka dari 1
                 ->addIndexColumn()
@@ -49,7 +50,7 @@ class PostBeritaController extends Controller
                 })
                 // Mengedit kolom gambar
                 ->editColumn('gambar', function ($row) {
-                    return '<img height="50" width="50" src="' . asset('/storage/berita') . '/' . $row->foto . '" alt="">';
+                    return '<img style="object-fit: cover;" height="50" width="50" src="' . asset('/storage/berita') . '/' . $row->foto . '" alt="">';
                 })
                 // Menambahkan kolom baru untuk menambahkan button edit, delete dan lainnya
                 ->addColumn('opsi', function ($row) {
@@ -61,7 +62,7 @@ class PostBeritaController extends Controller
                         <li><span
                                 onclick="window.location.href=\''.route('berita-post.edit', $row->id) .'\'"
                                 role="button"class="dropdown-item">Edit</span></li>
-                        <li><span onclick="window.location.href="
+                        <li><span onclick="window.location.href=\''.route('berita.show', $row->slug) .'\'"
                                 role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>
@@ -135,7 +136,8 @@ class PostBeritaController extends Controller
             'slug' => $request->input('slug'),
             'deskripsi' => $request->input('deskripsi'),
             'foto' =>  ($temporary->file) ? $temporary->file : null,
-            'id_kategori_berita' => $request->input('kategori')
+            'id_kategori_berita' => $request->input('kategori'),
+            'id_user' => Auth::user()->id,
         ]);
 
         // Mengarahkan url ke rute berita dengan method index dan mengirimkan session
@@ -204,6 +206,7 @@ class PostBeritaController extends Controller
         $berita->slug = $request->input('slug');
         $berita->deskripsi = $request->input('deskripsi');
         $berita->id_kategori_berita = $request->input('kategori');
+        $berita->id_user = Auth::user()->id;
         $berita->foto = ($temporary->file == null) ? $foto : $temporary->file ;
         $berita->save();
 

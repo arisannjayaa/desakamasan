@@ -1,10 +1,10 @@
 @extends('layouts.panel')
-@section('title', 'Daerah')
+@section('title', $menu)
 @section('content')
     <div class="card">
         <div class="card-header">
             <h5 class="card-title">
-                Tabel Daerah
+                Tabel {{ $menu }}
             </h5>
         </div>
         <div class="card-body">
@@ -13,9 +13,11 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>Foto</th>
                             <th>Nama</th>
-                            <th>Alamat</th>
-                            <th>Kategori</th>
+                            <th>Jabatan</th>
+                            <th>Pendidikan Terakhir</th>
+                            <th>Status Kawin</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -47,7 +49,7 @@
                         previous: "Sebelumnya"
                     },
                 },
-                ajax: '{{ route('daerah-post.index') }}',
+                ajax: '{{ route('perangkat-desa.index') }}',
                 columns: [{
                         data: 'DT_RowIndex',
                         name: 'DT_RowIndex',
@@ -55,16 +57,24 @@
                         searchable: false
                     },
                     {
+                        data: 'foto',
+                        name: 'foto',
+                    },
+                    {
                         data: 'nama',
                         name: 'nama',
                     },
                     {
-                        data: 'alamat',
-                        name: 'alamat',
+                        data: 'jabatan',
+                        name: 'jabatan',
                     },
                     {
-                        data: 'kategori.nama',
-                        name: 'kategori.nama',
+                        data: 'pendidikan_terakhir',
+                        name: 'pendidikan_terakhir',
+                    },
+                    {
+                        data: 'status_kawin',
+                        name: 'status_kawin',
                     },
                     {
                         data: 'opsi',

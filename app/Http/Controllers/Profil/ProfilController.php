@@ -22,45 +22,13 @@ class ProfilController extends Controller
                 'button' => 'Lihat Profil',
                 'class' => 'btn-primary'
             ],
-            'profil' => Profil::all()
+            'profil' => Profil::find(1)
         ];
 
+        // dd($data['profil'])
         // dd(Profil::all());
 
         return view('profil.index', $data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        // dd($request);
-
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -68,6 +36,7 @@ class ProfilController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        dd($request->all());
         $request->validate([
             'nama' => 'required',
             'deskripsi' => 'required',

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->unsignedInteger('jumlah_anak');
             $table->string('pendidikan_terakhir', 100);
             $table->string('alamat', 255);
+            $table->string('foto', 255)->nullable();
             $table->timestamps();
         });
     }

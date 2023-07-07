@@ -15,9 +15,8 @@ return new class extends Migration
             $table->id('id');
             $table->unsignedBigInteger('id_pemerintah');
             $table->string('perusahaan_organisasi', 255);
-            $table->string('jabatan', 100);
-            $table->year('tahun_mulai');
-            $table->year('tahun_selesai');
+            $table->string('tahun_mulai');
+            $table->string('tahun_selesai');
             $table->foreign('id_pemerintah')->references('id')->on('pemerintah');
             $table->timestamps();
         });

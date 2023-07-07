@@ -2,6 +2,16 @@
 @section('title', 'Edit Berita')
 @push('css')
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
+    <style>
+        .choices__inner {
+            background: #fff;
+        }
+
+        .choices__list--multiple .choices__item {
+            background: #1942b8;
+            border: 1px solid #1e4fde;
+        }
+    </style>
 @endpush
 @section('content')
     <div id="errorContainer"></div>

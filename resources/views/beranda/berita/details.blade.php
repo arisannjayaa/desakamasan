@@ -9,32 +9,29 @@
 @endpush
 @section('content')
     @isset($berita)
-        <div class="bg-white">
-            <div class="container">
-                <div class="row flex-column align-items-center pt-lg-5 pt-2">
-                    <div class="col-lg-8 col-12">
-                        <h1 class="fw-bold mb-3 text-truncate fs-1 text-wrap">{{ $berita->judul }}</h1>
+        <div class="container">
+            <div class="row mt-lg-5 mt-2 mb-lg-5">
+                <div class="col-lg-6 col-12 align-self-end order-2 order-lg-1">
+                    <h1 class="display-6 fw-bold mb-4">{{ $berita->judul }}</h1>
+                    <div class="mb-lg-0 mb-3">
+                        <p>
+                            <i class="bi bi-calendar3 me-2"></i>
+                            {{ \Carbon\Carbon::parse($berita->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($berita->created_at)->year ? 'd M' : 'd M Y') }}
+                        </p>
+                        <p>
+                            <i class="bi bi-pencil me-2"></i>
+                            Ditulis oleh {{ $berita->user->username }}
+                        </p>
+                        <a href="{{ url('/berita/tags/') . '/' . $berita->kategori->slug }}" class="nav-link">
+                            <i class="bi bi-tag me-2"></i>
+                            <span class="badge border rounded-4 text-secondary">{{ $berita->kategori->nama }}</span>
+                        </a>
                     </div>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 col-12">
-                        <div class="ratio ratio-16x9">
-                            <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
-                                src="{{ asset('storage/berita/') . '/' . $berita->foto }}" alt="">
-                        </div>
-                        <div class="d-lg-flex d-block my-3 gap-3">
-                            <p class="text-sm"><i
-                                    class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($berita->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($berita->created_at)->year ? 'd M' : 'd M Y') }}
-                            </p>
-                            <p>
-                                <i class="bi bi-pencil me-1"></i>
-                                Ditulis oleh {{ $berita->user->username }}
-                            </p>
-                            <a href="#" class="nav-link">
-                                <i class="bi bi-tag me-1"></i>
-                                <span class="badge border rounded-4 text-secondary">{{ $berita->kategori->nama }}</span>
-                            </a>
-                        </div>
+                <div class="col-lg-6 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
+                    <div class="ratio ratio-4x3">
+                        <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
+                            src="{{ asset('storage/berita/') . '/' . $berita->foto }}" alt="">
                     </div>
                 </div>
             </div>

@@ -33,7 +33,7 @@ class PostDaerahController extends Controller
         }
 
         if (request()->ajax()) {
-            $daerah = Daerah::select('id', 'nama', 'alamat', 'id_kategori_daerah')->orderBy('updated_at', 'desc');
+            $daerah = Daerah::with('kategori')->select('id', 'nama', 'alamat', 'id_kategori_daerah', 'slug')->orderBy('updated_at', 'desc');
             return DataTables::of($daerah)
                 ->addIndexColumn()
                 ->addColumn('opsi', function ($row) {
@@ -45,7 +45,7 @@ class PostDaerahController extends Controller
                         <li><span
                                 onclick="window.location.href=\''.route('daerah-post.edit', $row->id) .'\'"
                                 role="button"class="dropdown-item">Edit</span></li>
-                        <li><span onclick="window.location.href="
+                        <li><span onclick="window.location.href=\''.route('daerah.show', $row->slug) .'\'"
                                 role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>
