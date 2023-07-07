@@ -40,7 +40,7 @@ class PostPemerintahController extends Controller
                 ->addIndexColumn()
                 // Mengedit kolom gambar
                 ->editColumn('foto', function ($row) {
-                    return '<img style="object-fit: cover;" height="50" width="50" src="' . asset('/storage/perangkat-desa') . '/' . $row->foto . '" alt="">';
+                    return '<img style="object-fit: contain;" height="50" width="50" src="' . asset('/storage/perangkat-desa') . '/' . $row->foto . '" alt="">';
                 })
                 ->addColumn('opsi', function ($row) {
                     return '<div class="btn-group">
@@ -310,23 +310,21 @@ class PostPemerintahController extends Controller
     {
         // Mencari data berdasarkam id
         $pemerintah = Pemerintah::find($id);
-        dd($pemerintah->foto);
-
-        foreach ($pemerintah->foto as $foto) {
-            $file = $foto->file;
-            $filePath = storage_path('app/public/perangkat-desa/' . $file);
-
-            if (File::exists($filePath)) {
-                File::delete($filePath);
-            }
+        // dd($pemerintah->riwayat_kerja());
+        // Mendefinisika path penyimpanan gambar dserta
+        // melakukan pengecekan untuk penghapusan gambar
+        $path = storage_path() . '/app/public/perangkat-desa/' . $pemerintah->foto;
+        if(File::exists($path)) {
+            File::delete($path);
         }
-
-        $pemerintah->foto()->delete();
+        $pemerintah->riwayat_kerja()->delete();
+        $pemerintah->riwayat_pendidikan()->delete();
         $pemerintah->delete();
+
         // Mengirim response dalam bentok json
         return response()->json([
             'status' => 200,
-            'message' => 'Data daerah berhasil dihapus!'
+            'message' => 'Data berita berhasil dihapus!'
         ]);
     }
 }
