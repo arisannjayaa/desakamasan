@@ -24,7 +24,7 @@
                     </div>
                     <div class="card-body">
                         <div class="form-grup">
-                            <label for="deskripsi" class="form-label">Gambar</label>
+                            <label for="deskripsi" class="form-label">Foto</label>
                             <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
                         </div>
                     </div>
@@ -103,7 +103,8 @@
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="alamat" class="form-label">Alamat</label>
-                                    <input type="text" class="form-control" id="alamat" placeholder="" name="alamat">
+                                    <input type="text" class="form-control" id="alamat" placeholder=""
+                                        name="alamat">
                                 </div>
                             </div>
                         </div>

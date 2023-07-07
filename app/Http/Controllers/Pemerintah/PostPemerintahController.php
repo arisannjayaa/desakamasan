@@ -35,9 +35,13 @@ class PostPemerintahController extends Controller
         }
 
         if (request()->ajax()) {
-            $pemerintah = Pemerintah::select('id', 'nama', 'jabatan', 'pendidikan_terakhir', 'status_kawin')->orderBy('updated_at', 'desc');
+            $pemerintah = Pemerintah::select('id', 'nama', 'jabatan', 'pendidikan_terakhir', 'status_kawin', 'foto')->orderBy('updated_at', 'desc');
             return DataTables::of($pemerintah)
                 ->addIndexColumn()
+                // Mengedit kolom gambar
+                ->editColumn('foto', function ($row) {
+                    return '<img style="object-fit: cover;" height="50" width="50" src="' . asset('/storage/perangkat-desa') . '/' . $row->foto . '" alt="">';
+                })
                 ->addColumn('opsi', function ($row) {
                     return '<div class="btn-group">
                     <button type="button" class="btn btn-sm" data-bs-toggle="dropdown"
@@ -60,7 +64,7 @@ class PostPemerintahController extends Controller
                             class="bi bi-trash-fill"></i></button>
                 </form>';
                 })
-                ->rawColumns(['opsi'])
+                ->rawColumns(['opsi', 'foto'])
                 ->toJson(true);
         }
 
@@ -173,9 +177,9 @@ class PostPemerintahController extends Controller
     {
         // Mendefinikasi data yang perlu dikirimkan ke view
         $data = [
-            'menu' => 'Berita Edit',
+            'menu' => 'Perangkat Desa Edit',
             'links' => [
-                'url' => route('berita-post.index'),
+                'url' => route('perangkat-desa.index'),
                 'button' => 'Batal',
                 'class' => 'btn-danger'
             ],
@@ -233,7 +237,7 @@ class PostPemerintahController extends Controller
         $pemerintah->foto = ($temporary->file == null) ? $foto : $temporary->file;
         $pemerintah->save();
 
-        $riwayatKerja= [];
+        $riwayatKerja = [];
         for ($i = 0; $i < count($request->input('id_kerja')); $i++) {
             $riwayatKerja[] = [
                 'id_kerja' => $request->input('id_kerja')[$i],
@@ -252,18 +256,17 @@ class PostPemerintahController extends Controller
                         'tahun_mulai' => $row['tahun_mulai'],
                         'tahun_selesai' => $row['tahun_selesai'],
                     ]);
-
             } else {
-                    RiwayatKerja::create([
-                        'id_pemerintah' => $id,
-                        'perusahaan_organisasi' => $row['perusahaan_organisasi'],
-                        'tahun_mulai' => $row['tahun_mulai'],
-                        'tahun_selesai' => $row['tahun_selesai'],
+                RiwayatKerja::create([
+                    'id_pemerintah' => $id,
+                    'perusahaan_organisasi' => $row['perusahaan_organisasi'],
+                    'tahun_mulai' => $row['tahun_mulai'],
+                    'tahun_selesai' => $row['tahun_selesai'],
                 ]);
             }
         }
 
-        $riwayatPendidikan= [];
+        $riwayatPendidikan = [];
         for ($i = 0; $i < count($request->input('id_pendidikan')); $i++) {
             $riwayatPendidikan[] = [
                 'id_pendidikan' => $request->input('id_pendidikan')[$i],
@@ -282,13 +285,12 @@ class PostPemerintahController extends Controller
                         'institusi' => $row['institusi_pendidikan'],
                         'tahun_lulus' => $row['tahun_lulus'],
                     ]);
-
             } else {
-                    RiwayatPendidikan::create([
-                        'id_pemerintah' => $id,
-                        'jenjang' => $row['jenjang'],
-                        'institusi' => $row['institusi_pendidikan'],
-                        'tahun_lulus' => $row['tahun_lulus'],
+                RiwayatPendidikan::create([
+                    'id_pemerintah' => $id,
+                    'jenjang' => $row['jenjang'],
+                    'institusi' => $row['institusi_pendidikan'],
+                    'tahun_lulus' => $row['tahun_lulus'],
                 ]);
             }
         }
@@ -306,6 +308,25 @@ class PostPemerintahController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        // Mencari data berdasarkam id
+        $pemerintah = Pemerintah::find($id);
+        dd($pemerintah->foto);
+
+        foreach ($pemerintah->foto as $foto) {
+            $file = $foto->file;
+            $filePath = storage_path('app/public/perangkat-desa/' . $file);
+
+            if (File::exists($filePath)) {
+                File::delete($filePath);
+            }
+        }
+
+        $pemerintah->foto()->delete();
+        $pemerintah->delete();
+        // Mengirim response dalam bentok json
+        return response()->json([
+            'status' => 200,
+            'message' => 'Data daerah berhasil dihapus!'
+        ]);
     }
 }

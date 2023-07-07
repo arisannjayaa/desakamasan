@@ -12,13 +12,18 @@
             border: 1px solid #1e4fde;
         }
 
+        filepond--file-poster-wrapper {
+            height: 100px;
+        }
+
         .filepond--item {
-            width: calc(50% - 0.5em);
+            width: calc(30% - 0.5em);
+            margin: auto;
         }
     </style>
 @endpush
 @section('content')
-{{-- @dd($riwayat_kerja) --}}
+    {{-- @dd($riwayat_kerja) --}}
     <div id="errorContainer"></div>
     <form id="myForm" action="{{ route('perangkat-desa.update', $perangkat_desa->id) }}" method="post"
         enctype="multipart/form-data">
@@ -228,7 +233,7 @@
             </div>
         </div>
         <div class="mt-2 d-grid gap-2 d-md-block">
-            <button id="btnSubmit" type="submit" class="btn btn-primary">Simpan</button>
+            <button id="btnSubmit" type="submit" class="btn btn-primary">Perbaharui</button>
         </div>
     </form>
 @endsection
@@ -262,7 +267,12 @@
                             id_kerja: id_kerja
                         },
                         success: function(response) {
-                            console.log(response);
+                            Swal.fire({
+                                title: 'Berhasil!',
+                                text: response.message,
+                                icon: 'success',
+                                confirmButtonText: 'Okey',
+                            })
                         }
                     });
                 }
@@ -293,7 +303,6 @@
                             id_pendidikan: id_pendidikan
                         },
                         success: function(response) {
-                            console.log(response);
                             Swal.fire({
                                 title: 'Berhasil!',
                                 text: response.message,

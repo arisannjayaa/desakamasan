@@ -50,7 +50,7 @@ class PostBeritaController extends Controller
                 })
                 // Mengedit kolom gambar
                 ->editColumn('gambar', function ($row) {
-                    return '<img height="50" width="50" src="' . asset('/storage/berita') . '/' . $row->foto . '" alt="">';
+                    return '<img style="object-fit: cover;" height="50" width="50" src="' . asset('/storage/berita') . '/' . $row->foto . '" alt="">';
                 })
                 // Menambahkan kolom baru untuk menambahkan button edit, delete dan lainnya
                 ->addColumn('opsi', function ($row) {
