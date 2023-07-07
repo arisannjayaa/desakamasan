@@ -35,6 +35,8 @@
                             Pengaturan</a></li>
                     <hr class="dropdown-divider">
                     </li>
+                    <li><a class="dropdown-item" href="{{ route('beranda.index')  }}"><i class="icon-mid bi bi-house me-2"></i>
+                        Beranda</a></li>
                     <li><a class="dropdown-item" href="{{ route('auth.logout') }}"><i
                                 class="icon-mid bi bi-box-arrow-left me-2"></i>
                             Logout</a></li>

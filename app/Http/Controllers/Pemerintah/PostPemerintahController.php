@@ -51,7 +51,7 @@ class PostPemerintahController extends Controller
                         <li><span
                                 onclick="window.location.href=\'' . route('perangkat-desa.edit', $row->id) . '\'"
                                 role="button"class="dropdown-item">Edit</span></li>
-                        <li><span onclick="window.location.href=\'' . route('perangkat-desa.show', $row->id) . '\'"
+                        <li><span onclick="showModal(' . $row->id . ')"
                                 role="button"class="dropdown-item">Lihat</span></li>
                     </ul>
                 </div>
@@ -167,7 +167,15 @@ class PostPemerintahController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $pemerintah = Pemerintah::with('riwayat_pendidikan', 'riwayat_kerja')
+            ->where('pemerintah.id', $id)
+            ->first();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'Berhasil',
+            'data' => $pemerintah
+        ]);
     }
 
     /**
@@ -314,7 +322,7 @@ class PostPemerintahController extends Controller
         // Mendefinisika path penyimpanan gambar dserta
         // melakukan pengecekan untuk penghapusan gambar
         $path = storage_path() . '/app/public/perangkat-desa/' . $pemerintah->foto;
-        if(File::exists($path)) {
+        if (File::exists($path)) {
             File::delete($path);
         }
         $pemerintah->riwayat_kerja()->delete();
