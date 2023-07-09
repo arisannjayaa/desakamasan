@@ -21,6 +21,7 @@ use App\Http\Controllers\Produk\KategoriProdukController;
 use App\Http\Controllers\Pemerintah\PostPemerintahController;
 use App\Http\Controllers\Pemerintah\PostRiwayatKerjaController;
 use App\Http\Controllers\Pemerintah\PostRiwayatPendidikanController;
+use App\Http\Controllers\SosialMedia\SosialMediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -76,6 +77,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::resource('produk-post', PostProdukController::class);
     // produk-kategori
     Route::resource('produk-kategori', KategoriProdukController::class);
+    // sosial-media
+    Route::resource('sosial-media', SosialMediaController::class);
     // Profil
     // Route::resource('profil-desa', ProfilController::class);
     Route::get('profil-desa', [ProfilController::class, 'index'])->name('profil-desa.index');
@@ -85,5 +88,3 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::delete('riwayatkerja/delete/{id}', [PostRiwayatKerjaController::class, 'destroy']);
     Route::delete('riwayatpendidikan/delete/{id}', [PostRiwayatPendidikanController::class, 'destroy']);
 });
-
-

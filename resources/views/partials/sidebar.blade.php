@@ -108,7 +108,7 @@
                 <li class="sidebar-title">Informasi</li>
                 {{-- Informasi --}}
                 <li
-                    class="sidebar-item has-sub {{ request()->segment(2) == 'profil-desa' || request()->segment(2) == 'pengurus-desa' ? 'active' : '' }}">
+                    class="sidebar-item has-sub {{ request()->segment(2) == 'sosial-media' || request()->segment(2) == 'profil-desa' || request()->segment(2) == 'pengurus-desa' ? 'active' : '' }}">
                     <a href="#" class='sidebar-link'>
                         <i class="bi bi-person-lines-fill"></i>
                         <span>Informasi Desa</span>
@@ -121,7 +121,7 @@
                             <a href="{{ route('perangkat-desa.index') }}" class="submenu-link">Perangkat</a>
                         </li>
                         <li class="submenu-item {{ request()->segment(2) == 'sosial-media' ? 'active' : '' }}">
-                            <a href="" class="submenu-link">Sosial Media</a>`
+                            <a href="{{ route('sosial-media.index') }}" class="submenu-link">Sosial Media</a>`
                         </li>
                     </ul>
                 </li>
