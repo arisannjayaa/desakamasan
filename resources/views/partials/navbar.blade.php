@@ -19,8 +19,9 @@
                             <p class="mb-0 text-sm text-gray-600">{{ Str::ucfirst(Auth::user()->role) }}</p>
                         </div>
                         <div class="user-img d-flex align-items-center">
-                            <div class="avatar avatar-md">
-                                <img src="{{ asset('') }}assets/compiled/jpg/1.jpg">
+                            <div class="avatar  me-3" style="background-color: #80c51d">
+                                <span
+                                    class="avatar-content">{{ Str::upper(Str::substr(Auth::user()->username, 0, 1)) }}</span>
                             </div>
                         </div>
                     </div>
@@ -30,13 +31,15 @@
                     <li>
                         <h6 class="dropdown-header">Halo 👋, {{ Str::ucfirst(Auth::user()->username) }}</h6>
                     </li>
-                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> Profil Saya</a></li>
+                    <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-person me-2"></i> Profil
+                            Saya</a></li>
                     <li><a class="dropdown-item" href="#"><i class="icon-mid bi bi-gear me-2"></i>
                             Pengaturan</a></li>
                     <hr class="dropdown-divider">
                     </li>
-                    <li><a class="dropdown-item" href="{{ route('beranda.index')  }}"><i class="icon-mid bi bi-house me-2"></i>
-                        Beranda</a></li>
+                    <li><a class="dropdown-item" href="{{ route('beranda.index') }}"><i
+                                class="icon-mid bi bi-house me-2"></i>
+                            Beranda</a></li>
                     <li><a class="dropdown-item" href="{{ route('auth.logout') }}"><i
                                 class="icon-mid bi bi-box-arrow-left me-2"></i>
                             Logout</a></li>
