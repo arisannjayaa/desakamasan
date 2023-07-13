@@ -5,42 +5,43 @@
         ul.pagination {
             justify-content: center;
         }
+
+        #map {
+            height: 500px;
+            /* The height is 400 pixels */
+        }
+
+        .leaflet-geosearch-bar {
+            z-index: 0;
+        }
     </style>
 @endpush
 @section('content')
     @isset($daerah)
-        <div class="bg-white">
-            <div class="container">
-                <div class="row flex-column  align-items-center text-center  pt-lg-5 pt-2">
-                    <div class="col-lg-8 col-12">
-                        <h1 class="fw-bold mb-3 text-truncate fs-1 text-wrap">{{ $daerah->nama }}</h1>
+        <div class="container">
+            <div class="row mt-lg-5 mt-2 mb-lg-5">
+                <div class="col-lg-7 col-12 align-self-end order-2 order-lg-1">
+                    <h1 class="display-6 fw-bold mb-4">{{ $daerah->nama }}</h1>
+                    <div>
+                        <p>
+                            <i class="bi bi-calendar3 me-2"></i>
+                            {{ \Carbon\Carbon::parse($daerah->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($daerah->created_at)->year ? 'd M' : 'd M Y') }}
+                        </p>
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-tag me-2"></i>
+                            <span class="badge border rounded-4 text-secondary">{{ $daerah->kategori->nama }}</span>
+                        </a>
                     </div>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 col-12">
-                        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach ($daerah->foto as $index => $daerah_img)
-                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                        <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
-                                            src="{{ asset('storage/daerah/') . '/' . $daerah_img->file }}" alt="...">
-                                    </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="d-lg-flex d-block my-3 gap-3">
-                            <p class="text-sm"><i
-                                    class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($daerah->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($daerah->created_at)->year ? 'd M' : 'd M Y') }}
-                            </p>
-                            <a href="#" class="nav-link">
-                                <i class="bi bi-tag me-1"></i>
-                                <span class="badge border rounded-4 text-secondary">{{ $daerah->kategori->nama }}</span>
-                            </a>
-                            <a href="https://www.google.com/maps?q={{ $daerah->latitude . ',' . $daerah->longitude }}"
-                                class="nav-link">
-                                <i class="bi bi-map me-1"></i>
-                                <span class="badge border rounded-4 text-secondary">{{ $daerah->alamat }}</span>
-                            </a>
+                <div class="col-lg-5 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @foreach ($daerah->foto as $index => $daerah_img)
+                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                    <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
+                                        src="{{ asset('storage/daerah/') . '/' . $daerah_img->file }}" alt="...">
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -58,47 +59,37 @@
         <hr class="mb-0">
     </div>
     <div class="container-lg container-fluid">
-        <div class="row gap-4 bg-white">
-            <div class="col-lg-7 col-12">
+        <div class="row gap-lg-4 justify-content-center">
+            <div class="col-lg-8 col-12 bg-white">
                 <div class="p-lg-4 px-0 py-3">
                     <div class="text-wrap">{!! $daerah->deskripsi !!}</div>
                     <h6>Lokasi</h6>
-                    <iframe
-                        src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3945.4676792792393!2d{{ $daerah->longitude }}!3d{{ $daerah->latitude }}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zOMKwMzMnMDMuNCJTIDExNcKwMjQnMzIuMCJF!5e0!3m2!1sid!2sid!4v1686218278134!5m2!1sid!2sid"
-                        width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
-                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    <div class="mb-2 rounded" id="map"></div>
                 </div>
             </div>
-            <div class="col-lg-4 col-12">
+        </div>
+        <div class="row justify-content-center">
+            <div class="p-lg-4 col-lg-8 col-12 bg-white">
                 <div class="mt-4">
-                    <h5>Produk Lainnya</h5>
+                    <h5>Daerah Terkait Lainnya</h5>
                     <div class="mt-3">
-                        @foreach ($daerah_all as $row)
-                            <article class="d-flex gap-2 mb-3">
-                                <div class="col-lg-5 col-5">
+                        <div class="row">
+                            @foreach ($daerah_all as $row)
+                                <div class="col-lg-4">
                                     <a style="object-fit: contain; width: 40%; height: 40%;" class="links"
                                         href="{{ route('daerah.show', $row->slug) }}">
                                         <div class="mb-2">
-                                            <img class="img-fluid rounded-4 shadow-sm"
-                                                src="{{ asset('storage/daerah/') . '/' . $row->foto[0]->file }}"
-                                                alt="">
+                                            <div class="ratio ratio-16x9">
+                                                <img class="img-fluid rounded-4 shadow-sm"
+                                                    src="{{ asset('storage/daerah/') . '/' . $row->foto[0]->file }}"
+                                                    alt="">
+                                            </div>
                                         </div>
                                     </a>
-                                    <div class="mb-1">
-                                        <span
-                                            class="text-sm">{{ \Carbon\Carbon::parse($row->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($row->created_at)->year ? 'd M' : 'd M Y') }}
-                                        </span>
-                                    </div>
+                                    <p>{{ Str::limit($row->nama, 70, '...') }}</p>
                                 </div>
-                                <div class="col-lg-8 col-7 mt-1">
-                                    <div class="mb-4">
-                                        <h5 class="text-truncate fs-6">{{ $row->nama }}</h5>
-                                        <p class="text-truncate text-sm text-wrap">
-                                            {{ strip_tags(Str::limit($row->deskripsi, 70)) }}</p>
-                                    </div>
-                                </div>
-                            </article>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
@@ -106,4 +97,30 @@
     </div>
 @endsection
 @push('js')
+    <script>
+        $(document).ready(function() {
+            var latitude = <?= $daerah->latitude ?>; // Ganti dengan latitude yang diinginkan
+            var longitude = <?= $daerah->longitude ?>; // Ganti dengan longitude yang diinginkan
+
+            var map = L.map('map').setView([latitude, longitude], 13);
+
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            var marker = L.marker([latitude, longitude]).addTo(map);
+
+            marker.bindPopup("Lokasi Anda<br><a href='https://www.google.com/maps/search/?api=1&query=" + latitude +
+                "," + longitude + "' target='_blank'>Buka di Google Maps</a>").openPopup();
+
+            function openUrl(url) {
+                var win = window.open(url, '_blank');
+                win.focus();
+            }
+
+            marker.on('click', function() {
+                openUrl('https://www.google.com/maps/search/?api=1&query=' + latitude + ',' + longitude);
+            });
+        });
+    </script>
 @endpush

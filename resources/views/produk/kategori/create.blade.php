@@ -1,10 +1,10 @@
 @extends('layouts.panel')
 @section('title', 'Tambah Kategori Produk')
 @section('content')
-    <div id="errorContainer"></div>
     <form id="myForm" action="{{ route('produk-kategori.store') }}" method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-lg-12 col-12">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-12">
+                <div id="errorContainer"></div>
                 <div class="card">
                     <div class="card-body">
                         @csrf
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-2 d-grid gap-2 d-md-block">
+                <div class="mt-2 d-grid gap-2">
                     <button id="btnSubmit" type="submit" class="btn btn-primary">Simpan</button>
                 </div>
             </div>

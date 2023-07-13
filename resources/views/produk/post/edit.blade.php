@@ -14,10 +14,10 @@
     </style>
 @endpush
 @section('content')
-    <div id="errorContainer"></div>
     <form id="myForm" action="{{ route('produk-post.update', $produk->id) }}" method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-lg-12 col-12">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-12">
+                <div id="errorContainer"></div>
                 <div class="card">
                     <div class="card-body">
                         @method('PATCH')
@@ -74,11 +74,12 @@
                         </div>
                     </div>
                 </div>
+                <div class="mt-2 d-grid gap-2">
+                    <button id="btnSubmit" type="submit" class="btn btn-primary">Perbaharui</button>
+                </div>
             </div>
         </div>
-        <div class="mt-2 d-grid gap-2 d-md-block">
-            <button id="btnSubmit" type="submit" class="btn btn-primary">Perbaharui</button>
-        </div>
+
     </form>
 @endsection
 @push('js')

@@ -9,6 +9,7 @@ use App\Http\Controllers\Beranda\DaerahController;
 use App\Http\Controllers\Beranda\ProdukController;
 use App\Http\Controllers\Beranda\SearchController;
 use App\Http\Controllers\Beranda\BerandaController;
+use App\Http\Controllers\Beranda\PerangkatDesaController;
 use App\Http\Controllers\Berita\PostBeritaController;
 use App\Http\Controllers\Daerah\PostDaerahController;
 use App\Http\Controllers\Produk\PostProdukController;
@@ -44,6 +45,7 @@ Route::get('/daerah/{slug}', [DaerahController::class, 'show'])->name('daerah.sh
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.show');
 Route::post('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/perangkat-desa', [PerangkatDesaController::class, 'index'])->name('beranda.perangkat-desa.index');
 
 // auth
 Route::get('/login', [LoginController::class, 'login'])->name('auth.login')->middleware('guest');
