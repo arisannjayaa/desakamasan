@@ -73,16 +73,16 @@
                                 href="{{ route('daerah.index') }}">Daerah</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            <a class="nav-link dropdown-toggle {{ request()->segment(1) == 'informasi' ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Informasi
                             </a>
                             <ul class="dropdown-menu border">
-                                <li><a class="dropdown-item" href="#">Profil Desa</a></li>
-                                <li><a class="dropdown-item"
+                                <li><a class="dropdown-item {{ request()->segment(2) == 'profil-desa' ? 'active' : '' }}" href="#">Profil Desa</a></li>
+                                <li><a class="dropdown-item {{ request()->segment(2) == 'perangkat-desa' ? 'active' : '' }}"
                                         href="{{ route('beranda.perangkat-desa.index') }}">Perangkat Desa</a>
                                 </li>
-                                <li><a class="dropdown-item" href="#">Kontak</a></li>
+                                <li><a class="dropdown-item {{ request()->segment(2) == 'kontak' ? 'active' : '' }}" href="#">Kontak</a></li>
                                 @guest
                                     <li><a href="{{ route('berita-post.index') }}" class="dropdown-item"
                                             href="#">Login</a></li>

@@ -25,6 +25,10 @@ class PerangkatDesaRequest extends FormRequest
         $id = $this->segment(3);
         return [
             'nama' => 'required|max:255',
+            'slug' => [
+                'required',
+                Rule::unique('pemerintah', 'slug')->ignore($id)
+            ],
             'jabatan' => 'required|max:60',
             'tempat_lahir' => 'required|max:70',
             'tanggal_lahir' => 'required|date',
@@ -48,6 +52,10 @@ class PerangkatDesaRequest extends FormRequest
             'nama' => [
                 'required' => 'Nama tidak boleh kosong',
                 'max' => 'Nama tidak boleh melebih dari 255 karakter'
+            ],
+            'slug' => [
+                'required' => 'Slug tidak boleh kosong',
+                'unique' => 'Sudah terdapat slug perangkat desa dengan nama yang sama'
             ],
             'jabatan' => [
                 'required' => 'Jabatan tidak boleh kosong',

@@ -120,6 +120,7 @@ class PostPemerintahController extends Controller
         try {
             $pemerintah =  Pemerintah::create([
                 'nama' => $request->input('nama'),
+                'slug' => $request->input('slug'),
                 'jabatan' => $request->input('jabatan'),
                 'tempat_lahir' => $request->input('tempat_lahir'),
                 'tanggal_lahir' => $request->input('tanggal_lahir'),
@@ -234,6 +235,7 @@ class PostPemerintahController extends Controller
         $foto = basename($request->input('gambar'));
         // Menyimpan data berita
         $pemerintah->nama = $request->input('nama');
+        $pemerintah->slug = $request->input('slug');
         $pemerintah->jabatan = $request->input('jabatan');
         $pemerintah->tempat_lahir = $request->input('tempat_lahir');
         $pemerintah->tanggal_lahir = $request->input('tanggal_lahir');

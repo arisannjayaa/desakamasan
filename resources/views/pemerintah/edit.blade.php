@@ -61,6 +61,13 @@
                             </div>
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
+                                    <label for="slug" class="form-label">Slug</label>
+                                    <input type="text" class="form-control" id="slug" placeholder="" name="slug" value="{{ $perangkat_desa->slug }}"
+                                        readonly>
+                                </div>
+                            </div>
+                            <div class="col-12 col-lg-12">
+                                <div class="form-group">
                                     <label for="jabatan" class="form-label">Jabatan</label>
                                     <input type="text" class="form-control" id="jabatan" placeholder="" name="jabatan"
                                         value="{{ $perangkat_desa->jabatan }}">
@@ -316,6 +323,11 @@
         }
 
         $(document).ready(function() {
+            $('#nama').on('input', function() {
+                var nama = $(this).val().toLowerCase().replace(/\s+/g, '-');
+                $('#slug').val(nama);
+            });
+
             let counterKerja = 1; // Menyimpan jumlah elemen riwayat kerja yang telah ditambahkan
 
             $('#btn_riwayat_kerja').click(function() {

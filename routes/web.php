@@ -45,7 +45,7 @@ Route::get('/daerah/{slug}', [DaerahController::class, 'show'])->name('daerah.sh
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.show');
 Route::post('/search', [SearchController::class, 'search'])->name('search');
-Route::get('/perangkat-desa', [PerangkatDesaController::class, 'index'])->name('beranda.perangkat-desa.index');
+Route::get('/informasi/perangkat-desa', [PerangkatDesaController::class, 'index'])->name('beranda.perangkat-desa.index');
 
 // auth
 Route::get('/login', [LoginController::class, 'login'])->name('auth.login')->middleware('guest');

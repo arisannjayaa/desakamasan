@@ -23,6 +23,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('sosial_media_profil');
+        Schema::dropIfExists('sosial_media');
     }
 };
