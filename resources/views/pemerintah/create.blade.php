@@ -20,6 +20,21 @@
             <div class="col-lg-12 col-12">
                 <div class="card">
                     <div class="card-header">
+                        <span>Foto</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-grup">
+                            <label for="deskripsi" class="form-label">Foto</label>
+                            <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 col-12">
+                <div class="card">
+                    <div class="card-header">
                         <span>Informasi Pribadi</span>
                     </div>
                     <div class="card-body">
@@ -54,15 +69,21 @@
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="jenis_kelamin" class="form-label">Jenis Kelamin</label>
-                                    <input type="text" class="form-control" id="jenis_kelamin" placeholder=""
-                                        name="jenis_kelamin">
+                                    <select class="choices form-select" name="jenis_kelamin">
+                                        <option value="">Pilih jenis kelamin:</option>
+                                        <option value="Laki-Laki">Laki-Laki</option>
+                                        <option value="Perempuan">Perempuan</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-10">
                                 <div class="form-group">
                                     <label for="status_kawin" class="form-label">Status Kawin</label>
-                                    <input type="text" class="form-control" id="status_kawin" placeholder=""
-                                        name="status_kawin">
+                                    <select class="choices form-select" name="status_kawin">
+                                        <option value="">Pilih status kawin:</option>
+                                        <option value="Kawin">Kawin</option>
+                                        <option value="Belum Kawin">Belum Kawin</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="col-12 col-lg-2">
@@ -82,7 +103,8 @@
                             <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="alamat" class="form-label">Alamat</label>
-                                    <input type="text" class="form-control" id="alamat" placeholder="" name="alamat">
+                                    <input type="text" class="form-control" id="alamat" placeholder=""
+                                        name="alamat">
                                 </div>
                             </div>
                         </div>
@@ -94,13 +116,13 @@
             <div class="col-lg-12 col-12">
                 <div class="card">
                     <div class="card-header">
-                        <span>Riwayat Pekerjaan</span>
+                        <span>Riwayat Pekerjaan dan Pengalaman Organisasi</span>
                     </div>
                     <div class="card-body">
-                        <div id="riwayat_kerja" class="card">
+                        <div id="riwayat_kerja" class="card riwayat-kerja">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="perusahaan_organisasi" class="form-label">Perusahaan
                                                 Organisasi</label>
@@ -108,21 +130,14 @@
                                                 placeholder="" name="perusahaan_organisasi[]">
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-6">
-                                        <div class="form-group">
-                                            <label for="jabatan" class="form-label">Jabatan</label>
-                                            <input type="text" class="form-control" id="jabatan" placeholder=""
-                                                name="jabatan_kerja[]">
-                                        </div>
-                                    </div>
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="tahun_mulai" class="form-label">Tahun Mulai</label>
                                             <input type="text" class="form-control" id="tahun_mulai" placeholder=""
                                                 name="tahun_mulai[]">
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="tahun_selesai" class="form-label">Tahun Selesai</label>
                                             <input type="text" class="form-control" id="tahun_selesai" placeholder=""
@@ -145,24 +160,24 @@
                         <span>Riwayat Pendidikan</span>
                     </div>
                     <div class="card-body">
-                        <div id="riwayat_pendidikan" class="card">
+                        <div id="riwayat_pendidikan" class="card riwayat-pendidikan">
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="jenjang" class="form-label">Jenjang</label>
-                                            <input type="text" class="form-control" id="jenjang"
-                                                placeholder="" name="jenjang[]">
+                                            <input type="text" class="form-control" id="jenjang" placeholder=""
+                                                name="jenjang[]">
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="institusi" class="form-label">Institusi</label>
                                             <input type="text" class="form-control" id="institusi" placeholder=""
                                                 name="institusi_pendidikan[]">
                                         </div>
                                     </div>
-                                    <div class="col-12 col-lg-6">
+                                    <div class="col-12 col-lg-12">
                                         <div class="form-group">
                                             <label for="tahun_lulus" class="form-label">Tahun Lulus</label>
                                             <input type="text" class="form-control" id="tahun_lulus" placeholder=""
@@ -190,51 +205,92 @@
     <script src="{{ asset('') }}assets/static/js/pages/ckeditor.js"></script>
     <script>
         $(document).ready(function() {
-            // Menambahkan event listener pada tombol tambah riwayat
+            let counterKerja = 1; // Menyimpan jumlah elemen riwayat kerja yang telah ditambahkan
+
             $('#btn_riwayat_kerja').click(function() {
-                // Membuat salinan elemen riwayat kerja
-                const clonedRiwayatKerja = $('#riwayat_kerja').clone();
+                // Mengambil elemen terakhir yang ditambahkan
+                const lastRiwayatKerja = $('.riwayat-kerja').last();
+
+                // Membuat salinan elemen terakhir yang ditambahkan
+                const clonedRiwayatKerja = lastRiwayatKerja.clone();
 
                 // Menghapus nilai input pada elemen riwayat kerja yang baru
                 clonedRiwayatKerja.find('input').val('');
 
+                // Menghapus elemen yang tidak diperlukan
+                clonedRiwayatKerja.find('.d-flex.justify-content-end.mb-3.me-3').remove();
+
                 // Menambahkan tombol hapus
-                const hapusButton = $(`<div class="d-flex justify-content-end mb-3 me-3">
-                                    <button type="button" class="btn btn-danger">Hapus</button>
-                                    </div>`);
-                hapusButton.click(function() {
+                const hapusButton = $('<div class="d-flex justify-content-end mb-3 me-3">' +
+                    '<button type="button" class="btn btn-danger">Hapus</button>' +
+                    '</div>');
+
+                // Menghapus event click sebelumnya dari tombol hapus
+                hapusButton.off('click').click(function() {
                     $(this).parent().remove();
                 });
+
                 clonedRiwayatKerja.append(hapusButton);
 
-                // Menambahkan elemen riwayat kerja yang baru ke dalam container
-                clonedRiwayatKerja.insertAfter('#riwayat_kerja');
+                // Mengupdate nomor urut elemen riwayat kerja
+                clonedRiwayatKerja.find('.nomor-urut').text(counterKerja + 1);
+
+                // Menambahkan atribut "name" yang unik untuk input dan elemen terkait
+                const inputs = clonedRiwayatKerja.find('input');
+                inputs.each(function() {
+                    const name = $(this).attr('name');
+                    const newName = name + counterKerja;
+                    $(this).attr('name', newName);
+                });
+
+                // Menambahkan elemen riwayat kerja yang baru setelah elemen terakhir
+                clonedRiwayatKerja.insertAfter(lastRiwayatKerja);
+
+                counterKerja++; // Menambahkan counter setelah menambahkan elemen riwayat kerja baru
             });
 
-            // Menambahkan event listener pada tombol tambah riwayat
+            let counterPendidikan = 1; // Menyimpan jumlah elemen riwayat kerja yang telah ditambahkan
+
             $('#btn_riwayat_pendidikan').click(function() {
-                // Membuat salinan elemen riwayat kerja
-                const clonedRiwayatPendidikan = $('#riwayat_pendidikan').clone();
+                // Mengambil elemen terakhir yang ditambahkan
+                const lastRiwayatPendidikan = $('.riwayat-pendidikan').last();
+
+                // Membuat salinan elemen terakhir yang ditambahkan
+                const clonedRiwayatPendidikan = lastRiwayatPendidikan.clone();
 
                 // Menghapus nilai input pada elemen riwayat kerja yang baru
                 clonedRiwayatPendidikan.find('input').val('');
 
+                // Menghapus elemen yang tidak diperlukan
+                clonedRiwayatPendidikan.find('.d-flex.justify-content-end.mb-3.me-3').remove();
+
                 // Menambahkan tombol hapus
-                const hapusButton = $(`<div class="d-flex justify-content-end mb-3 me-3">
-                                    <button type="button" class="btn btn-danger">Hapus</button>
-                                    </div>`);
-                hapusButton.click(function() {
+                const hapusButton = $('<div class="d-flex justify-content-end mb-3 me-3">' +
+                    '<button type="button" class="btn btn-danger">Hapus</button>' +
+                    '</div>');
+
+                // Menghapus event click sebelumnya dari tombol hapus
+                hapusButton.off('click').click(function() {
                     $(this).parent().remove();
                 });
+
                 clonedRiwayatPendidikan.append(hapusButton);
 
-                // Menambahkan elemen riwayat kerja yang baru ke dalam container
-                clonedRiwayatPendidikan.insertAfter('#riwayat_pendidikan');
-            });
+                // Mengupdate nomor urut elemen riwayat kerja
+                clonedRiwayatPendidikan.find('.nomor-urut').text(counterPendidikan + 1);
 
-            $('#nama').on('input', function() {
-                var nama = $(this).val().toLowerCase().replace(/\s+/g, '-');
-                $('#slug').val(nama);
+                // Menambahkan atribut "name" yang unik untuk input dan elemen terkait
+                const inputs = clonedRiwayatPendidikan.find('input');
+                inputs.each(function() {
+                    const name = $(this).attr('name');
+                    const newName = name + counterPendidikan;
+                    $(this).attr('name', newName);
+                });
+
+                // Menambahkan elemen riwayat kerja yang baru setelah elemen terakhir
+                clonedRiwayatPendidikan.insertAfter(lastRiwayatPendidikan);
+
+                counterPendidikan++; // Menambahkan counter setelah menambahkan elemen riwayat kerja baru
             });
 
             $('#myForm').on('submit', function(e) {
@@ -264,7 +320,7 @@
                             if (result.isConfirmed) {
                                 // Pengguna mengklik tombol "Cool"
                                 window.location.href =
-                                    '{{ route('produk-post.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                                    '{{ route('perangkat-desa.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
                             } else {
                                 // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
                                 // Lakukan tindakan lain jika diperlukan

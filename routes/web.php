@@ -1,24 +1,26 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\LogoutController;
 use App\Http\Controllers\Profil\ProfilController;
-use App\Http\Controllers\Beranda\BerandaController;
 use App\Http\Controllers\Beranda\BeritaController;
-use App\Http\Controllers\Beranda\SearchController;
 use App\Http\Controllers\Beranda\DaerahController;
 use App\Http\Controllers\Beranda\ProdukController;
+use App\Http\Controllers\Beranda\SearchController;
+use App\Http\Controllers\Beranda\BerandaController;
 use App\Http\Controllers\Berita\PostBeritaController;
 use App\Http\Controllers\Daerah\PostDaerahController;
 use App\Http\Controllers\Produk\PostProdukController;
-use App\Http\Controllers\Produk\KategoriProdukController;
 use App\Http\Controllers\Upload\UploadImageController;
 use App\Http\Controllers\Upload\UploadVideoController;
+use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\Berita\KategoriBeritaController;
 use App\Http\Controllers\Daerah\KategoriDaerahController;
+use App\Http\Controllers\Produk\KategoriProdukController;
 use App\Http\Controllers\Pemerintah\PostPemerintahController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Pemerintah\PostRiwayatKerjaController;
+use App\Http\Controllers\Pemerintah\PostRiwayatPendidikanController;
 
 /*
 |--------------------------------------------------------------------------
@@ -81,4 +83,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::put('profil-desa/{id}', [ProfilController::class, 'update'])->name('profil-desa.update');
     // pemerintah
     Route::resource('perangkat-desa', PostPemerintahController::class);
+    Route::delete('riwayatkerja/delete/{id}', [PostRiwayatKerjaController::class, 'destroy']);
+    Route::delete('riwayatpendidikan/delete/{id}', [PostRiwayatPendidikanController::class, 'destroy']);
 });
+
+

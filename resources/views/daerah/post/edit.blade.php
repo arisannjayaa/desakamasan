@@ -20,6 +20,10 @@
             background: #1942b8;
             border: 1px solid #1e4fde;
         }
+
+        .filepond--item {
+            width: calc(50% - 0.5em);
+        }
     </style>
 @endpush
 @section('content')
@@ -283,6 +287,8 @@
             allowMultiple: true,
             maxFiles: 4,
             maxParallelUploads: 4,
+            labelFileRemoveError: 'Gagal menghapus gambar',
+            labelTapToRetry: 'Ketuk untuk mencoba lagi',
             @if ($daerah->foto)
                 files: [
                     @foreach ($daerah->foto as $foto)
@@ -311,8 +317,23 @@
                     load();
                 },
                 remove: function(source, load, error) {
-                    deleteOld(source);
-                    load();
+                    Swal.fire({
+                        title: 'Apakah anda yakin?',
+                        text: "Anda tidak akan dapat mengembalikan data ini!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#1d4ed8',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            deleteOld(source);
+                            load();
+                        } else {
+                            error();
+                        }
+                    });
                 },
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}'

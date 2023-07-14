@@ -78,6 +78,10 @@
                                 <li><a class="dropdown-item" href="{{ route('profil-desa.page') }}">Profil Desa</a></li>
                                 <li><a class="dropdown-item" href="#">Perangkat Desa</a></li>
                                 <li><a class="dropdown-item" href="#">Kontak</a></li>
+                                @guest
+                                    <li><a href="{{ route('berita-post.index') }}" class="dropdown-item"
+                                            href="#">Login</a></li>
+                                @endguest
                             </ul>
                         </li>
                     </ul>
@@ -96,14 +100,6 @@
                             </li>
                         </ul>
                     @endauth
-                    @guest
-                        <ul class="navbar-nav mb-2 mb-lg-0 ms-2">
-                            <li class="nav-item">
-                                <a href="{{ route('berita-post.index') }}" class="btn border rounded-4 btn-primary">
-                                    Login</a>
-                            </li>
-                        </ul>
-                    @endguest
                 </div>
             </div>
         </nav>

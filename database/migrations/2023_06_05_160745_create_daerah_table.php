@@ -20,7 +20,7 @@ return new class () extends Migration {
             $table->text('latitude');
             $table->text('longitude');
             $table->unsignedBigInteger('id_kategori_daerah');
-            $table->foreign('id_kategori_daerah')->references('id')->on('kategori_berita');
+            $table->foreign('id_kategori_daerah')->references('id')->on('kategori_daerah');
             $table->timestamps();
         });
     }
