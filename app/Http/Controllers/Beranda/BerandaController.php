@@ -12,6 +12,12 @@ class BerandaController extends Controller
 {
     public function index()
     {
-        return view('beranda.index');
+        $data = 
+        [
+            'title' => "Berita kami",
+            'berita' => Berita::all()->toQuery()->paginate(3)
+        ];
+        
+        return view('beranda.index', $data);
     }
 }

@@ -132,6 +132,8 @@
                                 dan karya seni Hindu-Buddha.</p>
                     </div>
                     <div class="col-lg-2 col-6">
+                    </div>
+                    <div class="col-lg-2 col-6">
                         <h6>Sosial Media</h6>
                         <ul class="navbar-nav">
                             <li class="nav-item">
