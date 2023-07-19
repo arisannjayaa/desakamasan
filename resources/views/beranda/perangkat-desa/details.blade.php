@@ -5,15 +5,6 @@
         ul.pagination {
             justify-content: center;
         }
-
-        #map {
-            height: 500px;
-            /* The height is 400 pixels */
-        }
-
-        .leaflet-geosearch-bar {
-            z-index: 0;
-        }
     </style>
 @endpush
 @section('content')

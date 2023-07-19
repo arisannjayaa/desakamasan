@@ -11,7 +11,7 @@
     @if (isset($daerah_last))
         <div class="container">
             <div class="row mt-lg-5 mt-2 mb-lg-5">
-                <div class="col-lg-7 col-12 align-self-end order-2 order-lg-1">
+                <div class="col-lg-6 col-12 align-self-end order-2 order-lg-1">
                     <h1 class="display-6 fw-bold mb-4">{{ $daerah_last->nama }}</h1>
                     <p class="mb-0" style="line-height: 1.8;">
                         {{ strip_tags(Str::limit($daerah_last->deskripsi, 110)) }}</p>
@@ -28,13 +28,15 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-5 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
+                <div class="col-lg-6 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
                     <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
                             @foreach ($daerah_last->foto as $index => $daerah_img)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                    <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
-                                        src="{{ asset('storage/daerah/') . '/' . $daerah_img->file }}" alt="...">
+                                    <div class="ratio ratio-16x9">
+                                        <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
+                                            src="{{ asset('storage/daerah/') . '/' . $daerah_img->file }}" alt="...">
+                                    </div>
                                 </div>
                             @endforeach
                         </div>

@@ -10,12 +10,10 @@ return new class () extends Migration {
      */
     public function up(): void
     {
-        Schema::create('sosial_media_profil', function (Blueprint $table) {
+        Schema::create('sosial_media', function (Blueprint $table) {
             $table->id('id');
             $table->string('nama', 100);
-            $table->string('no_url', 255);
-            $table->unsignedBigInteger('id_profil');
-            $table->foreign('id_profil')->references('id')->on('profil');
+            $table->string('url', 255);
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class () extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('sosial_media_profil');
+        Schema::dropIfExists('sosial_media');
     }
 };

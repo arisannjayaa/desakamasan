@@ -10,8 +10,8 @@
 @section('content')
     @if (isset($berita_last))
         <div class="container">
-        <div class="row mt-lg-5 mt-2 mb-lg-5">
-                <div class="col-lg-7 col-12 align-self-end order-2 order-lg-1">
+            <div class="row mt-lg-5 mt-2 mb-lg-5">
+                <div class="col-lg-6 col-12 align-self-end order-2 order-lg-1">
                     <h1 class="display-6 fw-bold mb-4">{{ $berita_last->judul }}</h1>
                     <p class="mb-0" style="line-height: 1.8;">
                         {{ strip_tags(Str::limit($berita_last->deskripsi, 150)) }}</p>
@@ -32,8 +32,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-5 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
-                    <div class="ratio ratio-4x3">
+                <div class="col-lg-6 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
+                    <div class="ratio ratio-16x9">
                         <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
                             src="{{ asset('storage/berita/') . '/' . $berita_last->foto }}" alt="">
                     </div>
@@ -57,7 +57,7 @@
                     <div class="col-lg-4 col-md-6 col-12">
                         <article>
                             <a class="links" href="{{ route('berita.show', $row->slug) }}">
-                                <div class="mb-3 ratio ratio-4x3">
+                                <div class="mb-3 ratio ratio-16x9">
                                     <img style="object-fit: cover; width: 100%; height: 100%;"
                                         class="img-fluid rounded-4 shadow-sm"
                                         src="{{ asset('storage/berita/') . '/' . $row->foto }}" alt="">

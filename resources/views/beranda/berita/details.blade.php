@@ -29,7 +29,7 @@
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
-                    <div class="ratio ratio-4x3">
+                    <div class="ratio ratio-16x9">
                         <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
                             src="{{ asset('storage/berita/') . '/' . $berita->foto }}" alt="">
                     </div>
@@ -48,43 +48,35 @@
         <hr class="mb-0">
     </div>
     <div class="container-lg container-fluid">
-        <div class="row gap-lg-4 gap-1 bg-white">
-            <div class="col-lg-7 col-12">
+        <div class="row gap-lg-4 justify-content-center">
+            <div class="col-lg-8 col-12 bg-white">
                 <div class="p-lg-4 px-0 py-lg-3 py-1">
                     <div class="text-wrap">{!! $berita->deskripsi !!}</div>
                 </div>
             </div>
-            <div class="col-lg-4 col-12">
+        </div>
+        <div class="row justify-content-center">
+            <div class="p-lg-4 col-lg-8 col-12 bg-white">
                 <div class="mt-4">
                     <h5>Berita Terkait Lainnya</h5>
                     <div class="mt-3">
-                        @foreach ($berita_all as $row)
-                            <article class="d-flex gap-2 mb-3">
-                                <div class="col-lg-5 col-5">
+                        <div class="row">
+                            @foreach ($berita_all as $row)
+                                <div class="col-lg-4">
                                     <a style="object-fit: contain; width: 40%; height: 40%;" class="links"
                                         href="{{ route('berita.show', $row->slug) }}">
                                         <div class="mb-2">
-                                            <div class="ratio ratio-4x3">
-                                                <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
-                                                    src="{{ asset('storage/berita/') . '/' . $row->foto }}" alt="">
+                                            <div class="ratio ratio-16x9">
+                                                <img class="img-fluid rounded-4 shadow-sm"
+                                                    src="{{ asset('storage/berita/') . '/' . $row->foto }}"
+                                                    alt="{{ $row->judul }}">
                                             </div>
                                         </div>
                                     </a>
-                                    <div class="mb-1">
-                                        <span
-                                            class="text-sm">{{ \Carbon\Carbon::parse($row->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($row->created_at)->year ? 'd M' : 'd M Y') }}
-                                        </span>
-                                    </div>
+                                    <p>{{ Str::limit($row->judul, 70, '...') }}</p>
                                 </div>
-                                <div class="col-lg-8 col-7 mt-1">
-                                    <div class="mb-4">
-                                        <h5 class="text-truncate fs-6">{{ $row->judul }}</h5>
-                                        <p class="text-truncate text-sm text-wrap">
-                                            {{ strip_tags(Str::limit($row->deskripsi, 70)) }}</p>
-                                    </div>
-                                </div>
-                            </article>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>
