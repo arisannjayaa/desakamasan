@@ -46,6 +46,7 @@ Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.show');
 Route::post('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/informasi/perangkat-desa', [PerangkatDesaController::class, 'index'])->name('beranda.perangkat-desa.index');
+Route::get('/informasi/perangkat-desa/{slug}', [PerangkatDesaController::class, 'show'])->name('beranda.perangkat-desa.show');
 
 // auth
 Route::get('/login', [LoginController::class, 'login'])->name('auth.login')->middleware('guest');

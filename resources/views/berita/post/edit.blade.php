@@ -64,6 +64,9 @@
                     <div class="card-body">
                         <div class="form-grup" class="form-label">
                             <label for="deskripsi" class="form-label">Gambar</label>
+                            <div class="alert alert-light-info">
+                                Gunakan format gambar atau pas foto ukuran rasio 16:9 untuk tampilan yang lebih baik
+                            </div>
                             <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
                         </div>
                     </div>
@@ -190,6 +193,8 @@
             credits: null,
             allowImagePreview: true,
             allowFilePoster: true,
+            stylePanelLayout: 'integrated',
+            stylePanelAspectRatio: '16:9',
             @if ($berita->foto)
                 files: [
                     @if (Storage::exists('public/berita/' . $berita->foto))

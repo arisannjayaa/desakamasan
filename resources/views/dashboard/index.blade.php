@@ -2,7 +2,7 @@
 @section('title', 'Dashboard')
 @section('content')
     <div class="row">
-        <div class="col-6 col-lg-3 col-md-6">
+        <div class="col-12 col-lg-3 col-md-6">
             <div class="card">
                 <div class="card-body px-4 py-4-5">
                     <div class="row">
@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3 col-md-6">
+        <div class="col-12 col-lg-3 col-md-6">
             <div class="card">
                 <div class="card-body px-4 py-4-5">
                     <div class="row">
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3 col-md-6">
+        <div class="col-12 col-lg-3 col-md-6">
             <div class="card">
                 <div class="card-body px-4 py-4-5">
                     <div class="row">
@@ -38,7 +38,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-6 col-lg-3 col-md-6">
+        <div class="col-12 col-lg-3 col-md-6">
             <div class="card">
                 <div class="card-body px-4 py-4-5">
                     <div class="row">

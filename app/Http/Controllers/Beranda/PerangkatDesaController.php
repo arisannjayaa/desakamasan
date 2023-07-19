@@ -26,4 +26,16 @@ class PerangkatDesaController extends Controller
         ];
         return view('beranda.perangkat-desa.index', $data);
     }
+
+    public function show(String $slug)
+    {
+        $data = [
+            'menu' => 'Perangkat Desa',
+            'perangkat' => Pemerintah::with('riwayat_kerja', 'riwayat_pendidikan')
+            ->where('slug', $slug)->first(),
+            'sosial_media' => $this->sosialMedia,
+        ];
+
+        return view('beranda.perangkat-desa.details', $data);
+    }
 }

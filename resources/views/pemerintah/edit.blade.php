@@ -27,23 +27,23 @@
     <div id="errorContainer"></div>
     <form id="myForm" action="{{ route('perangkat-desa.update', $perangkat_desa->id) }}" method="post"
         enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-lg-12 col-12">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-12">
                 <div class="card">
-                    <div class="card-header">
-                        <span>Foto</span>
-                    </div>
                     <div class="card-body">
                         <div class="form-grup">
-                            <label for="deskripsi" class="form-label">Gambar</label>
+                            <label for="deskripsi" class="form-label">Foto</label>
+                            <div class="alert alert-light-info">
+                                Gunakan format gambar atau pas foto ukuran rasio 1:1 untuk tampilan yang lebih baik
+                            </div>
                             <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 col-12">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-12">
                 <div class="card">
                     <div class="card-header">
                         <span>Informasi Pribadi</span>
@@ -99,7 +99,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-10">
+                            <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="status_kawin" class="form-label">Status Kawin</label>
                                     <select class="choices form-select" name="status_kawin">
@@ -111,7 +111,7 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-2">
+                            <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="jumlah_anak" class="form-label">Jumlah Anak</label>
                                     <input type="text" class="form-control" id="jumlah_anak" placeholder=""
@@ -137,8 +137,8 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 col-12">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-12">
                 <div class="card">
                     <div class="card-header">
                         <span>Riwayat Pekerjaan dan Pengalaman Organisasi</span>
@@ -190,8 +190,8 @@
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div class="col-lg-12 col-12">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-12">
                 <div class="card">
                     <div class="card-header">
                         <span>Riwayat Pendidikan</span>
@@ -237,10 +237,10 @@
                             Riwayat</button>
                     </div>
                 </div>
+                <div class="mt-2 d-grid gap-2">
+                    <button id="btnSubmit" type="submit" class="btn btn-primary">Perbaharui</button>
+                </div>
             </div>
-        </div>
-        <div class="mt-2 d-grid gap-2 d-md-block">
-            <button id="btnSubmit" type="submit" class="btn btn-primary">Perbaharui</button>
         </div>
     </form>
 @endsection

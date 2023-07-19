@@ -60,6 +60,9 @@
                     <div class="card-body">
                         <div class="form-grup">
                             <label for="deskripsi" class="form-label">Gambar</label>
+                            <div class="alert alert-light-info">
+                                Gunakan format gambar atau pas foto ukuran rasio 16:9 untuk tampilan yang lebih baik
+                            </div>
                             <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
                         </div>
                     </div>
