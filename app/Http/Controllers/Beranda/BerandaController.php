@@ -19,13 +19,13 @@ class BerandaController extends Controller
 
     public function index()
     {
-        $data = 
+        $data =
         [
             'title' => "Berita kami",
-            'berita' => Berita::all()->toQuery()->paginate(3)
+            'berita' => Berita::all()->toQuery()->paginate(3),
             'sosial_media' => $this->sosialMedia,
         ];
-      
+
         return view('beranda.index', $data);
     }
 }
