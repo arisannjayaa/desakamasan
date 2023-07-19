@@ -31,6 +31,13 @@ class ProfilController extends Controller
         return view('profil.index', $data);
     }
 
+    public function page()
+    {
+        return view('profil.page', [
+            'profil' => Profil::all()->where('id', '>', 0)
+        ]);
+    }
+
     /**
      * Update the specified resource in storage.
      */
