@@ -18,6 +18,7 @@ class PerangkatDesaSeeder extends Seeder
         $data = [
             [
                 'nama' => 'I Gede Buda Artawan, S.SOS',
+                'slug' => '',
                 'jabatan' => 'Perbekel',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -30,6 +31,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'I Kadek Mariana',
+                'slug' => '',
                 'jabatan' => 'Sekretaris',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -42,6 +44,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'I Ketut Wijaya',
+                'slug' => '',
                 'jabatan' => 'Kasi Pem',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -54,6 +57,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'Ni Wayan Sri Sayoanyani',
+                'slug' => '',
                 'jabatan' => 'Kasi Kesra',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -66,6 +70,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'Ida Ayu Nyoman Sayang',
+                'slug' => '',
                 'jabatan' => 'Kasi Pelayanan',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -78,6 +83,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'Ni Nyoman Suresni',
+                'slug' => '',
                 'jabatan' => 'Kaur Umum',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -90,6 +96,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'Luh De Made Widiantari',
+                'slug' => '',
                 'jabatan' => 'Kaur Perencanaan',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -102,6 +109,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'I Ketut Astika',
+                'slug' => '',
                 'jabatan' => 'Kalian Dinas Tabanan',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -114,6 +122,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'I Made Sudiarta',
+                'slug' => '',
                 'jabatan' => 'Kalian Dinas KacangDawa',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -126,6 +135,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'I Made Suwisna',
+                'slug' => '',
                 'jabatan' => 'Kelian Dinas Sangging',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -138,6 +148,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'Ni Made Ria Handayani Scarpianti',
+                'slug' => '',
                 'jabatan' => 'Admin',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -150,6 +161,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'Anak Agung Aka Mas Pertiwi',
+                'slug' => '',
                 'jabatan' => 'Admin',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -162,6 +174,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'Luh Ketut Pusparini, SE',
+                'slug' => '',
                 'jabatan' => 'Admin',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -174,6 +187,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'Ngakan Made Suardika',
+                'slug' => '',
                 'jabatan' => 'Kelian Br. Dinas Pande Mas',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -186,6 +200,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'Ni Kadek Yulik Tiap Andewi',
+                'slug' => '',
                 'jabatan' => 'Kaur Keuangan',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -198,6 +213,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'I Made Kurniawan',
+                'slug' => '',
                 'jabatan' => 'Penyuluh Bahasa Bali',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',
@@ -210,6 +226,7 @@ class PerangkatDesaSeeder extends Seeder
             ],
             [
                 'nama' => 'Putu Prema Pradayanti',
+                'slug' => '',
                 'jabatan' => 'Yowana Gema Santi',
                 'tempat_lahir' => 'Kamasan',
                 'tanggal_lahir' => '1987-10-10',

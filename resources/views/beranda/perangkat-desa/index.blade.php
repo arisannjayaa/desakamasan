@@ -1,10 +1,15 @@
 @extends('layouts.app')
 @section('title', $menu)
 @push('css')
+<style>
+    ul.pagination {
+        justify-content: center;
+    }
+</style>
 @endpush
 @section('content')
     @if (isset($perangkat_all))
-        <div class="container">
+        <div class="container py-4">
             <div class="row">
                 @foreach ($perangkat_all as $row)
                     <div class="col-lg-4 col-md-6 col-12">
