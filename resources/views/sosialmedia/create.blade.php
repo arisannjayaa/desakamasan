@@ -1,47 +1,60 @@
 @extends('layouts.panel')
-@section('title', 'Edit Kategori Daerah')
+@section('title', 'Tambah Sosial Media')
+@push('css')
+    <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
+    <style>
+        .choices__inner {
+            background: #fff;
+        }
+
+        .choices__list--multiple .choices__item {
+            background: #1942b8;
+            border: 1px solid #1e4fde;
+        }
+    </style>
+@endpush
 @section('content')
-    <form id="myForm" action="{{ route('daerah-kategori.update', $kategori->id) }}" method="post"
-        enctype="multipart/form-data">
-        <div class="row justify-content-center">
-            <div class="col-lg-8 col-12">
-                <div id="errorContainer"></div>
+    <div id="errorContainer"></div>
+    <form id="myForm" action="{{ route('sosial-media.store') }}" method="post" enctype="multipart/form-data">
+        <div class="row">
+            <div class="col-lg-12s col-12">
                 <div class="card">
                     <div class="card-body">
-                        @method('PATCH')
                         @csrf
                         <div class="row">
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-12">
                                 <div class="form-group">
                                     <label for="nama" class="form-label">Nama</label>
-                                    <input type="text" class="form-control" id="nama" placeholder="" name="nama"
-                                        value="{{ $kategori->nama }}">
+                                    <input type="text" class="form-control" id="nama" placeholder="" name="nama">
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="slug" class="form-label">Slug</label>
-                                    <input type="text" class="form-control" id="slug" placeholder="" name="slug"
-                                        readonly value="{{ $kategori->slug }}">
+                                    <label for="url" class="form-label">URL</label>
+                                    <div class="alert alert-light-info">Berikan url yang valid sesuai media sosial yang
+                                        digunakan contoh: <span
+                                            class="badge bg-info">https://www.instagram.com/contoh21</span>
+                                    </div>
+                                    <input type="text" class="form-control" id="url" placeholder="" name="url">
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="mt-2 d-grid gap-2">
-                    <button id="btnSubmit" type="submit" class="btn btn-primary">Perbaharui</button>
-                </div>
             </div>
+        </div>
+        <div class="mt-2 d-grid gap-2 d-md-block">
+            <button id="btnSubmit" type="submit" class="btn btn-primary">Simpan</button>
         </div>
     </form>
 @endsection
 @push('js')
+    <script src="{{ asset('') }}assets/extensions/filepond/filepond.js"></script>
+    <script src="{{ asset('') }}assets/static/js/pages/filepond.js"></script>
+    <script src="{{ asset('') }}assets/extensions/ckeditor/ckeditor.js"></script>
+    <script src="{{ asset('') }}assets/static/js/pages/ckeditor.js"></script>
     <script>
         $(document).ready(function() {
-            $('#nama').on('input', function() {
-                var nama = $(this).val().toLowerCase().replace(/\s+/g, '-');
-                $('#slug').val(nama);
-            });
 
             $('#myForm').on('submit', function(e) {
                 e.preventDefault();
@@ -51,13 +64,14 @@
                 $('#btnSubmit').attr('disabled', 'disabled');
                 var form = $(this);
                 var url = form.attr('action');
+
                 $.ajax({
                     type: "POST",
                     url: url,
                     data: form.serialize(),
                     dataType: 'json',
                     complete: function() {
-                        $('#btnSubmit').html('Perbaharui');
+                        $('#btnSubmit').html('Simpan');
                         $('#btnSubmit').removeAttr('disabled');
                     },
                     success: function(response) {
@@ -70,7 +84,7 @@
                             if (result.isConfirmed) {
                                 // Pengguna mengklik tombol "Cool"
                                 window.location.href =
-                                    '{{ route('daerah-kategori.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                                    '{{ route('sosial-media.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
                             } else {
                                 // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
                                 // Lakukan tindakan lain jika diperlukan
@@ -79,7 +93,9 @@
                     },
                     error: function(xhr, status, error) {
                         var errorMessage = xhr.responseJSON.errors;
-                        console.log(errorMessage);
+                        var errorResponse = JSON.parse(xhr.responseText);
+                        console.log(errorResponse);
+
                         if (xhr.status == 422) {
                             var errorHtml =
                                 '<div class="alert alert-light-danger color-danger">';
@@ -97,7 +113,7 @@
                                 scrollTop: $('body').offset().top
                             }, 100);
                         } else {
-                            // Logika saat terjadi error selain status 422
+
                         }
                     },
                 });

@@ -14,10 +14,10 @@
     </style>
 @endpush
 @section('content')
-    <div id="errorContainer"></div>
     <form id="myForm" action="{{ route('berita-post.store') }}" method="post" enctype="multipart/form-data">
-        <div class="row">
-            <div class="col-lg-9 col-12">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-12">
+                <div id="errorContainer"></div>
                 <div class="card">
                     <div class="card-body">
                         @csrf
@@ -64,17 +64,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h4>Unggah berita</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="mt-2 mt-lg-0 gap-2 d-grid">
-                            <button id="btnSubmit" type="submit" class="btn btn-primary">Unggah</button>
-                        </div>
-                    </div>
+                <div class="mt-2 mt-lg-0 gap-2 d-grid">
+                    <button id="btnSubmit" type="submit" class="btn btn-primary">Unggah</button>
                 </div>
             </div>
         </div>

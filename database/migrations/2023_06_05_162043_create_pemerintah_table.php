@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('pemerintah', function (Blueprint $table) {
             $table->id('id');
             $table->string('nama', 255);
+            $table->string('slug', 255);
             $table->string('jabatan', 60);
             $table->string('tempat_lahir', 70);
             $table->date('tanggal_lahir');

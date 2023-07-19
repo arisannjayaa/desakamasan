@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('') }}assets/compiled/css/app.css">
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/choices.js/public/assets/styles/choices.css">
+    {{-- Leaflet --}}
+    <link rel="stylesheet" href="{{ asset('') }}assets/extensions/leaflet/leaflet.css">
+    <script src="{{ asset('') }}assets/extensions/leaflet/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-geosearch@3.1.0/dist/geosearch.css" />
+    <script src="https://unpkg.com/leaflet-geosearch@3.1.0/dist/geosearch.umd.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
@@ -68,14 +73,16 @@
                                 href="{{ route('daerah.index') }}">Daerah</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            <a class="nav-link dropdown-toggle {{ request()->segment(1) == 'informasi' ? 'active' : '' }}" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Informasi
                             </a>
                             <ul class="dropdown-menu border">
-                                <li><a class="dropdown-item" href="#">Profil Desa</a></li>
-                                <li><a class="dropdown-item" href="#">Perangkat Desa</a></li>
-                                <li><a class="dropdown-item" href="#">Kontak</a></li>
+                                <li><a class="dropdown-item {{ request()->segment(2) == 'profil-desa' ? 'active' : '' }}" href="#">Profil Desa</a></li>
+                                <li><a class="dropdown-item {{ request()->segment(2) == 'perangkat-desa' ? 'active' : '' }}"
+                                        href="{{ route('beranda.perangkat-desa.index') }}">Perangkat Desa</a>
+                                </li>
+                                <li><a class="dropdown-item {{ request()->segment(2) == 'kontak' ? 'active' : '' }}" href="#">Kontak</a></li>
                                 @guest
                                     <li><a href="{{ route('berita-post.index') }}" class="dropdown-item"
                                             href="#">Login</a></li>
@@ -132,15 +139,11 @@
                     <div class="col-lg-2 col-6">
                         <h6>Sosial Media</h6>
                         <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a href="" class="nav-link">Instagram</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">Facebook</a>
-                            </li>
-                            <li class="nav-item">
-                                <a href="" class="nav-link">Tiktok</a>
-                            </li>
+                            @foreach ($sosial_media as $row)
+                                <li class="nav-item">
+                                    <a href="{{ $row->url }}" class="nav-link">{{ $row->nama }}</a>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
                     <div class="col-lg-2 col-6">
@@ -233,6 +236,7 @@
             }
         });
     </script>
+    @stack('js')
 </body>
 
 </html>

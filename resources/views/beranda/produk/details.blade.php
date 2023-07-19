@@ -9,33 +9,32 @@
 @endpush
 @section('content')
     @isset($produk)
-        <div class="bg-white">
-            <div class="container">
-                <div class="row flex-column  align-items-center text-center  pt-lg-5 pt-2">
-                    <div class="col-lg-8 col-12">
-                        <h1 class="fw-bold mb-3 text-truncate fs-1 text-wrap">{{ $produk->nama }}</h1>
+        <div class="container">
+            <div class="row mt-lg-5 mt-2 mb-lg-5">
+                <div class="col-lg-6 col-12 align-self-end order-2 order-lg-1">
+                    <h1 class="display-6 fw-bold mb-4">{{ $produk->nama }}</h1>
+                    <div>
+                        <p>
+                            <i class="bi bi-calendar3 me-2"></i>
+                            {{ \Carbon\Carbon::parse($produk->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($produk->created_at)->year ? 'd M' : 'd M Y') }}
+                        </p>
+                        <a href="#" class="nav-link">
+                            <i class="bi bi-tag me-2"></i>
+                            <span class="badge border rounded-4 text-secondary">{{ $produk->kategori->nama }}</span>
+                        </a>
                     </div>
                 </div>
-                <div class="row justify-content-center">
-                    <div class="col-lg-8 col-12">
-                        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                            <div class="carousel-inner">
-                                @foreach ($produk->foto as $index => $produk_img)
-                                    <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                <div class="col-lg-6 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            @foreach ($produk->foto as $index => $produk_img)
+                                <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
+                                    <div class="ratio ratio-16x9">
                                         <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
                                             src="{{ asset('storage/produk/') . '/' . $produk_img->file }}" alt="...">
                                     </div>
-                                @endforeach
-                            </div>
-                        </div>
-                        <div class="d-lg-flex d-block my-3 gap-3">
-                            <p class="text-sm"><i
-                                    class="bi bi-calendar3 me-1"></i>{{ \Carbon\Carbon::parse($produk->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($produk->created_at)->year ? 'd M' : 'd M Y') }}
-                            </p>
-                            <a href="#" class="nav-link">
-                                <i class="bi bi-tag me-1"></i>
-                                <span class="badge border rounded-4 text-secondary">{{ $produk->kategori->nama }}</span>
-                            </a>
+                                </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -53,42 +52,35 @@
         <hr class="mb-0">
     </div>
     <div class="container-lg container-fluid">
-        <div class="row gap-4 bg-white">
-            <div class="col-lg-7 col-12">
+        <div class="row gap-lg-4 justify-content-center">
+            <div class="col-lg-8 col-12 bg-white">
                 <div class="p-lg-4 px-0 py-3">
                     <div class="text-wrap">{!! $produk->deskripsi !!}</div>
                 </div>
             </div>
-            <div class="col-lg-4 col-12">
+        </div>
+        <div class="row justify-content-center">
+            <div class="p-lg-4 col-lg-8 col-12 bg-white">
                 <div class="mt-4">
-                    <h5>Produk Lainnya</h5>
+                    <h5>Berita Terkait Lainnya</h5>
                     <div class="mt-3">
-                        @foreach ($produk_all as $row)
-                            <article class="d-flex gap-2 mb-3">
-                                <div class="col-lg-5 col-5">
+                        <div class="row">
+                            @foreach ($produk_all as $row)
+                                <div class="col-lg-4">
                                     <a style="object-fit: contain; width: 40%; height: 40%;" class="links"
-                                        href="{{ route('produk.show', $row->slug) }}">
+                                        href="{{ route('berita.show', $row->slug) }}">
                                         <div class="mb-2">
-                                            <img class="img-fluid rounded-4 shadow-sm"
-                                                src="{{ asset('storage/produk/') . '/' . $row->foto[0]->file }}"
-                                                alt="">
+                                            <div class="ratio ratio-16x9">
+                                                <img class="img-fluid rounded-4 shadow-sm"
+                                                    src="{{ asset('storage/berita/') . '/' . $row->foto }}"
+                                                    alt="{{ $row->judul }}">
+                                            </div>
                                         </div>
                                     </a>
-                                    <div class="mb-1">
-                                        <span
-                                            class="text-sm">{{ \Carbon\Carbon::parse($row->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($row->created_at)->year ? 'd M' : 'd M Y') }}
-                                        </span>
-                                    </div>
+                                    <p>{{ Str::limit($row->judul, 70, '...') }}</p>
                                 </div>
-                                <div class="col-lg-8 col-7 mt-1">
-                                    <div class="mb-4">
-                                        <h5 class="text-truncate fs-6">{{ $row->nama }}</h5>
-                                        <p class="text-truncate text-sm text-wrap">
-                                            {{ strip_tags(Str::limit($row->deskripsi, 70)) }}</p>
-                                    </div>
-                                </div>
-                            </article>
-                        @endforeach
+                            @endforeach
+                        </div>
                     </div>
                 </div>
             </div>

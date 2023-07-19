@@ -1,4 +1,4 @@
-<div class="container-fluid">
+<div class="container-fluid my-4">
     <div class="row justify-content-center">
         <div class="col-md-8 col-12 col-lg-4">
             <div class="text-center">

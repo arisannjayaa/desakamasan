@@ -9,6 +9,7 @@ use App\Http\Controllers\Beranda\DaerahController;
 use App\Http\Controllers\Beranda\ProdukController;
 use App\Http\Controllers\Beranda\SearchController;
 use App\Http\Controllers\Beranda\BerandaController;
+use App\Http\Controllers\Beranda\PerangkatDesaController;
 use App\Http\Controllers\Berita\PostBeritaController;
 use App\Http\Controllers\Daerah\PostDaerahController;
 use App\Http\Controllers\Produk\PostProdukController;
@@ -21,6 +22,7 @@ use App\Http\Controllers\Produk\KategoriProdukController;
 use App\Http\Controllers\Pemerintah\PostPemerintahController;
 use App\Http\Controllers\Pemerintah\PostRiwayatKerjaController;
 use App\Http\Controllers\Pemerintah\PostRiwayatPendidikanController;
+use App\Http\Controllers\SosialMedia\SosialMediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +45,7 @@ Route::get('/daerah/{slug}', [DaerahController::class, 'show'])->name('daerah.sh
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');
 Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.show');
 Route::post('/search', [SearchController::class, 'search'])->name('search');
+Route::get('/informasi/perangkat-desa', [PerangkatDesaController::class, 'index'])->name('beranda.perangkat-desa.index');
 
 // auth
 Route::get('/login', [LoginController::class, 'login'])->name('auth.login')->middleware('guest');
@@ -76,6 +79,8 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::resource('produk-post', PostProdukController::class);
     // produk-kategori
     Route::resource('produk-kategori', KategoriProdukController::class);
+    // sosial-media
+    Route::resource('sosial-media', SosialMediaController::class);
     // Profil
     // Route::resource('profil-desa', ProfilController::class);
     Route::get('profil-desa', [ProfilController::class, 'index'])->name('profil-desa.index');
@@ -85,5 +90,3 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     Route::delete('riwayatkerja/delete/{id}', [PostRiwayatKerjaController::class, 'destroy']);
     Route::delete('riwayatpendidikan/delete/{id}', [PostRiwayatPendidikanController::class, 'destroy']);
 });
-
-
