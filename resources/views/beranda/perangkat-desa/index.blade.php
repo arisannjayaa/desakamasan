@@ -11,7 +11,8 @@
     @if (isset($perangkat_all))
         <div class="row">
             <div class="col">
-                <div class="ratio ratio-16x9" style="background: url('{{ asset('assets/static/images/bg/AMP02633.jpg') }}'); background-size: cover; opacity: 0.7;">
+                <div class="ratio ratio-16x9"
+                    style="background: url('{{ asset('assets/static/images/bg/AMP02633.jpg') }}'); background-size: cover; opacity: 0.7;">
                     <div class="d-flex justify-content-center align-items-center">
                         <h1 class="text-white">Perangkat Desa</h1>
                     </div>
@@ -39,7 +40,8 @@
                                 </div>
                                 <div class="mb-4">
                                     <h5 class="text-truncate">{{ $row->nama }}</h5>
-                                    <a href="{{ route('beranda.perangkat-desa.show', $row->slug) }}"><button class="btn btn-primary rounded-4">Selengkapnya</button></a>
+                                    <a href="{{ route('beranda.perangkat-desa.show', $row->slug) }}"><button
+                                            class="btn btn-primary rounded-4">Selengkapnya</button></a>
                                 </div>
                             </div>
                         </article>

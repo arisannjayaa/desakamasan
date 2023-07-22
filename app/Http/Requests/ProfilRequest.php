@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class BeritaRequest extends FormRequest
+class ProfilRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,40 +21,41 @@ class BeritaRequest extends FormRequest
      */
     public function rules(): array
     {
-        $id = $this->segment(3);
         return [
-            'judul' => [
-                'required',
-                Rule::unique('berita', 'judul')->ignore($id)
-            ],
-            'slug' => [
-                'required',
-                Rule::unique('berita', 'slug')->ignore($id)
-            ],
+            'nama' => 'required',
             'deskripsi' => 'required|min:50|max:15000',
-            'kategori' => 'required'
+            'visi' => 'required|max:15000',
+            'misi' => 'required|max:15000',
+            'gambar' => 'required',
+            'video' => 'required',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'judul' => [
-                'required' => 'Judul tidak boleh kosong',
-                'unique' => 'Sudah terdapat judul berita dengan nama yang sama'
-            ],
-            'slug' => [
-                'required' => 'Slug tidak boleh kosong',
-                'unique' => 'Sudah terdapat slug berita dengan nama yang sama'
+            'nama' => [
+                'required' => 'Nama tidak boleh kosong',
             ],
             'deskripsi' => [
                 'required' => 'Deskripsi tidak boleh kosong!!',
                 'min' => 'Deskirpsi setidaknya memiliki 50 karakter',
                 'max' => 'Deskripsi tidak boleh melebihi dari 15000 karakter'
             ] ,
-            'kategori' => [
-                'required' => 'Kategori tidak boleh kosong!!',
-            ] ,
+            'visi' => [
+                'required' => 'Visi tidak boleh kosong!!',
+                'max' => 'Visi tidak boleh melebihi dari 15000 karakter',
+            ],
+            'misi' => [
+                'required' => 'Misi tidak boleh kosong!!',
+                'max' => 'Misi tidak boleh melebihi dari 15000 karakter',
+            ],
+            'gambar' => [
+                'required' => 'Foto tidak boleh kosong',
+            ],
+            'video' => [
+                'required' => 'Video tidak boleh kosong',
+            ],
         ];
     }
 }

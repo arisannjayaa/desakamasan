@@ -3,26 +3,29 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\LogoutController;
-use App\Http\Controllers\Profil\ProfilController;
 use App\Http\Controllers\Beranda\BeritaController;
 use App\Http\Controllers\Beranda\DaerahController;
 use App\Http\Controllers\Beranda\ProdukController;
+use App\Http\Controllers\Beranda\ProfilController;
 use App\Http\Controllers\Beranda\SearchController;
 use App\Http\Controllers\Beranda\BerandaController;
-use App\Http\Controllers\Beranda\PerangkatDesaController;
+use App\Http\Controllers\Beranda\KontakController;
 use App\Http\Controllers\Berita\PostBeritaController;
 use App\Http\Controllers\Daerah\PostDaerahController;
+use App\Http\Controllers\Kontak\PostKontakController;
 use App\Http\Controllers\Produk\PostProdukController;
+use App\Http\Controllers\Profil\PostProfilController;
 use App\Http\Controllers\Upload\UploadImageController;
 use App\Http\Controllers\Upload\UploadVideoController;
 use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Beranda\PerangkatDesaController;
 use App\Http\Controllers\Berita\KategoriBeritaController;
 use App\Http\Controllers\Daerah\KategoriDaerahController;
 use App\Http\Controllers\Produk\KategoriProdukController;
+use App\Http\Controllers\SosialMedia\SosialMediaController;
 use App\Http\Controllers\Pemerintah\PostPemerintahController;
 use App\Http\Controllers\Pemerintah\PostRiwayatKerjaController;
 use App\Http\Controllers\Pemerintah\PostRiwayatPendidikanController;
-use App\Http\Controllers\SosialMedia\SosialMediaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,6 +49,8 @@ Route::get('/produk/{slug}', [ProdukController::class, 'show'])->name('produk.sh
 Route::post('/search', [SearchController::class, 'search'])->name('search');
 Route::get('/informasi/perangkat-desa', [PerangkatDesaController::class, 'index'])->name('beranda.perangkat-desa.index');
 Route::get('/informasi/perangkat-desa/{slug}', [PerangkatDesaController::class, 'show'])->name('beranda.perangkat-desa.show');
+Route::get('informasi/profil', [ProfilController::class, 'index'])->name('beranda.profil.index');
+Route::get('informasi/kontak', [KontakController::class, 'index'])->name('beranda.kontak.index');
 
 // auth
 Route::get('/login', [LoginController::class, 'login'])->name('auth.login')->middleware('guest');
@@ -82,12 +87,13 @@ Route::group(['prefix' => 'user', 'middleware' => 'auth'], function () {
     // sosial-media
     Route::resource('sosial-media', SosialMediaController::class);
     // Profil
-    // Route::resource('profil-desa', ProfilController::class);
-    Route::get('beranda-profil', [ProfilController::class, 'page'])->name('profil-desa.page');
-    Route::get('profil-desa', [ProfilController::class, 'index'])->name('profil-desa.index');
-    Route::put('profil-desa/{id}', [ProfilController::class, 'update'])->name('profil-desa.update');
+    Route::get('profil-desa', [PostProfilController::class, 'index'])->name('profil-desa.index');
+    Route::put('profil-desa/{id}', [PostProfilController::class, 'update'])->name('profil-desa.update');
     // pemerintah
     Route::resource('perangkat-desa', PostPemerintahController::class);
     Route::delete('riwayatkerja/delete/{id}', [PostRiwayatKerjaController::class, 'destroy']);
     Route::delete('riwayatpendidikan/delete/{id}', [PostRiwayatPendidikanController::class, 'destroy']);
+    // kontak
+    Route::get('kontak-desa', [PostKontakController::class, 'index'])->name('kontak-desa.index');
+    Route::put('kontak-desa/{id}', [PostKontakController::class, 'update'])->name('kontak-desa.update');
 });

@@ -82,13 +82,13 @@
                                 Informasi
                             </a>
                             <ul class="dropdown-menu border">
-                                <li><a class="dropdown-item" href="{{ route('profil-desa.page') }}">Profil Desa</a>
+                                <li><a class="dropdown-item {{ request()->segment(2) == 'profil' ? 'active' : '' }}" href="{{ route('beranda.profil.index') }}">Profil Desa</a>
                                 </li>
                                 <li><a class="dropdown-item {{ request()->segment(2) == 'perangkat-desa' ? 'active' : '' }}"
                                         href="{{ route('beranda.perangkat-desa.index') }}">Perangkat Desa</a>
                                 </li>
                                 <li><a class="dropdown-item {{ request()->segment(2) == 'kontak' ? 'active' : '' }}"
-                                        href="#">Kontak</a></li>
+                                        href="{{ route('beranda.kontak.index') }}">Kontak</a></li>
                                 @guest
                                     <li><a href="{{ route('berita-post.index') }}" class="dropdown-item"
                                             href="#">Login</a></li>

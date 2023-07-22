@@ -1,4 +1,4 @@
-ClassicEditor.create(document.querySelector("#editor"), {
+ClassicEditor.create(document.querySelector("#editor", "editor1"), {
     toolbar: {
         items: [
             "heading",

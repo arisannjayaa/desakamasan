@@ -2,66 +2,34 @@
 @section('title', 'Profil Desa')
 @push('css')
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
-    <style>
-        #map {
-            height: 500px;
-            /* The height is 400 pixels */
-        }
-
-        .leaflet-geosearch-bar {
-            z-index: 0;
-        }
-    </style>
 @endpush
 @section('content')
     <form id="myForm" action="{{ route('profil-desa.update', $profil->id) }}" method="post" enctype="multipart/form-data">
         @csrf
         @method('PUT')
-        <div class="row">
-            <div class="col-12 col-lg-12">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-8">
+                <div id="errorContainer"></div>
+                <div class="card">
+                    <div class="card-body">
+                        <div class="form-grup">
+                            <label for="deskripsi">Gambar (Maximal
+                                1 Gambar) </label>
+                            <div class="alert alert-light-info">
+                                Gunakan format gambar atau pas foto ukuran rasio 16:9 untuk tampilan yang lebih baik
+                            </div>
+                            <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
+                        </div>
+                    </div>
+                </div>
                 <div class="card">
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-12 mb-3">
-                                <div class="d-flex flex-lg-row flex-column align-items-lg-end align-items-start gap-4">
-                                    <img id="preview-foto" class="d-block img-thumbnail" height="150" width="150"
-                                        src="" alt="Logo Profil">
-                                    <div class="d-flex flex-column align-items-stretch gap-3">
-                                        <button id="btn_triger_input_foto" type="button"
-                                            class="btn btn-primary btn-sm align-self-start">Unggah foto baru</button>
-                                        <input id="input_foto" type="file" name="logo" value="{{ $profil->logo }}"
-                                            hidden name="logo">
-                                        <small class="text-muted mb-0">Diizinkan JPG, GIF, atau PNG. Ukuran maksimal
-                                            1Mb</small>
-                                    </div>
-                                </div>
-                            </div>
                             <div class="col-12">
                                 <div class="form-group">
                                     <label for="nama" class="form-label">Nama</label>
                                     <input type="text" class="form-control" id="nama" placeholder="" name="nama"
                                         value="{{ $profil->nama }}">
-                                </div>
-                            </div>
-                            <div class=" col-12">
-                                <div class="form-group">
-                                    <label for="alamat" class="form-label">Alamat</label>
-                                    <input type="text" class="form-control" id="alamat" placeholder="" name="alamat"
-                                        value="{{ $profil->alamat }}">
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <div class="form-group">
-                                    <label for="telepon" class="form-label">Telepon</label>
-                                    <input type="text" class="form-control" id="telepon" placeholder="" name="telepon"
-                                        value="{{ $profil->telepon }}">
-                                </div>
-                            </div>
-                            <div class="col-12 col-lg-6">
-                                <div class="form-group">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="text" class="form-control" id="email" placeholder="" name="email"
-                                        value="{{ $profil->email }}">
                                 </div>
                             </div>
                             <div class="col-12 col-lg-12">
@@ -70,27 +38,16 @@
                                     <textarea id="editor" name="deskripsi">{{ $profil->deskripsi }}</textarea>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="card-heading mb-2">Peta</div>
-                        <div class="alert alert-light-info">Cari lokasi yang diinginkan pada kotak pencarian. Setelah muncul hasil akan muncul pin lokasi pencarian. Klik lagi titik lokasi agar data lokasi dapat terbaca.</div>
-                        <div class="mb-2 rounded" id="map"></div>
-                        <div class="row">
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="latitude" class="form-label">Latitude</label>
-                                    <input type="text" class="form-control" id="latitude" placeholder="" name="latitude"
-                                        value="{{ $profil->latitude }}">
+                                    <label for="deskripsi" class="form-label">Visi</label>
+                                    <textarea id="editor1" name="visi">{{ $profil->visi }}</textarea>
                                 </div>
                             </div>
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-lg-12">
                                 <div class="form-group">
-                                    <label for="longitude" class="form-label">Longitude </label>
-                                    <input type="text" class="form-control" id="longitude" placeholder=""
-                                        name="longitude" value="{{ $profil->longitude }}">
+                                    <label for="deskripsi" class="form-label">Misi</label>
+                                    <textarea id="editor2" name="misi">{{ $profil->misi }}</textarea>
                                 </div>
                             </div>
                         </div>
@@ -100,26 +57,21 @@
                     <div class="card-body">
                         <div class="form-grup">
                             <label for="deskripsi" class="form-label">Video</label>
+                            <div class="alert alert-light-info">
+                                Salin url video youtube ke form dibawah ini, contoh:
+                                https://www.youtube.com/watch?v=pLdjw4u07_eEE
+                            </div>
                             <div class="input-group mb-3">
                                 <span class="input-group-text"><i class="bi bi-youtube mb-2"></i></span>
-                                <input type="text" class="form-control" placeholder="https://youtu.be/xxx"
+                                <input type="text" class="form-control" name="video" placeholder="https://youtu.be/xxx"
                                     value="{{ $profil->video }}">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-grup">
-                            <label for="deskripsi">Gambar (Maximal
-                                4 Gambar) </label>
-                            <input id="image_upload" type="file" class="imgbb-filepond" name="gambar">
-                        </div>
-                    </div>
+                <div class="mt-2 d-grid gap-2">
+                    <button id="btnSubmit" type="submit" class="btn btn-primary">Perbaharui</button>
                 </div>
-            </div>
-            <div class="mt-2 d-grid gap-2 d-md-block">
-                <button id="btnSubmit" type="submit" class="btn btn-primary">Perbaharui</button>
             </div>
     </form>
 @endsection
@@ -129,7 +81,34 @@
     <script src="{{ asset('') }}assets/extensions/ckeditor/ckeditor.js"></script>
     <script src="{{ asset('') }}assets/static/js/pages/ckeditor.js"></script>
     <script>
+        function createCke(id) {
+            ClassicEditor.create(document.querySelector(id), {
+                    toolbar: {
+                        items: [
+                            "heading",
+                            "|",
+                            "bold",
+                            "italic",
+                            "link",
+                            "bulletedList",
+                            "numberedList",
+                            "blockQuote",
+                            "insertTable",
+                            "undo",
+                            "redo",
+                        ],
+                    },
+                })
+                .then((editor) => {
+                    // console.log('Editor berhasil dibuat', editor);
+                })
+                .catch((error) => {
+                    // console.error(error);
+                });
+        }
         $(document).ready(function() {
+            createCke("#editor1");
+            createCke("#editor2");
             $('#myForm').on('submit', function(e) {
                 e.preventDefault();
                 $('#btnSubmit').html(
@@ -155,9 +134,9 @@
                             confirmButtonText: 'Okey',
                         }).then((result) => {
                             if (result.isConfirmed) {
+                                location.reload(true);
                                 // Pengguna mengklik tombol "Cool"
-                                window.location.href =
-                                    '{{ route('produk-post.index') }}'; // Ganti URL dengan halaman yang ingin Anda arahkan
+                                // Ganti URL dengan halaman yang ingin Anda arahkan
                             } else {
                                 // Pengguna mengklik tombol "Cancel" atau menutup SweetAlert
                                 // Lakukan tindakan lain jika diperlukan
@@ -188,66 +167,6 @@
                         }
                     },
                 });
-            });
-
-            // you want to get it of the window global
-            const providerOSM = new GeoSearch.OpenStreetMapProvider();
-            //leaflet map
-            var leafletMap = L.map('map', {
-                fullscreenControl: true,
-                minZoom: 2
-            }).setView([<?= $profil->latitude ?>, <?= $profil->longitude ?>], 14);
-
-            L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-                attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            }).addTo(leafletMap);
-            theMarker = L.marker([<?= $profil->latitude ?>, <?= $profil->longitude ?>]).addTo(leafletMap);
-
-            // Memperbarui posisi marker
-            theMarker.setLatLng([<?= $profil->latitude ?>, <?= $profil->longitude ?>]);
-
-            leafletMap.on('click', function(e) {
-                let latitude = e.latlng.lat.toString().substring(0, 15);
-                let longitude = e.latlng.lng.toString().substring(0, 15);
-                // document.getElementById("latitude").value = latitude;
-                // document.getElementById("longtitude").value = longtitude;
-                let popup = L.popup()
-                    .setLatLng([latitude, longitude])
-                    .setContent("Kordinat : " + latitude + " - " + longitude)
-                    .openOn(leafletMap);
-
-                if (theMarker != undefined) {
-                    leafletMap.removeLayer(theMarker);
-                };
-
-                $('#longitude').val(longitude);
-                $('#latitude').val(latitude);
-                theMarker = L.marker([latitude, longitude]).addTo(leafletMap);
-            });
-
-            const search = new GeoSearch.GeoSearchControl({
-                provider: providerOSM,
-                style: 'bar',
-                searchLabel: 'Cari lokasi',
-            });
-
-            leafletMap.addControl(search);
-
-            console.log(search.resultList);
-
-            $('#btn_triger_input_foto').click(function() {
-                $(this).siblings('input[id="input_foto"]').trigger('click');
-            });
-
-            $('#input_foto').change(function() {
-                var input = $(this)[0];
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-                    reader.onload = function(e) {
-                        $('#preview-foto').attr('src', e.target.result);
-                    };
-                    reader.readAsDataURL(input.files[0]);
-                }
             });
         });
 
@@ -293,27 +212,23 @@
             credits: null,
             allowImagePreview: true,
             acceptedFileTypes: ["image/png", "image/jpg", "image/jpeg"],
-            allowMultiple: true,
-            maxFiles: 4,
-            maxParallelUploads: 4,
+            allowMultiple: false,
             @if ($profil->foto)
                 files: [
-                    @foreach ($profil->foto as $foto)
-                        @if (Storage::exists('public/profil/' . $foto->file))
-                            {
-                                // the server file reference
-                                source: "{{ asset('storage/profil') . '/' . $foto->file }}",
-                                // set type to local to indicate an already uploaded file
-                                options: {
-                                    type: 'local',
-                                    // pass poster property
-                                    metadata: {
-                                        poster: "{{ asset('storage/profil') . '/' . $foto->file }}",
-                                    },
+                    @if (Storage::exists('public/profil/' . $profil->foto))
+                        {
+                            // the server file reference
+                            source: "{{ asset('storage/profil') . '/' . $profil->foto }}",
+                            // set type to local to indicate an already uploaded file
+                            options: {
+                                type: 'local',
+                                // pass poster property
+                                metadata: {
+                                    poster: "{{ asset('storage/profil') . '/' . $profil->foto }}",
                                 },
                             },
-                        @endif
-                    @endforeach
+                        },
+                    @endif
                 ],
             @endif
             server: {

@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('profil', function (Blueprint $table) {
+        Schema::create('kontak', function (Blueprint $table) {
             $table->id('id');
-            $table->string('nama', 60);
-            $table->text('deskripsi');
-            $table->text('visi');
-            $table->text('misi');
-            $table->string('video', 255);
-            $table->string('foto', 255);
+            $table->string('telepon');
+            $table->string('alamat');
+            $table->string('email');
+            $table->text('longitude');
+            $table->text('latitude');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('profil');
+        Schema::dropIfExists('kontak');
     }
 };

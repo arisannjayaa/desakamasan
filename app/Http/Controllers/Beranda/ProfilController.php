@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers\Beranda;
 
-use App\Models\Berita;
-use App\Models\Daerah;
+use App\Models\Profil;
 use App\Models\SosialMedia;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 
-class BerandaController extends Controller
+class ProfilController extends Controller
 {
     private $sosialMedia;
     public function __construct()
@@ -19,13 +17,11 @@ class BerandaController extends Controller
 
     public function index()
     {
-        $data =
-        [
-            'title' => "Berita kami",
-            // 'berita' => Berita::all()->toQuery()->paginate(3),
+        $data = [
+            'menu' => 'Profil Desa',
             'sosial_media' => $this->sosialMedia,
+            'profil' => Profil::findorFail(1)
         ];
-
-        return view('beranda.index', $data);
+        return view('beranda.profil.index', $data);
     }
 }
