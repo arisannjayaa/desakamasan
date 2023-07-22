@@ -11,6 +11,10 @@
             background: #1942b8;
             border: 1px solid #1e4fde;
         }
+
+        .filepond--item {
+            width: calc(50% - 0.5em);
+        }
     </style>
 @endpush
 @section('content')

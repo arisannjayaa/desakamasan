@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row mt-lg-5 mt-2 mb-lg-5">
                 <div class="col-lg-6 col-12 align-self-end order-2 order-lg-1">
-                    <h1 class="display-6 fw-bold mb-4">{{ $daerah_last->nama }}</h1>
+                    <h1 style="cursor: pointer;" onclick="window.location.href='{{ route('daerah.show', $daerah_last->slug) }}';" class="display-6 fw-bold mb-4">{{ $daerah_last->nama }}</h1>
                     <p class="mb-0" style="line-height: 1.8;">
                         {{ strip_tags(Str::limit($daerah_last->deskripsi, 110)) }}</p>
                     <a href="{{ route('daerah.show', $daerah_last->slug) }}"><button
@@ -22,10 +22,10 @@
                             <i class="bi bi-calendar3 me-2"></i>
                             {{ \Carbon\Carbon::parse($daerah_last->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($daerah_last->created_at)->year ? 'd M' : 'd M Y') }}
                         </p>
-                        <a href="#" class="nav-link">
+                        <span class="nav-link">
                             <i class="bi bi-tag me-2"></i>
                             <span class="badge border rounded-4 text-secondary">{{ $daerah_last->kategori->nama }}</span>
-                        </a>
+                        </span>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 order-1 order-lg-2 mb-lg-0 mb-5">

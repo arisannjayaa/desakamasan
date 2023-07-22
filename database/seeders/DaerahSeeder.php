@@ -13,19 +13,6 @@ class DaerahSeeder extends Seeder
      */
     public function run(): void
     {
-        for ($i = 0; $i < 25; $i++) {
-            Daerah::create([
-                'nama' => 'nama-'. $i,
-                'slug' => 'slug-'. $i,
-                'deskripsi' => 'deskripsi-'. $i,
-                'alamat' => 'alamat-'. $i,
-                'gambar' =>  'gambar-'. $i,
-                'telepon' => 'telepon-'. $i,
-                'fasilitas' => 'fasilitas-'. $i,
-                'latitude' => 'latitude-'. $i,
-                'longitude' => 'longitude-'. $i,
-                'kategori' => 'Wisata Alam',
-            ]);
-        }
+
     }
 }

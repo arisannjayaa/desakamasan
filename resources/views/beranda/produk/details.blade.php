@@ -18,10 +18,10 @@
                             <i class="bi bi-calendar3 me-2"></i>
                             {{ \Carbon\Carbon::parse($produk->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($produk->created_at)->year ? 'd M' : 'd M Y') }}
                         </p>
-                        <a href="#" class="nav-link">
+                        <span class="nav-link">
                             <i class="bi bi-tag me-2"></i>
                             <span class="badge border rounded-4 text-secondary">{{ $produk->kategori->nama }}</span>
-                        </a>
+                        </span>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
@@ -62,22 +62,23 @@
         <div class="row justify-content-center">
             <div class="p-lg-4 col-lg-8 col-12 bg-white">
                 <div class="mt-4">
-                    <h5>Berita Terkait Lainnya</h5>
+                    <h5>Porduk Terkait Lainnya</h5>
                     <div class="mt-3">
                         <div class="row">
                             @foreach ($produk_all as $row)
                                 <div class="col-lg-4">
                                     <a style="object-fit: contain; width: 40%; height: 40%;" class="links"
-                                        href="{{ route('berita.show', $row->slug) }}">
+                                        href="{{ route('produk.show', $row->slug) }}">
                                         <div class="mb-2">
                                             <div class="ratio ratio-16x9">
-                                                <img class="img-fluid rounded-4 shadow-sm"
-                                                    src="{{ asset('storage/berita/') . '/' . $row->foto }}"
-                                                    alt="{{ $row->judul }}">
+                                                <img style="object-fit: cover" class="img-fluid rounded-4 shadow-sm"
+                                                    src="{{ asset('storage/produk/') . '/' . $row->foto[0]->file }}"
+                                                    alt="{{ $row->nama }}">
                                             </div>
                                         </div>
                                     </a>
-                                    <p>{{ Str::limit($row->judul, 70, '...') }}</p>
+                                    <p style="cursor: pointer;" onclick="window.location.href='{{ route('produk.show', $row->slug) }}';">
+                                        {{ Str::limit($row->nama, 70, '...') }}</p>
                                 </div>
                             @endforeach
                         </div>

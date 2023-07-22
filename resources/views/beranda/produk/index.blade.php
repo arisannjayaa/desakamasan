@@ -12,20 +12,20 @@
         <div class="container">
             <div class="row mt-lg-5 mt-2 mb-lg-5">
                 <div class="col-lg-6 col-12 align-self-end order-2 order-lg-1">
-                    <h1 class="display-6 fw-bold mb-4">{{ $produk_last->nama }}</h1>
+                    <h1 style="cursor: pointer" onclick="window.location.href='{{ route('produk.show', $produk_last->slug) }}';" class="display-6 fw-bold mb-4">{{ $produk_last->nama }}</h1>
                     <p class="mb-0" style="line-height: 1.8;">
                         {{ strip_tags(Str::limit($produk_last->deskripsi, 110)) }}</p>
-                    <a href="{{ route('berita.show', $produk_last->slug) }}"><button
+                    <a href="{{ route('produk.show', $produk_last->slug) }}"><button
                             class="btn btn-primary mb-3 mt-2 rounded-4">Selengkapnya</button></a>
                     <div>
                         <p>
                             <i class="bi bi-calendar3 me-2"></i>
                             {{ \Carbon\Carbon::parse($produk_last->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($produk_last->created_at)->year ? 'd M' : 'd M Y') }}
                         </p>
-                        <a href="#" class="nav-link">
+                        <span class="nav-link">
                             <i class="bi bi-tag me-2"></i>
                             <span class="badge border rounded-4 text-secondary">{{ $produk_last->kategori->nama }}</span>
-                        </a>
+                        </span>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
@@ -33,8 +33,10 @@
                         <div class="carousel-inner">
                             @foreach ($produk_last->foto as $index => $produk_img)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                    <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
-                                        src="{{ asset('storage/produk/') . '/' . $produk_img->file }}" alt="...">
+                                    <div class="ratio ratio-16x9">
+                                        <img style="object-fit: cover;" class="img-fluid rounded-4 shadow-sm"
+                                            src="{{ asset('storage/produk/') . '/' . $produk_img->file }}" alt="...">
+                                    </div>
                                 </div>
                             @endforeach
                         </div>
@@ -69,13 +71,13 @@
                                 <div class="d-flex align-items-center gap-3 mb-3">
                                     <span>{{ \Carbon\Carbon::parse($row->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($row->created_at)->year ? 'd M' : 'd M Y') }}
                                     </span>
-                                    <a href="#" class="nav-link">
+                                    <span class="nav-link">
                                         <span
                                             class="badge border rounded-4 text-secondary">{{ $row->kategori->nama }}</span>
-                                    </a>
+                                    </span>
                                 </div>
                                 <div class="mb-4">
-                                    <h5 class="text-truncate">{{ $row->judul }}</h5>
+                                    <h5 style="cursor: pointer;" onclick="window.location.href='{{ route('produk.show', $row->slug) }}';" class="text-truncate">{{ $row->judul }}</h5>
                                     <p class="text-sm">{{ strip_tags(Str::limit($row->deskripsi, 85)) }}</p>
                                     <a href="{{ route('produk.show', $row->slug) }}"><button
                                             class="btn btn-primary rounded-4">Selengkapnya</button></a>

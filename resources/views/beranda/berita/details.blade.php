@@ -22,10 +22,10 @@
                             <i class="bi bi-pencil me-2"></i>
                             Ditulis oleh {{ $berita->user->username }}
                         </p>
-                        <a href="{{ url('/berita/tags/') . '/' . $berita->kategori->slug }}" class="nav-link">
+                        <span class="nav-link">
                             <i class="bi bi-tag me-2"></i>
                             <span class="badge border rounded-4 text-secondary">{{ $berita->kategori->nama }}</span>
-                        </a>
+                        </span>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
@@ -67,13 +67,13 @@
                                         href="{{ route('berita.show', $row->slug) }}">
                                         <div class="mb-2">
                                             <div class="ratio ratio-16x9">
-                                                <img class="img-fluid rounded-4 shadow-sm"
+                                                <img style="object-fit: cover" class="img-fluid rounded-4 shadow-sm"
                                                     src="{{ asset('storage/berita/') . '/' . $row->foto }}"
                                                     alt="{{ $row->judul }}">
                                             </div>
                                         </div>
                                     </a>
-                                    <p>{{ Str::limit($row->judul, 70, '...') }}</p>
+                                    <p style="cursor: pointer;" onclick="window.location.href='{{ route('berita.show', $row->slug) }}';">{{ Str::limit($row->judul, 70, '...') }}</p>
                                 </div>
                             @endforeach
                         </div>

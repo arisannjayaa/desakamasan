@@ -39,7 +39,6 @@ use App\Http\Controllers\SosialMedia\SosialMediaController;
 Route::get('/', [BerandaController::class, 'index'])->name('beranda.index');
 Route::get('/berita', [BeritaController::class, 'index'])->name('berita.index');
 Route::get('/berita/{slug}', [BeritaController::class, 'show'])->name('berita.show');
-Route::get('/berita/tags/{slug}', [BeritaController::class, 'tags'])->name('berita.tags');
 Route::get('/daerah', [DaerahController::class, 'index'])->name('daerah.index');
 Route::get('/daerah/{slug}', [DaerahController::class, 'show'])->name('daerah.show');
 Route::get('/produk', [ProdukController::class, 'index'])->name('produk.index');

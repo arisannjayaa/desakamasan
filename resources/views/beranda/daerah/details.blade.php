@@ -27,10 +27,10 @@
                             <i class="bi bi-calendar3 me-2"></i>
                             {{ \Carbon\Carbon::parse($daerah->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($daerah->created_at)->year ? 'd M' : 'd M Y') }}
                         </p>
-                        <a href="#" class="nav-link">
+                        <span class="nav-link">
                             <i class="bi bi-tag me-2"></i>
                             <span class="badge border rounded-4 text-secondary">{{ $daerah->kategori->nama }}</span>
-                        </a>
+                        </span>
                     </div>
                 </div>
                 <div class="col-lg-5 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
@@ -80,7 +80,7 @@
                                         href="{{ route('daerah.show', $row->slug) }}">
                                         <div class="mb-2">
                                             <div class="ratio ratio-16x9">
-                                                <img class="img-fluid rounded-4 shadow-sm"
+                                                <img style="object-fit: cover" class="img-fluid rounded-4 shadow-sm"
                                                     src="{{ asset('storage/daerah/') . '/' . $row->foto[0]->file }}"
                                                     alt="">
                                             </div>

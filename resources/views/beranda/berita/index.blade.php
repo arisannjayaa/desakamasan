@@ -12,7 +12,7 @@
         <div class="container">
             <div class="row mt-lg-5 mt-2 mb-lg-5">
                 <div class="col-lg-6 col-12 align-self-end order-2 order-lg-1">
-                    <h1 class="display-6 fw-bold mb-4">{{ $berita_last->judul }}</h1>
+                    <h1 style="cursor: pointer;" onclick="window.location.href='{{ route('berita.show', $berita_last->slug) }}';"  class="display-6 fw-bold mb-4">{{ $berita_last->judul }}</h1>
                     <p class="mb-0" style="line-height: 1.8;">
                         {{ strip_tags(Str::limit($berita_last->deskripsi, 150)) }}</p>
                     <a href="{{ route('berita.show', $berita_last->slug) }}"><button
@@ -26,10 +26,10 @@
                             <i class="bi bi-pencil me-2"></i>
                             Ditulis oleh {{ Str::ucfirst($berita_last->user->username) }}
                         </p>
-                        <a href="{{ url('/berita/tags/') . '/' . $berita_last->kategori->slug }}" class="nav-link">
+                        <span class="nav-link">
                             <i class="bi bi-tag me-2"></i>
                             <span class="badge border rounded-4 text-secondary">{{ $berita_last->kategori->nama }}</span>
-                        </a>
+                        </span>
                     </div>
                 </div>
                 <div class="col-lg-6 col-12 order-1 order-lg-2 mb-lg-0 mb-5">
@@ -67,13 +67,13 @@
                                 <div class="d-flex align-items-center gap-3 mb-3">
                                     <span>{{ \Carbon\Carbon::parse($row->created_at)->format(\Carbon\Carbon::now()->year == \Carbon\Carbon::parse($row->created_at)->year ? 'd M' : 'd M Y') }}
                                     </span>
-                                    <a href="#" class="nav-link">
+                                    <span class="nav-link">
                                         <span
                                             class="badge border rounded-4 text-secondary">{{ $row->kategori->nama }}</span>
-                                    </a>
+                                    </span>
                                 </div>
                                 <div class="mb-4">
-                                    <h5 class="text-truncate">{{ $row->judul }}</h5>
+                                    <h5 style="cursor: pointer;" onclick="window.location.href='{{ route('berita.show', $row->slug) }}';" class="text-truncate">{{ $row->judul }}</h5>
                                     <p class="text-sm">{{ strip_tags(Str::limit($row->deskripsi, 85)) }}</p>
                                     <a href="{{ route('berita.show', $row->slug) }}"><button
                                             class="btn btn-primary rounded-4">Selengkapnya</button></a>
