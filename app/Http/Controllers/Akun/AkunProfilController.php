@@ -14,4 +14,5 @@ class AkunProfilController extends Controller
         ];
         return view('akun.profil', $data);
     }
+
 }

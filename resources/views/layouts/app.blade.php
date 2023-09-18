@@ -87,8 +87,6 @@
                                 <li><a class="dropdown-item {{ request()->segment(2) == 'perangkat-desa' ? 'active' : '' }}"
                                         href="{{ route('beranda.perangkat-desa.index') }}">Perangkat Desa</a>
                                 </li>
-                                <li><a class="dropdown-item {{ request()->segment(2) == 'kontak' ? 'active' : '' }}"
-                                        href="{{ route('beranda.kontak.index') }}">Kontak</a></li>
                                 @guest
                                     <li><a href="{{ route('berita-post.index') }}" class="dropdown-item"
                                             href="#">Login</a></li>

@@ -25,13 +25,16 @@ class PostDaerahController extends Controller
         $this->temporaryFile = new TemporaryFile();
     }
 
+    public function newImage()
+    {
+
+    }
     public function index()
     {
         if(Session::has('image_folder')) {
             Session::remove('image_folder');
             Session::remove('image_filename');
         }
-
         if (request()->ajax()) {
             $daerah = Daerah::with('kategori')->select('id', 'nama', 'alamat', 'id_kategori_daerah', 'slug')->orderBy('updated_at', 'desc');
             return DataTables::of($daerah)

@@ -1,5 +1,5 @@
 @extends('layouts.panel')
-@section('title', 'Edit Berita')
+@section('title', 'Edit Produk')
 @push('css')
     <link rel="stylesheet" href="{{ asset('') }}assets/extensions/filepond/filepond.css">
     <style>

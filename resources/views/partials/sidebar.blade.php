@@ -123,9 +123,6 @@
                         <li class="submenu-item {{ request()->segment(2) == 'sosial-media' ? 'active' : '' }}">
                             <a href="{{ route('sosial-media.index') }}" class="submenu-link">Sosial Media</a>
                         </li>
-                        <li class="submenu-item {{ request()->segment(2) == 'kontak-desa' ? 'active' : '' }}">
-                            <a href="{{ route('kontak-desa.index') }}" class="submenu-link">Kontak</a>
-                        </li>
                     </ul>
                 </li>
             </ul>

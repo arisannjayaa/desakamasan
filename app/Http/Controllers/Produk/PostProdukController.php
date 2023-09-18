@@ -164,9 +164,9 @@ class PostProdukController extends Controller
     public function edit(string $id)
     {
         $data = [
-            'menu' => 'Daerah Edit',
+            'menu' => 'Produk Edit',
             'links' => [
-                'url' => route('daerah-post.index'),
+                'url' => route('produk-post.index'),
                 'button' => 'Batal',
                 'class' => 'btn-danger'
             ],
